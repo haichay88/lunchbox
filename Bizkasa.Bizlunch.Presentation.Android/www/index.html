@@ -1,0 +1,244 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="theme-color" content="#2196f3">
+    <title>Songlamplus.vn</title>
+    <!-- Path to Framework7 Library CSS-->
+    <!--<link rel="stylesheet" href="css/framework7.ios.min.css">-->
+    <link href="css/framework7.material.min.css" rel="stylesheet" />
+    <link href="css/framework7.material.colors.min.css" rel="stylesheet" />
+    <link href="css/kitchen-sink.css" rel="stylesheet" />
+    <!-- Path to your custom app styles-->
+    <link rel="stylesheet" href="css/my-app.css">
+</head>
+<body>
+    <!-- Status bar overlay for fullscreen mode-->
+    <div class="statusbar-overlay"></div>
+    <!-- Panels overlay-->
+    <div class="panel-overlay"></div>
+    <!-- Left panel with reveal effect-->
+    <div class="panel panel-left panel-cover">
+        <div class="view navbar-fixed">
+            <div class="pages">
+                <div data-page="panel-left" class="page">
+                    <div class="navbar">
+                        <div class="navbar-inner">
+                            <div class="center">Chuyên mục</div>
+                        </div>
+                    </div>
+                    <div class="page-content">
+                        <div class="list-block new-detail">
+                            <ul>
+                                <li>
+                                    <a href="category.html" class="item-link close-panel">
+                                        <div class="item-content">
+                                            <div class="item-media"><i class="icon icon-f7"></i></div>
+                                            <div class="item-inner">
+                                                <div class="item-title">Thời sự - xã hội</div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="list-view.html" class="item-link close-panel">
+                                        <div class="item-content">
+                                            <div class="item-media"><i class="icon icon-f7"></i></div>
+                                            <div class="item-inner">
+                                                <div class="item-title">Sông lam nghệ an</div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="media-lists.html" class="item-link close-panel">
+                                        <div class="item-content">
+                                            <div class="item-media"><i class="icon icon-f7"></i></div>
+                                            <div class="item-inner">
+                                                <div class="item-title">Thể thao việt nam</div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="modals.html" class="item-link close-panel">
+                                        <div class="item-content">
+                                            <div class="item-media"><i class="icon icon-f7"></i></div>
+                                            <div class="item-inner">
+                                                <div class="item-title">Thể thao quốc tế</div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="bars.html" class="item-link close-panel">
+                                        <div class="item-content">
+                                            <div class="item-media"><i class="icon icon-f7"></i></div>
+                                            <div class="item-inner">
+                                                <div class="item-title">Văn hóa - Giải trí</div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="popover.html" class="item-link close-panel">
+                                        <div class="item-content">
+                                            <div class="item-media"><i class="icon icon-f7"></i></div>
+                                            <div class="item-inner">
+                                                <div class="item-title">Video</div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                              
+                            </ul>
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <!-- Right panel with cover effect-->
+    <div class="panel panel-right panel-cover">
+        <div class="content-block">
+            <p>Right panel content goes here</p>
+        </div>
+    </div>
+    <!-- Views-->
+    <div class="views" ng-app="appModule">
+        <!-- Your main view, should have "view-main" class-->
+        <div class="view view-main">
+            <div class="pages navbar-fixed">
+                <div data-page="index" class="page page-on-center">
+                    <!-- Top Navbar-->
+                    <div class="navbar">
+                        <!-- Navbar inner for Index page-->
+                        <div class="navbar-inner">
+                            <!-- We have home navbar without left link-->
+                            <div class="center">Songlamplus.vn</div>
+                            <div class="right">
+                                <!-- Right link contains only icon - additional "icon-only" class--><a href="#" class="link icon-only open-panel"> <i class="icon icon-bars"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Scrollable page content-->
+                    <div class="page-content">
+                        <div class="content-block">
+                            <div class="content-block-inner">
+                                <div class="new-hot-primary col-100">
+                                    <div class="col-100">
+                                        <img src="http://songlamplus.vn/pk_admin/images_news/12404/img06471467455413152_png_450x300_73.png" />
+                                    </div>
+                                    <div class="col-100">
+                                        <h3>Chùm ảnh xúc động: Mưa to lúc tan buổi thi, bố mẹ tay cầm sẵn áo mưa vì mong con không ướt...</h3>
+                                    </div>
+                                    <div class="col-100">
+                                        <p>Những lúc thế này mới biết bố mẹ yêu con nhiều đến thế nào!</p>
+                                    </div>
+                                </div>
+
+                                <div class="new-hot-list">
+                                    <div class="row">
+                                        <div class="col-50">
+                                            <div class="col-100">
+                                                <img src="http://songlamplus.vn/pk_admin/images_news/12446/phanthihai_jpg_450x300_38.jpg" />
+                                            </div>
+                                            <div class="col-100">
+                                                <h5>Chùm ảnh xúc động: Mưa to lúc tan buổi thi, bố mẹ tay cầm sẵn áo mưa vì mong con không ướt...</h5>
+                                            </div>
+                                        </div>
+                                        <div class="col-50">
+                                            <div class="col-100">
+                                                <img src="http://songlamplus.vn/pk_admin/images_news/12404/img06471467455413152_png_450x300_73.png" />
+                                            </div>
+                                            <div class="col-100">
+                                                <h5>Chùm ảnh xúc động: Mưa to lúc tan buổi thi, bố mẹ tay cầm sẵn áo mưa vì mong con không ướt...</h5>
+                                            </div>
+                                        </div>
+                                        <div class="col-50">
+                                            <div class="col-100">
+                                                <img src="http://songlamplus.vn/pk_admin/images_news/12404/img06471467455413152_png_450x300_73.png" />
+                                            </div>
+                                            <div class="col-100">
+                                                <h5>Chùm ảnh xúc động: Mưa to lúc tan buổi thi, bố mẹ tay cầm sẵn áo mưa vì mong con không ướt...</h5>
+                                            </div>
+                                        </div>
+                                        <div class="col-50">
+                                            <a href="newDetail.html">
+                                                <div class="col-100">
+                                                    <img src="http://songlamplus.vn/pk_admin/images_news/12404/img06471467455413152_png_450x300_73.png" />
+                                                </div>
+                                                <div class="col-100">
+                                                    <h5>Chùm ảnh xúc động: Mưa to lúc tan buổi thi, bố mẹ tay cầm sẵn áo mưa vì mong con không ướt...</h5>
+                                                </div>
+                                            </a>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+           
+          
+
+        </div>
+
+        <div class="login-screen modal-in" ng-controller="AccountController" ng-cloak>
+            <div class="view">
+                <div class="page">
+                    <div class="page-content login-screen-content">
+                        <div class="login-screen-title">LunchBox</div>
+                        <form>
+                            <div class="list-block">
+                                <ul>
+                                    <li class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title label">Username</div>
+                                            <div class="item-input">
+                                                <input type="text" name="username" ng-model="Account.UserName" placeholder="Your username">
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title label">Password</div>
+                                            <div class="item-input">
+                                                <input type="password" ng-model="Account.Password" name="password" placeholder="Your password">
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="list-block">
+                                <ul>
+                                    <li><a href="#" ng-click="" class="button button-big">Sign In</a></li>
+                                </ul>
+                                <div class="list-block-label">
+                                    <p>Copyright@@2016</p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <!-- Path to Framework7 Library JS-->
+    <script type="text/javascript" src="js/framework7.min.js"></script>
+    <!-- Path to your app js-->
+    <script type="text/javascript" src="js/angular.js"></script>
+    <script type="text/javascript" src="js/appModule.js"></script>
+    <script type="text/javascript" src="js/my-app.js"></script>
+</body>
+</html>

@@ -1,0 +1,153 @@
+﻿
+@{
+    ViewBag.Title = "Detail";
+}
+
+<div class="container" ng-controller="OrderController">
+   <input type="hidden" id="orderId" value="@ViewData["OrderId"]" />
+    <div class="row" >
+        <div class="col-md-8">
+
+            <div class="portlet light portlet-fit " ng-init="GetOrder()">
+                <div class="portlet-body">
+                    <div class="mt-element-list">
+                        <div class="mt-list-head list-default green-haze">
+                            <div class="row">
+                                <div class="col-xs-8">
+                                    <div class="list-head-title-container">
+                                        <h4 class="list-title sbold">{{Order.OwnerName}} Đã tạo 1 cuộc hẹn: {{Order.Title}} - {{Order.LunchDateText}} </h4>
+                                        <div class="list-date">Nov 8, 2015</div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-4">
+                                    <div class="list-head-summary-container">
+                                        <div class="list-pending">
+                                            <div class="list-label">Tại : {{Order.RestaurantName}}</div>
+                                        </div>
+                                        <div class="list-done">
+                                            <div class="list-label"><a href="{{Order.MenuURL}}">View menu online</a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-scrollable table-scrollable-borderless">
+                            <table class="table table-hover table-light">
+                                <thead>
+                                    <tr class="uppercase success">
+                                        <th >  </th>
+                                        <th class="text-center"> Price </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-hide="EditMode" ng-repeat="item in Order.OrderDetailsReadOnly" ng-show="Order.OrderDetailsReadOnly.length>0">
+                                       
+                                        <td> {{item.OwnerName}} wanted -  {{item.MenuItemSummary}}</td>
+                                        <td class="text-right">
+                                            <span class="bold theme-font">{{item.MenuCostTotal|number}}</span>
+                                        </td>
+                                        <td><a ng-show="item.IsOwner" ng-click="ChangeModel()">
+                                                <i class="fa fa-edit"></i>
+                                            Change Order</a> </td>
+                                    </tr>
+                                    <tr ng-hide="Order.OrderDetailsCanEdit.length>0">
+                                        <td colspan="2">
+                                            <div class="form-group" >
+                                                <label class="col-sm-4 control-label">Enter what you want: </label>
+
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" placeholder="enter a item on menu " ng-model="OrderDetail.MenuItem" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">How much does it cost? </label>
+
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" placeholder="enter a item on menu " ng-model="OrderDetail.MenuCost" />
+                                                </div>
+
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <a ng-click="AddOrderDetail()">
+                                                <i class="fa fa-save"></i>
+                                                Save
+                                            </a>
+                                            <br />
+                                            <a ng-click="Cancel()">
+                                                <i class="fa fa-remove"></i>
+                                                Cancel
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr ng-show="EditMode && Order.OrderDetailsCanEdit.length>0">
+                                        <td>
+                                            <div class="form-inline" ng-repeat="item in Order.OrderDetailsCanEdit" >
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control input-xs col-md-2" placeholder="menu" ng-model="item.MenuItem">
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control input-xs col-md-2" placeholder="cost" ng-model="item.MenuCost" format="number">
+
+                                                </div>
+                                                <div class="form-group">
+                                                    <a href="" ng-click="RemoveItem($index)">
+                                                        <i class="fa fa-minus"></i>
+                                                    </a>
+                                                
+                                                    <a href="" ng-click="AddItemDetail($index)">
+                                                        <i class="fa fa-plus"></i>
+                                                    </a>
+
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td colspan="2">
+                                            <a ng-click="AddOrderDetail()">
+                                                <i class="fa fa-save"></i>
+                                                Save
+                                            </a>
+                                            <br />
+                                            <a  ng-click="Cancel()">
+                                                <i class="fa fa-remove"></i>
+                                                Cancel
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr class="success">
+                                        
+                                        <td class="text-right bold uppercase"> Total Amount</td>
+                                        <td class="text-right">
+                                            <span class="bold theme-font">{{Order.TotalAmount|number}}</span>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr ng-repeat="item in Order.OrderDetailsNotYet" ng-show="Order.OrderDetailsNotYet">
+
+                                        <td> {{item.OwnerName}}  - has not ordered yet</td>
+                                        <td class="text-right">
+                                           
+                                        </td>
+                                        <td> </td>
+                                    </tr>
+                                  
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/Scripts/App/Order.js"></script>
+}
+
+

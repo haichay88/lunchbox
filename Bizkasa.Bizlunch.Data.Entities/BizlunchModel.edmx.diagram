@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="70f0f84d1af7490e831b4fcd3dc026ba" Name="Diagram1" ZoomLevel="72">
+        <EntityTypeShape EntityType="BizlunchModel.DB_TB_ORDER_DETAIL" Width="1.5" PointX="7.5" PointY="6" />
+        <EntityTypeShape EntityType="BizlunchModel.DB_TB_RESTAURANT" Width="1.5" PointX="3" PointY="8.25" />
+        <EntityTypeShape EntityType="BizlunchModel.DB_TB_ACCOUNT_RESTAURANT" Width="1.5" PointX="5.25" PointY="5.375" />
+        <AssociationConnector Association="BizlunchModel.FK_DB_TB_ACCOUNT_RESTAURANT_DB_TB_RESTAURANT" />
+        <EntityTypeShape EntityType="BizlunchModel.DB_TB_FRIENDSHIP" Width="1.5" PointX="3" PointY="4.5" />
+        <EntityTypeShape EntityType="BizlunchModel.DB_TB_ACCOUNTS" Width="1.5" PointX="0.75" PointY="7" />
+        <EntityTypeShape EntityType="BizlunchModel.DB_TB_ORDERS" Width="1.5" PointX="5.25" PointY="11.125" />
+        <AssociationConnector Association="BizlunchModel.FK_DB_TB_ACCOUNT_RESTAURANT_DB_TB_ACCOUNT_RESTAURANT" />
+        <AssociationConnector Association="BizlunchModel.FK_DB_TB_ORDERS_DB_TB_ACCOUNTS" />
+        <AssociationConnector Association="BizlunchModel.FK_DB_TB_RESTAURANT_DB_TB_ACCOUNTS" />
+        <AssociationConnector Association="BizlunchModel.FK_MB_TB_FRIENDSHIP_DB_TB_ACCOUNTS" />
+        <AssociationConnector Association="BizlunchModel.FK_MB_TB_FRIENDSHIP_DB_TB_ACCOUNTS1" />
+        <AssociationConnector Association="BizlunchModel.FK_OrderDetail_Accounts" />
+        <AssociationConnector Association="BizlunchModel.FK_OrderDetail_Order" />
+        <AssociationConnector Association="BizlunchModel.FK_Order_Restaurants" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

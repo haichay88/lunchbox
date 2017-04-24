@@ -1,0 +1,38 @@
+﻿<div id="addOrder" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h5 class="modal-title" id="myLargeModalLabeladdCustomerToOrder">
+                    Add new order
+                </h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Ordering from:</label>
+
+                        <div class="col-sm-9">
+                            <select class="form-control" ng-options="row.Id as row.Name  for row in Restaurants" ng-model="Order.RestaurantId">
+                                <option value="">-- Select a restaurant --</option>
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-danger">Lưu và tạo tiếp</button>
+                <button type="button" class="btn btn-danger" ng-click="addCutomerOrder(true)">Lưu và đóng</button>
+                <button type="button" class="btn btn-default active" data-dismiss="modal">Hủy</button>
+
+            </div>
+
+        </div>
+    </div>
+</div>

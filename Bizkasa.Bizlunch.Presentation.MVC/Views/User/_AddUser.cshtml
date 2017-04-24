@@ -1,0 +1,46 @@
+﻿<div id="addOrUpdateUser" class="modal fade" >
+    
+  
+        <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h5 class="modal-title" id="myLargeModalLabeladdCustomerToOrder">
+                            User Detail
+                        </h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" for="form-field-1"> First Name </label>
+                                <div class="col-sm-9">
+                                    <input type="text"  ng-model="User.FirstName" placeholder="First Name" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" for="form-field-1"> Last Name </label>
+                                <div class="col-sm-9">
+                                    <input type="text"  ng-model="User.LastName" placeholder="Last Name" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" for="form-field-1"> Email </label>
+                                <div class="col-sm-9">
+                                    <input type="text" ng-model="User.Email" placeholder="Email" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger" ng-click="AddOrUpdateUser()">Save</button>
+                        <button type="button" class="btn btn-default active" data-dismiss="modal">Hủy</button>
+
+                    </div>
+
+                </div><!-- /.modal-content -->
+            
+        </div><!-- /.modal-dialog -->
+  
+</div>

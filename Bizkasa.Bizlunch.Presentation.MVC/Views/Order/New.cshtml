@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "New";
+}
+
+
+<div class="container" ng-controller="OrderController">
+    <div class="row">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Title:</label>
+
+                <div class="col-sm-9">
+                   <input class="form-control" type="text" ng-model="Order.Title" placeholder="title of " />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Ordering from:</label>
+
+                <div class="col-sm-9" ng-init="GetRestaurants()">
+                    <select class="form-control" ng-options="row.Id as row.Name  for row in Restaurants" ng-model="Order.RestaurantId">
+                        <option value="">-- Select a restaurant --</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group" >
+                <label class="col-sm-3 control-label">What time you want:</label>
+                    <div class="col-md-3">
+                        <div class="input-group" ng-init="InitDate()">
+                            <input class="form-control date-picker" id="id-date" type="text" data-date-format="dd-mm-yyyy" placeholder="date time">
+                            <span class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Friends</label>
+
+                <div class="col-sm-9" ng-init="GetUsers()">
+                    <label class="no-padding-left" ng-repeat="item in Users">
+                        <input type="checkbox" class="ace ng-pristine" ng-model="item.IsSelected" ng-checked="item.IsSelected"><span class="lbl">{{item.Email}}</span>
+                    </label>
+                 
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="button" class="btn btn-danger" ng-click="AddOrUpdateOrder()" value="Save"/>
+                <input type="button" class="btn btn-default" value="Back" />
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/Scripts/App/Order.js"></script>
+}
+
+

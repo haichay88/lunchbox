@@ -1,0 +1,47 @@
+﻿<div id="AddOrUpdateRestaurant"  class="modal fade">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h5 class="modal-title" id="myLargeModalLabeladdCustomerToOrder">
+                    Add new restaurant
+                </h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Restaurant</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" ng-model="Restaurant.Name" placeholder="Name of restaurant" />
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Menu URL</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" ng-model="Restaurant.MenuUrl" placeholder="Url Menu" />
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Address</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" ng-model="Restaurant.Address" placeholder="Address" />
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" ng-click="AddOrUpdateRestaurant()">Save</button>
+                <button type="button" class="btn btn-default active" data-dismiss="modal">Cancel</button>
+
+            </div>
+
+        </div><!-- /.modal-content -->
+
+    </div>
+</div>
+<!-- /.modal-dialog -->

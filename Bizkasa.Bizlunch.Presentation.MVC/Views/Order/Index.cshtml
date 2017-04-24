@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "list order";
+}
+
+<div class="container" ng-controller="OrderController">
+    <div class="row ">
+       @*<a href="#" ng-click="showAddOrder()" class="btn btn-default">Add Order</a>*@
+        @Html.ActionLink("Add new order", "New")
+        <table class="table table-striped custab" ng-init="GetOrders()">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Participants</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in Orders">
+                    <td><a href="/order/detail/{{item.Id}}">{{item.Title}}</a> </td>
+                    <td>{{item.Participants}}</td>
+                </tr>
+            </tbody>
+           
+        </table>
+    </div>
+    @{ Html.RenderPartial("_AddOrder");  }
+</div>
+
+@section Scripts {
+<script src="~/Scripts/App/Order.js"></script>
+}

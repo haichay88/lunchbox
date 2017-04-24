@@ -1,0 +1,73 @@
+﻿@model Bizkasa.Bizlunch.Business.Model.AccountDTO
+@{
+    ViewBag.Title = "Confirm";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            @using (Html.BeginForm("Confirm", "User"))
+            {
+                @Html.HiddenFor(a=>a.Token)
+                <fieldset>
+                    <div id="legend">
+                        <legend class="">Register</legend>
+                        @Html.ValidationSummary()
+                    </div>
+                    <div class="control-group">
+                        @Html.LabelFor(a => a.FirstName, new { @class = "control-label" })
+                        <div class="controls">
+                            @Html.TextBoxFor(a => a.FirstName, new { @class = "form-control input-lg" })
+                            @Html.ValidationMessageFor(a => a.FirstName, null, new { @class = "help-block" })
+
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        @Html.LabelFor(a => a.LastName, new { @class = "control-label" })
+                        <div class="controls">
+                            @Html.TextBoxFor(a => a.LastName, new { @class = "form-control input-lg" })
+                            @Html.ValidationMessageFor(a => a.LastName, null, new { @class = "help-block" })
+                        </div>
+                    </div>
+
+
+                    <div class="control-group">
+                        @Html.LabelFor(a => a.Email, new { @class = "control-label" })
+                        <div class="controls">
+                            @Html.TextBoxFor(a => a.Email, new { @class = "form-control input-lg", @readonly = "readonly"})
+
+                            @Html.ValidationMessageFor(a => a.Email, null, new { @class = "help-block" })
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        @Html.LabelFor(a => a.Password, new { @class = "control-label" })
+
+                        <div class="controls">
+                            @Html.PasswordFor(a => a.Password, new { @class = "form-control input-lg" })
+                            @Html.ValidationMessageFor(a => a.Password, null, new { @class = "help-block" })
+
+                        </div>
+                    </div>
+
+                    @*<div class="control-group">
+                            <label class="control-label" for="password_confirm">Password (Confirm)</label>
+                            <div class="controls">
+                                <input type="password" id="password_confirm" name="password_confirm" placeholder="" class="form-control input-lg">
+                                <p class="help-block">Please confirm password</p>
+                            </div>
+                        </div>*@
+
+                    <div class="control-group">
+                        <!-- Button -->
+                        <div class="controls">
+                            <input type="submit" class="btn btn-success" value="Register" />
+                        </div>
+                    </div>
+                </fieldset>
+
+            }
+        </div>
+    </div>
+</div>
+

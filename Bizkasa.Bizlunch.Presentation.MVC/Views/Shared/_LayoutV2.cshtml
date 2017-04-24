@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+
+    @*@Styles.Render("~/Content/css")*@
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link href="~/Content/toastr.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.css" rel="stylesheet" />
+    @*<link href="~/Content/Metronic/css/components-rounded.min.css" rel="stylesheet" />*@
+    <link href="~/Content/Metronic/css/layout.min.css" rel="stylesheet" />
+    <link href="~/Content/Metronic/css/components.min.css" rel="stylesheet" />
+    <link href="~/Content/Metronic/css/default.min.css" rel="stylesheet" />
+  
+    <link href="~/Content/Metronic/css/plugins.min.css" rel="stylesheet" />
+    <link href="~/Content/Metronic/css/simple-line-icons.min.css" rel="stylesheet" />
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body class="page-container-bg-solid">
+    <div id="loading" style="display: none;">
+        <img src="/Content/images/ajax-loader.gif">
+    </div>
+
+    <div class="page-wrapper">
+        <div class="page-wrapper-row">
+            <div class="page-wrapper-top">
+                <div class="page-header">
+                    @{ Html.RenderPartial("_Header");  }
+
+                    @{ Html.RenderPartial("_MenuTop");  }
+                </div>
+            </div>
+        </div>
+
+        <div class="page-wrapper-row full-height">
+            <div class="page-wrapper-middle">
+                <div class="page-container" >
+                    <div class="page-content-wrapper">
+                        <div class="page-head">
+                            <div class="container">
+                                <!-- BEGIN PAGE TITLE -->
+                                <div class="page-title">
+                                    <h1>
+                                        Form Layouts
+                                        <small>form layouts</small>
+                                    </h1>
+                                </div>
+                                <!-- END PAGE TITLE -->
+                                <!-- BEGIN PAGE TOOLBAR -->
+                                <div class="page-toolbar">
+                                    <!-- BEGIN THEME PANEL -->
+                                    <div class="btn-group btn-theme-panel">
+                                        <a href="javascript:;" class="btn dropdown-toggle" data-toggle="dropdown">
+                                            <i class="icon-settings"></i>
+                                        </a>
+                                        
+                                    </div>
+                                    <!-- END THEME PANEL -->
+                                </div>
+                                <!-- END PAGE TOOLBAR -->
+                            </div>
+                        </div>
+                        <div class="page-content" ng-app="appModule">
+                            @RenderBody()
+                        </div>
+                    </div>
+                  
+                </div>
+            </div>
+        </div>
+
+        <div class="page-wrapper-row">
+            @{ Html.RenderPartial("_Footer");  }
+        </div>
+    </div>
+    
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @*<script src="~/Scripts/metronic/app.min.js"></script>
+    <script src="~/Scripts/metronic/layout.min.js"></script>
+    
+    <script src="~/Scripts/metronic/demo.min.js"></script>*@
+    <script src="~/Scripts/metronic/quick-nav.min.js"></script>
+    <!-- app script -->
+    <script src="~/Scripts/App/global.js"></script>
+    <script src="~/Scripts/toastr.js"></script>
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/Scripts/App/appModule.js"></script>
+    <script>
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '1073352086130252',
+                xfbml: true,
+                version: 'v2.8'
+            });
+
+        };
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) { return; }
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>
