@@ -109,13 +109,13 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
             var m_accountRepository = UnitOfWork.Repository<DB_TB_ACCOUNTS>();
             if (!IsExistAccount(dto.Email))
             {
-                base.AddError("Tai khoan khong ton tai");
+                base.AddError("Account is not existed !");
                 return null;
             }
             var m_account = m_accountRepository.Get(a => a.ACC_EMAIL == dto.Email && a.ACC_PASSWORD == dto.Password);
             if (m_account == null)
             {
-                base.AddError("Mat khau khong dung");
+                base.AddError("Password incorrect!");
                 return null;
             }
           

@@ -180,6 +180,12 @@ namespace Bizkasa.Bizlunch.Presentation.MVC.Controllers
                     ModelState.AddModelError("error", result.ToErrorMsg());
                     return View(dto);
                 }
+                if (result.Data == null)
+                {
+                    ModelState.AddModelError("error", result.ToErrorMsg());
+                    return View(dto);
+
+                }
 
 
                 string userData = JsonConvert.SerializeObject(result.Data);
