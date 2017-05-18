@@ -98,7 +98,7 @@ namespace Bizkasa.Bizlunch.Presentation.MVC.Controllers
             }
             else
             {
-                return RedirectToAction("Login");
+                return View();
             }
         }
         public ActionResult Friends()

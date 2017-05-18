@@ -211,6 +211,13 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\daterangepicker.min.css" />
     <Content Include="Content\css\font-awesome.css" />
+    <Content Include="Content\Fgo\css\font-awesome.css" />
+    <Content Include="Content\Fgo\css\normalize.css" />
+    <Content Include="Content\Fgo\css\style.css" />
+    <Content Include="Content\Fgo\fonts\Caviar.svg" />
+    <Content Include="Content\Fgo\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\Fgo\images\bg_home_fgo.png" />
+    <Content Include="Content\Fgo\images\logo.png" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\images\ajax-loader.gif" />
     <Content Include="Content\Metronic\img\menu-toggler.png" />
@@ -256,6 +263,24 @@
     <Content Include="Content\Metronic\css\fonts\Simple-Line-Icons.ttf" />
     <Content Include="Content\Metronic\css\fonts\Simple-Line-Icons.woff" />
     <Content Include="Content\Metronic\css\fonts\Simple-Line-Icons.woff2" />
+    <Content Include="Content\Fgo\fonts\Caviar.eot" />
+    <Content Include="Content\Fgo\fonts\Caviar.ttf" />
+    <Content Include="Content\Fgo\fonts\Caviar.woff" />
+    <Content Include="Content\Fgo\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\Fgo\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\Fgo\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\Fgo\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\Fgo\fonts\FontAwesome.otf" />
+    <Content Include="Content\Fgo\sass\style.scss" />
+    <Content Include="Content\Fgo\sass\_desktop.scss" />
+    <Content Include="Content\Fgo\sass\_global.scss" />
+    <Content Include="Content\Fgo\sass\_layout.scss" />
+    <Content Include="Content\Fgo\sass\_mobile.scss" />
+    <Content Include="Content\Fgo\sass\_module.scss" />
+    <Content Include="Content\Fgo\sass\_tablet.scss" />
+    <Content Include="Content\Fgo\sass\_typography.scss" />
+    <Content Include="Content\Fgo\sass\_var.scss" />
+    <None Include="Properties\PublishProfiles\Fgo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\daterangepicker.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -308,6 +333,7 @@
     <Content Include="Views\Shared\_Header.cshtml" />
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Shared\_LayoutEmpty.cshtml" />
+    <Content Include="Views\Shared\_LayoutFgo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

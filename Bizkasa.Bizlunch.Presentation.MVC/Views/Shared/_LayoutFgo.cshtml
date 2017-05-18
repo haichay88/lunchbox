@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fgo - Connecting friends</title>
+    <link type="text/css" rel="stylesheet" href="~/Content/Fgo/css/normalize.css" />
+    <link type="text/css" rel="stylesheet" href="~/Content/Fgo/css/font-awesome.css" />
+    <link type="text/css" rel="stylesheet" href="~/Content/bootstrap.css" />
+    <link type="text/css" rel="stylesheet" href="~/Content/Fgo/css/style.css" />
+</head>
+<body class="fgo-main-home">
+    <div class="container">
+        <header>
+            <div class="head-container col-md-12">
+                <div class="row">
+                    <div class="head_logo center-block col-xs-12"><img class="img-responsive" src="~/Content/Fgo/images/logo.png" /></div>
+                    <div class="head_login hidden-xs pull-right">
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Username / Email" />
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control" placeholder="Password" />
+                            </div>
+                            <button type="submit" class="btn btn-success">Sign in</button>
+                        </form>
+                    </div>
+                    <div class="head_login hidden-lg hidden-sm hidden-md col-xs-12">
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Username / Email" />
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control" placeholder="Password" />
+                            </div>
+                            <button type="submit" class="btn col-xs-12 btn-success">Sign in</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </header>
+      
+        <div class="main-content" ng-app="appModule">
+            @RenderBody()
+           
+        </div>
+    </div>
+    <footer class="fg-m-t-30">
+        <div class="container">
+            <div class="row">
+                <span class="clr-text-white">Copyright 2017 Fgo Application </span>
+            </div>
+        </div>
+    </footer>
+    <!-- app script -->
+    <script src="~/Scripts/App/global.js"></script>
+    <script src="~/Scripts/toastr.js"></script>
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/Scripts/App/appModule.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,127 @@
+/**Var Global***/
+.clr-text-primary {
+  color: #333333; }
+
+.clr-text-second {
+  color: #666666; }
+
+.clr-text-white {
+  color: #ffffff; }
+
+.fg-m-t-10 {
+  margin-top: 10px; }
+
+.fg-m-t-20 {
+  margin-top: 20px; }
+
+.fg-m-t-30 {
+  margin-top: 30px; }
+
+.fg-m-b-10 {
+  margin-bottom: 10px; }
+
+.fg-m-b-20 {
+  margin-bottom: 20px; }
+
+.fg-m-b-30 {
+  margin-bottom: 30px; }
+
+.fg-m-10 {
+  margin: 10px; }
+
+.fg-m-15 {
+  margin: 15px; }
+
+.fg-m-l-r-10 {
+  margin-right: 10px;
+  margin-left: 10px; }
+
+.fg-m-l-r-15 {
+  margin-left: 15px;
+  margin-right: 15px; }
+
+.fg-p-t-10 {
+  padding-top: 10px; }
+
+.fg-p-t-20 {
+  padding-top: 20px; }
+
+.fg-p-b-10 {
+  padding-bottom: 10px; }
+
+.fg-p-b-20 {
+  padding-bottom: 20px; }
+
+.fg-p-15 {
+  padding: 15px; }
+
+.fg-p-l-15 {
+  padding-left: 15px; }
+
+.fg-p-r-15 {
+  padding-right: 15px; }
+
+.w-100 {
+  width: 100%; }
+
+body {
+  font-family: 'Caviar', sans-serif;
+  color: #333333; }
+
+a, p, span {
+  font-family: 'Caviar', sans-serif; }
+
+/**Font UTM Caviar**/
+@font-face {
+  font-family: 'Caviar';
+  src: url("../fonts/Caviar.eot");
+  /* IE9 Compat Modes */
+  src: url("../fonts/Caviar.eot?#iefix") format("embedded-opentype"), url("../fonts/Caviar.woff") format("woff"), url("../fonts/Caviar.ttf") format("truetype"), url("../fonts/Caviar.svg#Caviar") format("svg");
+  /* Legacy iOS */ }
+/**Home**/
+/*header*/
+.fgo-main-home {
+  background: url(../images/bg_home_fgo.png) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  width: 100%;
+  max-height: 100%; }
+
+.head_logo {
+  width: 217px;
+  float: left; }
+
+.head_login {
+  margin-top: 30px; }
+
+/*Form login*/
+.form_register {
+  background-color: rgba(0, 174, 239, 0.9);
+  padding: 10px 30px 30px 30px;
+  border-radius: 5px; }
+
+footer {
+  position: fixed;
+  bottom: 0;
+  background-color: #6dcff6;
+  padding: 5px 15px;
+  width: 100%; }
+
+.form-control {
+  border-radius: 0;
+  border: 0; }
+
+.btn {
+  border-radius: 0; }
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{
+     font-family: 'Caviar', sans-serif;
+  color: #333333; 
+}
+/*Responsive*/
+@media (max-width: 768px) {
+  .head_logo {
+    width: 120px; } }
+
+/*# sourceMappingURL=style.css.map */
