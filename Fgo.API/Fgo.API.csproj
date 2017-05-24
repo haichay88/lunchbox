@@ -77,6 +77,15 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\Lib\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity">
+      <HintPath>..\Lib\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration">
+      <HintPath>..\..\..\Bizlunch\Lib\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -139,6 +148,12 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.WebApi">
+      <HintPath>..\..\..\Bizlunch\Lib\Unity.WebApi.dll</HintPath>
+    </Reference>
+    <Reference Include="WebActivatorEx">
+      <HintPath>..\Lib\WebActivatorEx.dll</HintPath>
+    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
@@ -156,6 +171,8 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\UnityConfig.cs" />
+    <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
     <Compile Include="Areas\HelpPage\App_Start\HelpPageConfig.cs" />
@@ -190,6 +207,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infractstructure\LifetimeManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -245,7 +263,28 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Bizkasa.Bizlunch.Business.Base\Bizkasa.Bizlunch.Business.Base.csproj">
+      <Project>{d85c5368-99a9-4f05-966c-66a6bba9bfc4}</Project>
+      <Name>Bizkasa.Bizlunch.Business.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bizkasa.Bizlunch.Business.BusinessLogic\Bizkasa.Bizlunch.Business.BusinessLogic.csproj">
+      <Project>{5f8be7aa-794b-43df-9e86-b2e54ccdd2eb}</Project>
+      <Name>Bizkasa.Bizlunch.Business.BusinessLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bizkasa.Bizlunch.Business.Services\Bizkasa.Bizlunch.Business.Services.csproj">
+      <Project>{9369d6c3-e12a-4b5f-a7e1-52205b82875d}</Project>
+      <Name>Bizkasa.Bizlunch.Business.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bizkasa.Bizlunch.Data.Core\Bizkasa.Bizlunch.Data.Core.csproj">
+      <Project>{833afd20-bed4-4d1b-a12f-998890461d85}</Project>
+      <Name>Bizkasa.Bizlunch.Data.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bizkasa.Bizlunch.Data.Reponsitory\Bizkasa.Bizlunch.Data.Reponsitory.csproj">
+      <Project>{A71AEBBC-80AA-4AD0-A5ED-5BF2F3932CC9}</Project>
+      <Name>Bizkasa.Bizlunch.Data.Reponsitory</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
