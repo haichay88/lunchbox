@@ -27,6 +27,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizkasa.Bizlunch.Data.Repon
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject1", "UnitTestProject1\UnitTestProject1.csproj", "{6D7F3FB0-74E6-49E0-8DE9-BB01553AC5B9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fgo.Android", "Fgo.Android\Fgo.Android.csproj", "{CA563388-1B28-4ECC-9D18-7F93FB6CA123}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fgo.API", "Fgo.API\Fgo.API.csproj", "{A6BE7FA8-5C9F-496C-A869-21B533CEB344}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fgo.Proxy", "Fgo.Proxy\Fgo.Proxy.csproj", "{8FF385C4-10AB-4C87-9140-382D4D645278}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +87,20 @@ Global
 		{6D7F3FB0-74E6-49E0-8DE9-BB01553AC5B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D7F3FB0-74E6-49E0-8DE9-BB01553AC5B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D7F3FB0-74E6-49E0-8DE9-BB01553AC5B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA563388-1B28-4ECC-9D18-7F93FB6CA123}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA563388-1B28-4ECC-9D18-7F93FB6CA123}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA563388-1B28-4ECC-9D18-7F93FB6CA123}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{CA563388-1B28-4ECC-9D18-7F93FB6CA123}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA563388-1B28-4ECC-9D18-7F93FB6CA123}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA563388-1B28-4ECC-9D18-7F93FB6CA123}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{A6BE7FA8-5C9F-496C-A869-21B533CEB344}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6BE7FA8-5C9F-496C-A869-21B533CEB344}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6BE7FA8-5C9F-496C-A869-21B533CEB344}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6BE7FA8-5C9F-496C-A869-21B533CEB344}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FF385C4-10AB-4C87-9140-382D4D645278}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FF385C4-10AB-4C87-9140-382D4D645278}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FF385C4-10AB-4C87-9140-382D4D645278}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FF385C4-10AB-4C87-9140-382D4D645278}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
