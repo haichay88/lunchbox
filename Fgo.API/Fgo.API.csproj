@@ -15,7 +15,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Fgo.API</RootNamespace>
     <AssemblyName>Fgo.API</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -44,6 +45,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\Lib\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.0.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.6\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -88,13 +92,13 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Routing" />
@@ -148,6 +152,7 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="Unity.WebApi">
       <HintPath>..\..\..\Bizlunch\Lib\Unity.WebApi.dll</HintPath>
     </Reference>
@@ -202,11 +207,13 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infractstructure\AuthorizationRequiredAttribute.cs" />
     <Compile Include="Infractstructure\LifetimeManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -272,9 +279,17 @@
       <Project>{5f8be7aa-794b-43df-9e86-b2e54ccdd2eb}</Project>
       <Name>Bizkasa.Bizlunch.Business.BusinessLogic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Bizkasa.Bizlunch.Business.Model\Bizkasa.Bizlunch.Business.Model.csproj">
+      <Project>{9BBF35F9-C242-4394-93F1-BB77AC9F38E8}</Project>
+      <Name>Bizkasa.Bizlunch.Business.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bizkasa.Bizlunch.Business.Services\Bizkasa.Bizlunch.Business.Services.csproj">
       <Project>{9369d6c3-e12a-4b5f-a7e1-52205b82875d}</Project>
       <Name>Bizkasa.Bizlunch.Business.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bizkasa.Bizlunch.Business.Utils\Bizkasa.Bizlunch.Business.Utils.csproj">
+      <Project>{7FDD6C2A-1F07-4FE7-AEE1-55D7BFB377CC}</Project>
+      <Name>Bizkasa.Bizlunch.Business.Utils</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bizkasa.Bizlunch.Data.Core\Bizkasa.Bizlunch.Data.Core.csproj">
       <Project>{833afd20-bed4-4d1b-a12f-998890461d85}</Project>

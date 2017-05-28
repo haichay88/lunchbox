@@ -65,7 +65,8 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
             {
                 //add
                 var m_account = SingletonAutoMapper._Instance.MapperConfiguration.CreateMapper().Map<DB_TB_ACCOUNTS>(dto);
-                m_account.ACC_TOKEN = Guid.NewGuid().ToString();
+
+                //m_account.ACC_TOKEN = Guid.NewGuid().ToString();
                 if (IsExistAccount(m_account.ACC_EMAIL))
                 {
                     base.AddError("Tai khoan da ton tai");
@@ -118,8 +119,13 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                 base.AddError("Password incorrect!");
                 return null;
             }
-          
-            m_account.ACC_TOKEN = Guid.NewGuid().ToString();
+            if (string.IsNullOrEmpty(m_account.ACC_TOKEN))
+            {
+                // ma hoa thong tin dang nhap
+
+                m_account.ACC_TOKEN = Guid.NewGuid().ToString();
+            }
+
 
             m_accountRepository.Update(m_account);
 
