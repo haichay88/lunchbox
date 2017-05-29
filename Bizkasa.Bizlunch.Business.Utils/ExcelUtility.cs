@@ -9,7 +9,7 @@ using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using System.Drawing;
 
-namespace LacViet.HPS.Common.Utilities
+namespace Bizkasa.Bizlunch.Business.Utils
 {
     public class ExcelUtility
     {

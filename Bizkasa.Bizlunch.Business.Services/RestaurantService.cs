@@ -14,7 +14,7 @@ namespace Bizkasa.Bizlunch.Business.Services
     public interface IRestaurantService
     {
         Response<RestaurantDTO> GetRestaurant(int restaurantId);
-        Response<List<RestaurantDTO>> GetRestaurants();
+        Response<List<RestaurantDTO>> GetRestaurants(BaseRequest request);
         Response<bool> AddOrUpdateRestaurant(RestaurantDTO dto);
     }
     public partial class BizlunchService
@@ -30,12 +30,12 @@ namespace Bizkasa.Bizlunch.Business.Services
             return BusinessProcess.Current.ToResponse(result);
         }
 
-        public Response<List<RestaurantDTO>> GetRestaurants()
+        public Response<List<RestaurantDTO>> GetRestaurants(BaseRequest request)
         {
             List<RestaurantDTO> result = null;
             BusinessProcess.Current.Process(p =>
             {
-                result = IoC.Get<IRestaurantBusiness>().GetRestaurants();
+                result = IoC.Get<IRestaurantBusiness>().GetRestaurants(request);
             });
 
             return BusinessProcess.Current.ToResponse(result);

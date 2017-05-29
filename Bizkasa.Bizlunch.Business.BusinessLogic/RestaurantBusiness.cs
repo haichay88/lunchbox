@@ -15,7 +15,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
     public interface IRestaurantBusiness
     {
         bool AddOrUpdateRestaurant(RestaurantDTO dto);
-        List<RestaurantDTO> GetRestaurants();
+        List<RestaurantDTO> GetRestaurants(BaseRequest request);
         RestaurantDTO GetRestaurant(int restaurantId);
     }
   public  class RestaurantBusiness:BusinessBase, IRestaurantBusiness
@@ -79,13 +79,21 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
             }
         }
 
-        public List<RestaurantDTO> GetRestaurants()
+        public List<RestaurantDTO> GetRestaurants(BaseRequest request)
         {
             try
             {
-                int userId = WorkContext.UserContext.UserId;
+                // check authenticate
+                ContextDTO context = IoC.Get<IAccountBusiness>().CheckAuthenticate(request.Token);
+                if (context == null)
+                {
+                    base.AddError("Authenticate failed !");
+                    return null;
+                }
+
+               
                 var m_restaurantRepository = UnitOfWork.Repository<DB_TB_RESTAURANT>().GetQueryable();
-                var m_restaurants = m_restaurantRepository.Where(a => a.DB_TB_ACCOUNT_RESTAURANT.Any(b => b.AccountId == userId)).Select(a => new RestaurantDTO()
+                var m_restaurants = m_restaurantRepository.Where(a => a.DB_TB_ACCOUNT_RESTAURANT.Any(b => b.AccountId == context.Id)).Select(a => new RestaurantDTO()
                 {
                     Address = a.Address,
                     Name = a.Name,

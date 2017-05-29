@@ -1,12 +1,8 @@
 ﻿using Fgo.API.App_Start;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using Microsoft.Practices.Unity.Mvc;
 using System.Web.Mvc;
-using Unity.WebApi;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(UnityMvcActivator), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(UnityMvcActivator), "Shutdown")]

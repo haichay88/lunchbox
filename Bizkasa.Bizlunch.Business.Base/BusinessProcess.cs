@@ -18,6 +18,7 @@ namespace Bizkasa.Bizlunch.Business.Base
 
         public BusinessProcess Process(Action<BusinessProcess> action)
         {
+            
             //Check Error
             if (this.HasError) return this;
             try

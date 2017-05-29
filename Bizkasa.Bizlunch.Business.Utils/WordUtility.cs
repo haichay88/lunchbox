@@ -8,7 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace LacViet.HPS.Common.Utilities
+namespace Bizkasa.Bizlunch.Business.Utils
 {
     public class WordUtility
     {

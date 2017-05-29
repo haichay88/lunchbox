@@ -27,13 +27,15 @@ namespace Bizkasa.Bizlunch.Presentation.MVC.Controllers
         // GET: Restaurant
         public ActionResult Index()
         {
-            var result = _Service.GetRestaurants();
+            BaseRequest request = new BaseRequest() { };
+            var result = _Service.GetRestaurants(request);
             return View(result.Data);
         }
         [HttpGet]
         public JsonResult GetRestaurants()
         {
-            var result = _Service.GetRestaurants();
+            BaseRequest request = new BaseRequest() { };
+            var result = _Service.GetRestaurants(request);
             return result.ToJsonResult(result.Data);
         }
 

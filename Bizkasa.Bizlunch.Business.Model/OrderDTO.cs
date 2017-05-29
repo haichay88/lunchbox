@@ -7,7 +7,7 @@ using Bizkasa.Bizlunch.Business.Utils;
 
 namespace Bizkasa.Bizlunch.Business.Model
 {
-   public class OrderDTO
+   public class OrderDTO:BaseRequest
     {
         public OrderDTO()
         {

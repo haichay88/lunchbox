@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace LacViet.HPS.Common.Utilities
+namespace Bizkasa.Bizlunch.Business.Utils
 {
     public interface IEmail3Provider
     {

@@ -12,7 +12,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using System.Xml.Xsl;
 
-namespace LacViet.HPS.Common.Utilities
+namespace Bizkasa.Bizlunch.Business.Utils
 {
     public class ReflectorUtility
     {

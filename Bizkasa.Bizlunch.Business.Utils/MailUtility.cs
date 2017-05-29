@@ -6,7 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 
-namespace LacViet.HPS.Common.Utilities
+namespace Bizkasa.Bizlunch.Business.Utils
 {
     public class MailUtility
     {

@@ -24,6 +24,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
        
         AccountDTO GetUser(string token);
         bool ConfirmedUser(AccountDTO dto);
+        ContextDTO CheckAuthenticate(string token);
     }
 
     public class AccountBusiness : BusinessBase, IAccountBusiness
@@ -119,19 +120,37 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                 base.AddError("Password incorrect!");
                 return null;
             }
-            if (string.IsNullOrEmpty(m_account.ACC_TOKEN))
+            //if (string.IsNullOrEmpty(m_account.ACC_TOKEN))
+            //{
+            //    // ma hoa thong tin dang nhap
+            //    ContextDTO context = new ContextDTO() {
+            //        Id=m_account.ACC_SYS_ID,
+            //        Email=m_account.ACC_EMAIL,
+            //        FirstName=m_account.ACC_FIRSTNAME,
+            //        LastName=m_account.ACC_LASTNAME
+            //    };
+            //    m_account.ACC_TOKEN =EncryptDecryptUtility.Encrypt(XmlUtility.Serialize(context),true);
+            //}
+            ContextDTO context = new ContextDTO()
             {
-                // ma hoa thong tin dang nhap
-
-                m_account.ACC_TOKEN = Guid.NewGuid().ToString();
-            }
-
+                Id = m_account.ACC_SYS_ID,
+                Email = m_account.ACC_EMAIL,
+                FirstName = m_account.ACC_FIRSTNAME,
+                LastName = m_account.ACC_LASTNAME
+            };
+            m_account.ACC_TOKEN = EncryptDecryptUtility.Encrypt(XmlUtility.Serialize(context), true);
 
             m_accountRepository.Update(m_account);
 
             UnitOfWork.Commit();
 
-            return SingletonAutoMapper._Instance.MapperConfiguration.CreateMapper().Map<LoginResultDTO>(m_account);
+            return new LoginResultDTO() {
+                Email=m_account.ACC_EMAIL,
+                Id=m_account.ACC_SYS_ID,
+                Token=m_account.ACC_TOKEN,
+                FirstName=m_account.ACC_FIRSTNAME,
+                LastName=m_account.ACC_LASTNAME
+            };// SingletonAutoMapper._Instance.MapperConfiguration.CreateMapper().Map<LoginResultDTO>(m_account);
 
 
         }
@@ -157,7 +176,14 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
             return UnitOfWork.Repository<DB_TB_ACCOUNTS>().Get(a => a.ACC_EMAIL == email) != null;
 
         }
-
+        public ContextDTO CheckAuthenticate(string token)
+        {
+            if (string.IsNullOrEmpty(token)) return null;
+           // token= EncryptDecryptUtility.Decrypt(token, true);
+            string encode = EncryptDecryptUtility.Decrypt(token, true);
+            if (string.IsNullOrEmpty(encode)) return null;
+            return XmlUtility.DeSerialize<ContextDTO>(encode);
+        }
 
         public List<AccountDTO> GetUsers()
         {
@@ -223,7 +249,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
             {
                 //add
                 var m_account = SingletonAutoMapper._Instance.MapperConfiguration.CreateMapper().Map<DB_TB_ACCOUNTS>(dto);
-                m_account.ACC_TOKEN = Guid.NewGuid().ToString();
+                //m_account.ACC_TOKEN = Guid.NewGuid().ToString();
                 if (IsExistAccount(m_account.ACC_EMAIL))
                 {
                     base.AddError("Tai khoan da ton tai");

@@ -41,6 +41,19 @@ namespace Fgo.API.Controllers
             request.AppCode = (int)AppCode.Mobile;
             request.Password = CommonUtil.CreateMD5(request.Password);
             var result = _Service.Login(request);
+            //if(!result.HasError)
+            //    result.Data.Token = EncryptDecryptUtility.Encrypt(result.Data.Token,true);
+            return Ok(result);
+        }
+
+        [Route("GetRestaurants")]
+        [HttpPost]
+        public IHttpActionResult GetRestaurants(BaseRequest request)
+        {
+            logger.InfoFormat("data controller is {0}", Newtonsoft.Json.JsonConvert.SerializeObject(request, Newtonsoft.Json.Formatting.Indented));
+          
+             var result = _Service.GetRestaurants(request);
+           
             return Ok(result);
         }
     }

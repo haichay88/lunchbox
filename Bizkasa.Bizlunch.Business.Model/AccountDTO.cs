@@ -65,4 +65,9 @@ namespace Bizkasa.Bizlunch.Business.Model
         
 
     }
+
+    public class BaseRequest
+    {
+        public string Token { get; set; }
+    }
 }

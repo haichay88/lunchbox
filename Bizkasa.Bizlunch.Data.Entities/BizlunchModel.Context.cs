@@ -29,7 +29,7 @@ namespace Bizkasa.Bizlunch.Data.Entities
         public virtual DbSet<DB_TB_RESTAURANT> DB_TB_RESTAURANT { get; set; }
         public virtual DbSet<DB_TB_ACCOUNT_RESTAURANT> DB_TB_ACCOUNT_RESTAURANT { get; set; }
         public virtual DbSet<DB_TB_FRIENDSHIP> DB_TB_FRIENDSHIP { get; set; }
-        public virtual DbSet<DB_TB_ACCOUNTS> DB_TB_ACCOUNTS { get; set; }
         public virtual DbSet<DB_TB_ORDERS> DB_TB_ORDERS { get; set; }
+        public virtual DbSet<DB_TB_ACCOUNTS> DB_TB_ACCOUNTS { get; set; }
     }
 }

@@ -21,7 +21,7 @@ namespace Bizkasa.Bizlunch.Data.Entities
         public Nullable<decimal> MenuCost { get; set; }
         public System.DateTime CreatedDate { get; set; }
     
-        public virtual DB_TB_ACCOUNTS DB_TB_ACCOUNTS { get; set; }
         public virtual DB_TB_ORDERS DB_TB_ORDERS { get; set; }
+        public virtual DB_TB_ACCOUNTS DB_TB_ACCOUNTS { get; set; }
     }
 }
