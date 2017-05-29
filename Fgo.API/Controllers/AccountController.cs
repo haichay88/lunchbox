@@ -37,13 +37,20 @@ namespace Fgo.API.Controllers
         [HttpPost]
         public IHttpActionResult RequestLogin(LoginDTO request)
         {
-            logger.InfoFormat("data controller is {0}", Newtonsoft.Json.JsonConvert.SerializeObject(request, Newtonsoft.Json.Formatting.Indented));
-            request.AppCode = (int)AppCode.Mobile;
-            request.Password = CommonUtil.CreateMD5(request.Password);
-            var result = _Service.Login(request);
-            //if(!result.HasError)
-            //    result.Data.Token = EncryptDecryptUtility.Encrypt(result.Data.Token,true);
-            return Ok(result);
+            try
+            {
+                request.AppCode = (int)AppCode.Mobile;
+                request.Password = CommonUtil.CreateMD5(request.Password);
+                var result = _Service.Login(request);
+  
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                logger.Error("Exception is {0}", ex);
+                return null;
+            }
+            
         }
 
         [Route("GetRestaurants")]

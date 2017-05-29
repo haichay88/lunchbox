@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Bizkasa.Bizlunch.Business.Model
 {
-   public class RestaurantDTO
+   public class RestaurantDTO:BaseRequest
     {
         public int Id { get; set; }
 

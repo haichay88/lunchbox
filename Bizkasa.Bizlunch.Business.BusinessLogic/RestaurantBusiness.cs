@@ -41,6 +41,13 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
         {
             try
             {
+                // check authenticate
+                ContextDTO context = IoC.Get<IAccountBusiness>().CheckAuthenticate(dto.Token);
+                if (context == null)
+                {
+                    base.AddError("Authenticate failed !");
+                    return false;
+                }
                 var m_restaurantRepository = UnitOfWork.Repository<DB_TB_RESTAURANT>();
                 var m_accountRestaurantRepository = UnitOfWork.Repository<DB_TB_ACCOUNT_RESTAURANT>();
                 if (dto.Id > 0)
@@ -57,7 +64,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                 {
                     var m_restaurant = SingletonAutoMapper._Instance.MapperConfiguration.CreateMapper().Map<DB_TB_RESTAURANT>(dto);
                     m_restaurant.CreatedDate = DateTime.Now;
-                    m_restaurant.OwnerId = WorkContext.UserContext.UserId;
+                    m_restaurant.OwnerId = context.Id;
                     m_restaurantRepository.Add(m_restaurant);
                     m_accountRestaurantRepository.Add(new DB_TB_ACCOUNT_RESTAURANT() {
                         AccountId=m_restaurant.OwnerId,

@@ -4,6 +4,7 @@ using Bizkasa.Bizlunch.Presentation.MVC.Infractstructure;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
@@ -25,6 +26,7 @@ namespace Bizkasa.Bizlunch.Presentation.MVC
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             UnityMvcActivator.Start();
+            log4net.Config.XmlConfigurator.Configure(new FileInfo(Server.MapPath("~/Web.config")));
         }
 
         protected void Application_PostAuthenticateRequest(Object sender, EventArgs e)

@@ -178,11 +178,20 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
         }
         public ContextDTO CheckAuthenticate(string token)
         {
-            if (string.IsNullOrEmpty(token)) return null;
-           // token= EncryptDecryptUtility.Decrypt(token, true);
-            string encode = EncryptDecryptUtility.Decrypt(token, true);
-            if (string.IsNullOrEmpty(encode)) return null;
-            return XmlUtility.DeSerialize<ContextDTO>(encode);
+            try
+            {
+                if (string.IsNullOrEmpty(token)) return null;
+                // token= EncryptDecryptUtility.Decrypt(token, true);
+                string encode = EncryptDecryptUtility.Decrypt(token, true);
+                if (string.IsNullOrEmpty(encode)) return null;
+                return XmlUtility.DeSerialize<ContextDTO>(encode);
+            }
+            catch (Exception ex)
+            {
+                return null;
+                
+            }
+           
         }
 
         public List<AccountDTO> GetUsers()
