@@ -2,6 +2,54 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:src="@drawable/bizkasalogo"
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp"
+        android:paddingBottom="50dp"
+        android:scaleType="fitCenter" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:layout_width="300dp"
+        android:layout_height="match_parent">
+        <TextView
+            android:text="User name"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="384.0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView1" />
+        <EditText
+            android:inputType="textPersonName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtuserName" />
+        <TextView
+            android:text="Password"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="384.0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView2" />
+        <EditText
+            android:inputType="textPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtpass" />
+        <Button
+            android:text="Login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnLogin" />
+        <TextView
+            android:text="Đăng ký tài khoản"
+            android:layout_width="match_parent"
+            android:paddingTop="10dp"
+            android:gravity="center"
+            android:textColor="#005999"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtdangky" />
+    </LinearLayout>
 </LinearLayout>
