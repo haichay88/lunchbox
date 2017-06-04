@@ -2,7 +2,6 @@
 
 using Android.App;
 using Android.OS;
-using Android.Views;
 using SupportToolbar = Android.Support.V7.Widget.Toolbar;
 using Android.Widget;
 using Android.Support.V7.App;
@@ -10,7 +9,10 @@ using Android.Support.V4.Widget;
 using Fgo.AndroidApp.Model;
 using Fgo.AndroidApp.Common;
 using Fgo.AndroidApp.Adapter;
-
+using Bizkasa.Bizlunch.Business.Model;
+using Fgo.AndroidApp.Fragments;
+using Fragment = Android.Support.V4.App.Fragment;
+using FragmentTransaction = Android.Support.V4.App.FragmentTransaction;
 namespace Fgo.AndroidApp
 {
     [Activity(Label = "OrderListActivity")]
@@ -20,11 +22,10 @@ namespace Fgo.AndroidApp
         private MyActionBarDrawerToggle mDrawerToggle;
         private DrawerLayout mDrawerLayout;
         private ListView mLeftDrawer;
-        private List<string> mLeftDataSet;
         private List<MenuItem> menus;
-        private ArrayAdapter mLeftAdapter;
         private string m_context;
-        AppPreferences apre;
+        AppPreferences apre;     
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -46,18 +47,13 @@ namespace Fgo.AndroidApp
 
             SetSupportActionBar(mToolbar);
             SupportActionBar.SetTitle(Resource.String.closeDrawer);
-            mLeftDataSet = new List<string>();
-            mLeftDataSet.Add("Nhận/trả phòng");
-            mLeftDataSet.Add("Báo cáo doanh thu");
-            mLeftDataSet.Add("Phiếu thu trong ngày");
+           
             menus = new List<MenuItem>();
             menus.Add(new MenuItem() { Heading = "Order", ImageResourceId = Resource.Drawable.Synchronize96 });
             menus.Add(new MenuItem() { Heading = "Friends", ImageResourceId = Resource.Drawable.Cheap });
             menus.Add(new MenuItem() { Heading = "Restaurants", ImageResourceId = Resource.Drawable.News96 });
             //menus.Add(new MenuItem() { Heading = "Khách đang ở", ImageResourceId = Resource.Drawable.UserMale96 });
             menus.Add(new MenuItem() { Heading = "Exit", ImageResourceId = Resource.Drawable.Lock96 });
-
-            mLeftAdapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, mLeftDataSet);
             mLeftDrawer.Adapter = new LeftMenuAdapter(this, menus);
             mLeftDrawer.ItemClick += new System.EventHandler<AdapterView.ItemClickEventArgs>(mLeftDrawer_ItemClick);
 
@@ -74,9 +70,20 @@ namespace Fgo.AndroidApp
             SupportActionBar.SetHomeButtonEnabled(true);
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             mDrawerToggle.SyncState();
+
+            if (savedInstanceState == null)
+            {
+                SupportFragmentManager.BeginTransaction().Add(Resource.Id.fragment, new OrdersFragment()).Commit();
+            }
+
+
+
         }
+
         private void mLeftDrawer_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
+            Fragment fragment = null;
+            FragmentTransaction ft = SupportFragmentManager.BeginTransaction();
             if (mDrawerLayout.IsDrawerOpen(mLeftDrawer))
             {
                 //Right Drawer is already open, close it
@@ -84,8 +91,8 @@ namespace Fgo.AndroidApp
             }
             switch (e.Position)
             {
-                case 1:
-                    StartActivity(typeof(OrderListActivity));
+                case 0:
+                    fragment = new OrdersFragment();
                     break;
                 //case 2:
                 //    StartActivity(typeof(OrderInDayActivity));
@@ -101,18 +108,11 @@ namespace Fgo.AndroidApp
                     break;
 
             }
+            ft.Replace(Resource.Id.fragment, fragment).Commit();
+           
 
         }
-        /// <summary>
-        /// load data from server
-        /// </summary>
-        //private void LoadData()
-        //{
-
-        //    RoomService m_service = new RoomService(m_context);
-        //    m_listFloors = m_service.GetRoomsByFloor();
-        //    m_listRooms = m_listFloors.SelectMany(b => b.Rooms).ToList();
-        //}
+        
 
         protected override void OnSaveInstanceState(Bundle outState)
         {

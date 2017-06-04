@@ -53,7 +53,23 @@ namespace Fgo.AndroidApp.Services
             }
             return null;
         }
+        public Response<List<OrderDTO>> GetOrders(BaseRequest request)
+        {
+         
+            string url = AppPreferences.Domain_API + "api/Order/GetOrders";
+            var uri = new Uri(string.Format(url, string.Empty));
 
-     
+            string datastr = JsonConvert.SerializeObject(request);
+            var contentSend = new StringContent(datastr, Encoding.UTF8, "application/json");
+            var response = client.PostAsync(uri, contentSend).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                var content = response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<Response<List<OrderDTO>>>(content.Result);
+                return result;
+            }
+            return null;
+        }
+
     }
 }

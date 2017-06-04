@@ -7,5 +7,6 @@
 	<color name="splash_background">#FFFFFF</color>
 	<color name="Button_Green">#1dc338</color>
 	<color name="Button_blue">#4c9be0</color>
-	
+  <color name="primary_pressed">#2C3E50</color>
+  <color name="ripple">#ff80ab</color>
 </resources>

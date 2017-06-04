@@ -181,7 +181,8 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                        Id=a.Id,
                        CreatedDate=a.CreatedDate,
                        LunchDate=a.LunchDate.Value,
-                       RestaurantId=a.RestaurantId
+                       RestaurantId=a.RestaurantId,
+                       RestaurantName = a.DB_TB_RESTAURANT.Name,
                        //OrderDetails=a.DB_TB_ORDER_DETAIL.Where(e=>e.MenuCost>0).Select(b=>new OrderDetailDTO() {
                        //    AccountId=b.AccountId,
                        //    CreatedDate=b.CreatedDate,

@@ -6,20 +6,20 @@
   <TextView
           android:text="Text"
           android:layout_width="match_parent"
-          android:layout_height="match_parent"
+          android:layout_height="wrap_content"
             android:textStyle="bold"
 					   android:textSize="16dp"
           android:id="@+id/txtTitle" />
   <TextView
           android:text="Text"
           android:layout_width="match_parent"
-          android:layout_height="match_parent"
+          android:layout_height="wrap_content"
 					   android:textSize="14dp"
           android:id="@+id/txtlocation" />
 
   <TextView
           android:text="Text"
           android:layout_width="match_parent"
-          android:layout_height="match_parent"
+          android:layout_height="wrap_content"
           android:id="@+id/txtDate" />
 </LinearLayout>

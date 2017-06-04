@@ -10,9 +10,9 @@ namespace Fgo.AndroidApp.Adapter
 {
     public  class OrderListItemAdapter: BaseAdapter
     {
-        List<OrderViewDTO> items;
+        List<OrderDTO> items;
         Activity context;
-        public OrderListItemAdapter(Activity context, List<OrderViewDTO> items) : base()
+        public OrderListItemAdapter(Activity context, List<OrderDTO> items) : base()
         {
             this.context = context;
             this.items = items;
@@ -35,11 +35,17 @@ namespace Fgo.AndroidApp.Adapter
         {
             View view = convertView; // re-use an existing view, if one is available
             if (view == null) // otherwise create a new one
-                view = context.LayoutInflater.Inflate(Android.Resource.Layout.ActivityListItem, parent, false);
+                view = context.LayoutInflater.Inflate(Resource.Layout.OrderListItem, parent, false);
             var item = items[position];
-            TextView txtMenutext = view.FindViewById<TextView>(Android.Resource.Id.Text1);
-           // txtMenutext.Text = item.Heading;
-           
+            TextView txttitle = view.FindViewById<TextView>(Resource.Id.txtTitle);
+            txttitle.Text = item.Title;
+
+            TextView txtlocation = view.FindViewById<TextView>(Resource.Id.txtlocation);
+            txtlocation.Text = item.RestaurantName;
+
+
+            TextView txtDate = view.FindViewById<TextView>(Resource.Id.txtDate);
+            txtDate.Text = item.LunchDateText;
 
             view.SetPadding(10, 20, 10, 20);
             return view;

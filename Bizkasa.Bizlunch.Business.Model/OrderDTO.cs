@@ -19,6 +19,7 @@ namespace Bizkasa.Bizlunch.Business.Model
         public string Title { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public System.DateTime LunchDate { get; set; }
+        public string RestaurantName { get; set; }
         public string LunchDateText
         {
             get
@@ -61,7 +62,7 @@ namespace Bizkasa.Bizlunch.Business.Model
         public decimal TotalAmount { get; set; }
         public int OwnerId { get; set; }
         public string OwnerName { get; set; }
-        public string RestaurantName { get; set; }
+       
         public string MenuURL { get; set; }
         public string RestaurantPhone { get; set; }
         public List<OrderDetailDTO> OrderDetailsCanEdit { get; set; }

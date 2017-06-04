@@ -58,7 +58,8 @@ namespace Bizkasa.Bizlunch.Presentation.MVC.Controllers
         [HttpGet]
         public JsonResult GetOrders()
         {
-            var result = _Service.GetOrders();
+            BaseRequest request = new BaseRequest();
+            var result = _Service.GetOrders(request);
             return result.ToJsonResult(result.Data);
         }
         [HttpPost]
