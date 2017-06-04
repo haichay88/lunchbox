@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+
+  <style name="MyTheme" parent="MyTheme.Base">
+  </style>
+  <style name="MyTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
+    <item name="windowNoTitle">true</item>
+    <item name="windowActionBar">false</item>
+
+    <item name="colorPrimary">#2196F3</item>
+    <item name="colorPrimaryDark">#1976D2</item>
+    <item name="colorAccent">#FF4081</item>
+    <item name="colorButtonNormal">#00c44a</item>
+    <item name="colorControlNormal">#ffffff</item>
+
+
+  </style>
+
+  <style name="MyDrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+    <item name="color">#F5F5F5</item>
+    <item name="spinBars">true</item>
+  </style>
+
+  <style name="button_text" >
+    <item name="android:layout_width" >fill_parent</item>
+    <item name="android:layout_height" >wrap_content</item>
+    <item name="android:textColor" >#ffffff</item>
+    <item name="android:gravity" >center</item>
+    <item name="android:layout_margin" >3dp</item>
+    <item name="android:textSize" >18dp</item>
+    <item name="android:textStyle" >bold</item>
+
+    <item name="android:shadowRadius" >2</item>
+  </style>
+
+
+  <style name="MyTheme.Splash" parent ="Theme.AppCompat.Light.NoActionBar">
+    <item name="android:windowBackground">@drawable/splash_screen</item>
+    <item name="android:windowNoTitle">true</item>
+    <item name="android:windowFullscreen">true</item>
+    <item name="android:windowContentOverlay">@null</item>
+    <item name="android:windowActionBar">true</item>
+  </style>
+</resources>
+
+

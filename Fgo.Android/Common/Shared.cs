@@ -1,19 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
 using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Android.Preferences;
 using Bizkasa.Bizlunch.Business.Model;
 using Newtonsoft.Json;
 
-namespace Fgo.Android.Common
+namespace Fgo.AndroidApp.Common
 {
     public class AppPreferences
     {
@@ -21,7 +12,7 @@ namespace Fgo.Android.Common
         private ISharedPreferencesEditor mPrefsEditor;
         private Context mContext;
 
-        public static readonly String Domain_API = "http://media.bizkasa.com/";
+        public static readonly String Domain_API = "http://friendgonow.com/API/";
         public static readonly String m_workContextKey = "FGOAPP";
 
 
@@ -43,12 +34,12 @@ namespace Fgo.Android.Common
             return mSharedPrefs.GetString(key, "");
         }
 
-        public ContextDTO getContextKey()
+        public string getContextKey()
         {
             string value = mSharedPrefs.GetString(m_workContextKey, "");
             if (!string.IsNullOrWhiteSpace(value))
             {
-                return JsonConvert.DeserializeObject<ContextDTO>(value);
+                return value;
             }
             return null;
         }

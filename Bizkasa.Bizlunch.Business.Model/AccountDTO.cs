@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bizkasa.Bizlunch.Business.Utils;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -69,5 +70,25 @@ namespace Bizkasa.Bizlunch.Business.Model
     public class BaseRequest
     {
         public string Token { get; set; }
+
+        public ContextDTO Context
+        {
+            get
+            {
+                try
+                {
+                    if (string.IsNullOrEmpty(Token)) return null;
+                    // token= EncryptDecryptUtility.Decrypt(token, true);
+                    string encode = EncryptDecryptUtility.Decrypt(Token, true);
+                    if (string.IsNullOrEmpty(encode)) return null;
+                    return XmlUtility.DeSerialize<ContextDTO>(encode);
+                }
+                catch (Exception ex)
+                {
+                    return null;
+
+                }
+            }
+        }
     }
 }

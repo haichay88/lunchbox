@@ -40,7 +40,6 @@ namespace Fgo.API.Controllers
             try
             {
                 request.AppCode = (int)AppCode.Mobile;
-                request.Password = CommonUtil.CreateMD5(request.Password);
                 var result = _Service.Login(request);
   
                 return Ok(result);

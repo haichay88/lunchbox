@@ -14,7 +14,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
 {
     public interface IOrderBusiness
     {
-        List<OrderDTO> GetOrders();
+        List<OrderDTO> GetOrders(BaseRequest request);
         OrderViewDTO GetOrderBy(int orderid);
         bool AddOrUpdateOrder(OrderDTO dto);
         OrderViewDTO AddOrderDetail(OrderDTO dto);
@@ -166,10 +166,16 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                     }).ToList();
             return GetOrderBy(dto.Id);
         }
-        public List<OrderDTO> GetOrders()
+        public List<OrderDTO> GetOrders(BaseRequest request)
         {
+            if (request.Context == null)
+            {
+                base.AddError("Authenticate failed !");
+                return null;
+            }
+
             var m_orderRepository = UnitOfWork.Repository<DB_TB_ORDERS>().GetQueryable();
-            var orders = m_orderRepository.Where(a => a.DB_TB_ORDER_DETAIL.Any(b => b.AccountId == WorkContext.UserContext.UserId))
+            var orders = m_orderRepository.Where(a => a.DB_TB_ORDER_DETAIL.Any(b => b.AccountId == request.Context.Id))
                    .Select(a => new OrderDTO() {
                        Title=a.Title,
                        Id=a.Id,
@@ -183,7 +189,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                        //    MenuCost=b.MenuCost,
                        //    MenuItem=b.MenuItem
                        //}).ToList()
-                   }).ToList();
+                   }).OrderByDescending(a=>a.LunchDate).ToList();
           
 
             return orders;

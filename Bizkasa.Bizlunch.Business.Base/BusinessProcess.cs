@@ -22,8 +22,7 @@ namespace Bizkasa.Bizlunch.Business.Base
             //Check Error
             if (this.HasError) return this;
             try
-            {
-                //if (DateTime.Now.Date <= new DateTime(2016, 1, 31)) { action(this); }
+            {                
                 action(this);
             }
             catch (System.Data.Entity.Core.OptimisticConcurrencyException ex)

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{6759A1B6-24C1-4780-BA40-904613AC59AC}"
 EndProject
@@ -27,7 +27,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizkasa.Bizlunch.Data.Repon
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject1", "UnitTestProject1\UnitTestProject1.csproj", "{6D7F3FB0-74E6-49E0-8DE9-BB01553AC5B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fgo.Android", "Fgo.Android\Fgo.Android.csproj", "{CA563388-1B28-4ECC-9D18-7F93FB6CA123}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fgo.AndroidApp", "Fgo.Android\Fgo.AndroidApp.csproj", "{CA563388-1B28-4ECC-9D18-7F93FB6CA123}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fgo.API", "Fgo.API\Fgo.API.csproj", "{A6BE7FA8-5C9F-496C-A869-21B533CEB344}"
 EndProject
