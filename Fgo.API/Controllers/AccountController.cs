@@ -62,5 +62,16 @@ namespace Fgo.API.Controllers
            
             return Ok(result);
         }
+
+        [Route("GetFriends")]
+        [HttpPost]
+        public IHttpActionResult GetFriends(SearchDTO request)
+        {
+            logger.InfoFormat("data controller is {0}", Newtonsoft.Json.JsonConvert.SerializeObject(request, Newtonsoft.Json.Formatting.Indented));
+
+            var result = _Service.GetFriends(request);
+
+            return Ok(result);
+        }
     }
 }

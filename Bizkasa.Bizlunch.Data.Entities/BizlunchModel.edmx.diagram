@@ -9,7 +9,7 @@
         <EntityTypeShape EntityType="BizlunchModel.DB_TB_RESTAURANT" Width="1.5" PointX="3" PointY="8.25" />
         <EntityTypeShape EntityType="BizlunchModel.DB_TB_ACCOUNT_RESTAURANT" Width="1.5" PointX="5.25" PointY="5.375" />
         <AssociationConnector Association="BizlunchModel.FK_DB_TB_ACCOUNT_RESTAURANT_DB_TB_RESTAURANT" />
-        <EntityTypeShape EntityType="BizlunchModel.DB_TB_FRIENDSHIP" Width="1.5" PointX="3" PointY="4.5" />
+        <EntityTypeShape EntityType="BizlunchModel.DB_TB_FRIENDSHIP" Width="2" PointX="3" PointY="4.5" />
         <EntityTypeShape EntityType="BizlunchModel.DB_TB_ORDERS" Width="1.5" PointX="5.25" PointY="11.125" />
         <AssociationConnector Association="BizlunchModel.FK_OrderDetail_Order" />
         <AssociationConnector Association="BizlunchModel.FK_Order_Restaurants" />

@@ -25,6 +25,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
         AccountDTO GetUser(string token);
         bool ConfirmedUser(AccountDTO dto);
         ContextDTO CheckAuthenticate(string token);
+        IList<FriendDTO> GetFriends(SearchDTO request);
     }
 
     public class AccountBusiness : BusinessBase, IAccountBusiness
@@ -280,8 +281,46 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
             return GetUsers();
 
         }
+        /// <summary>
+        /// Get friends of current user
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+      public IList<FriendDTO> GetFriends(SearchDTO request)
+        {
+            if (request.Context == null)
+            {
+                base.AddError("Authenticate failed !");
+                return null;
+            }
+            try
+            {
+                var m_friendshipRepository = UnitOfWork.Repository<DB_TB_FRIENDSHIP>();
+                var m_friendshipQueryable = m_friendshipRepository.GetQueryable().Where(a => a.AccountId == request.Context.Id && a.DB_TB_ACCOUNTS1.ACC_IS_ACTIVED);
+                if (!string.IsNullOrEmpty(request.Keyword))
+                {
+                    m_friendshipQueryable = m_friendshipQueryable.Where(a => a.DB_TB_ACCOUNTS1.ACC_EMAIL.Contains(request.Keyword)
+                     || a.DB_TB_ACCOUNTS1.ACC_FIRSTNAME.Contains(request.Keyword)
+                     || a.DB_TB_ACCOUNTS1.ACC_LASTNAME.Contains(request.Keyword)
+                     || a.DB_TB_ACCOUNTS1.ACC_FIRSTNAME.Contains(request.Keyword)
+                     || a.DB_TB_ACCOUNTS1.ACC_MIDDLENAME.Contains(request.Keyword));
+                }
+                var m_frship = m_friendshipQueryable.Select(a => new FriendDTO()
+                {
+                    Email = a.DB_TB_ACCOUNTS1.ACC_EMAIL,
+                    Id = a.DB_TB_ACCOUNTS1.ACC_SYS_ID,
+                    FirstName = a.DB_TB_ACCOUNTS1.ACC_FIRSTNAME,
+                    LastName = a.DB_TB_ACCOUNTS1.ACC_LASTNAME
+                }).ToList();
 
-      
+                return m_frship;
+            }
+            catch (Exception)
+            {
+                return null;
+
+            }
+        }
        
         #endregion
     }

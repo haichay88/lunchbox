@@ -35,6 +35,30 @@ namespace Bizkasa.Bizlunch.Business.Model
         public bool IsSelected { get; set; }
 
     }
+    public class SearchDTO:BaseRequest
+    {
+        public string Keyword { get; set; }
+    }
+    public class FriendDTO
+    {
+        public int Id { get; set; }
+      
+        public string Email { get; set; }
+
+        [Required]
+        [DisplayName("First Name")]
+        public string FirstName { get; set; }
+        [DisplayName("Last Name")]
+        public string LastName { get; set; }
+        public string MiddleName { get; set; }
+        [DisplayName("Company Name")]
+        public string CompanyName { get; set; }
+       
+        public string SourceId { get; set; }
+        public bool IsActived { get; set; }
+        public bool IsSelected { get; set; }
+
+    }
 
     public class LoginDTO
     {

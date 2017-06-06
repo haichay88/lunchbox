@@ -3,7 +3,6 @@
 using Android.App;
 using Android.Views;
 using Android.Widget;
-using Fgo.AndroidApp.Model;
 using Bizkasa.Bizlunch.Business.Model;
 
 namespace Fgo.AndroidApp.Adapter
