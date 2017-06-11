@@ -48,8 +48,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
             try
             {
                 // check authenticate
-                ContextDTO context= IoC.Get<IAccountBusiness>().CheckAuthenticate(dto.Token);
-                if (context == null)
+                if (dto.Context== null)
                 {
                     base.AddError("Authenticate failed !");
                     return false;
@@ -80,7 +79,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                      Title=dto.Title,   
                         CreatedDate = DateTime.Now,
                         LunchDate = dto.LunchDate,
-                        OwnerId = context.Id,
+                        OwnerId = dto.Context.Id,
                         RestaurantId = dto.RestaurantId,
                     };
                     foreach (var item in dto.OrderDetails)
@@ -94,7 +93,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                     }
                     m_order.DB_TB_ORDER_DETAIL.Add(new DB_TB_ORDER_DETAIL()
                     {
-                        AccountId = context.Id,
+                        AccountId = dto.Context.Id,
                         CreatedDate = DateTime.Now
                     });
                     m_orderRepository.Add(m_order);

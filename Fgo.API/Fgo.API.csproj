@@ -220,6 +220,7 @@
     </Compile>
     <Compile Include="Infractstructure\ExceptionHandler.cs" />
     <Compile Include="Infractstructure\LifetimeManager.cs" />
+    <Compile Include="Infractstructure\Utilities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

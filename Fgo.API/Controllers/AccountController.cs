@@ -1,6 +1,7 @@
 ﻿using Bizkasa.Bizlunch.Business.Model;
 using Bizkasa.Bizlunch.Business.Services;
 using Bizkasa.Bizlunch.Business.Utils;
+using Fgo.API.Infractstructure;
 using log4net;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+
 
 namespace Fgo.API.Controllers
 {
@@ -41,8 +43,7 @@ namespace Fgo.API.Controllers
             {
                 request.AppCode = (int)AppCode.Mobile;
                 var result = _Service.Login(request);
-  
-                return Ok(result);
+                return Ok(result.ToJsonResult(result.Data));
             }
             catch (Exception ex)
             {
@@ -54,13 +55,12 @@ namespace Fgo.API.Controllers
 
         [Route("GetRestaurants")]
         [HttpPost]
-        public IHttpActionResult GetRestaurants(BaseRequest request)
+        public IHttpActionResult GetRestaurants(SearchDTO request)
         {
             logger.InfoFormat("data controller is {0}", Newtonsoft.Json.JsonConvert.SerializeObject(request, Newtonsoft.Json.Formatting.Indented));
           
              var result = _Service.GetRestaurants(request);
-           
-            return Ok(result);
+            return Ok(result.ToJsonResult(result.Data));
         }
 
         [Route("GetFriends")]
@@ -70,8 +70,7 @@ namespace Fgo.API.Controllers
             logger.InfoFormat("data controller is {0}", Newtonsoft.Json.JsonConvert.SerializeObject(request, Newtonsoft.Json.Formatting.Indented));
 
             var result = _Service.GetFriends(request);
-
-            return Ok(result);
+            return Ok(result.ToJsonResult(result.Data));
         }
     }
 }

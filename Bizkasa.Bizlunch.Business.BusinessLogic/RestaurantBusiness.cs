@@ -15,7 +15,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
     public interface IRestaurantBusiness
     {
         bool AddOrUpdateRestaurant(RestaurantDTO dto);
-        List<RestaurantDTO> GetRestaurants(BaseRequest request);
+        List<RestaurantDTO> GetRestaurants(SearchDTO request);
         RestaurantDTO GetRestaurant(int restaurantId);
     }
   public  class RestaurantBusiness:BusinessBase, IRestaurantBusiness
@@ -42,8 +42,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
             try
             {
                 // check authenticate
-                ContextDTO context = IoC.Get<IAccountBusiness>().CheckAuthenticate(dto.Token);
-                if (context == null)
+                if (dto.Context== null)
                 {
                     base.AddError("Authenticate failed !");
                     return false;
@@ -64,7 +63,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                 {
                     var m_restaurant = SingletonAutoMapper._Instance.MapperConfiguration.CreateMapper().Map<DB_TB_RESTAURANT>(dto);
                     m_restaurant.CreatedDate = DateTime.Now;
-                    m_restaurant.OwnerId = context.Id;
+                    m_restaurant.OwnerId = dto.Context.Id;
                     m_restaurantRepository.Add(m_restaurant);
                     m_accountRestaurantRepository.Add(new DB_TB_ACCOUNT_RESTAURANT() {
                         AccountId=m_restaurant.OwnerId,
@@ -86,13 +85,13 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
             }
         }
 
-        public List<RestaurantDTO> GetRestaurants(BaseRequest request)
+        public List<RestaurantDTO> GetRestaurants(SearchDTO request)
         {
             try
             {
                 // check authenticate
-                ContextDTO context = IoC.Get<IAccountBusiness>().CheckAuthenticate(request.Token);
-                if (context == null)
+               
+                if (request.Context== null)
                 {
                     base.AddError("Authenticate failed !");
                     return null;
@@ -100,7 +99,11 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
 
                
                 var m_restaurantRepository = UnitOfWork.Repository<DB_TB_RESTAURANT>().GetQueryable();
-                var m_restaurants = m_restaurantRepository.Where(a => a.DB_TB_ACCOUNT_RESTAURANT.Any(b => b.AccountId == context.Id)).Select(a => new RestaurantDTO()
+                if(!string.IsNullOrEmpty(request.Keyword))
+                {
+                    m_restaurantRepository = m_restaurantRepository.Where(a => a.Name.Contains(request.Keyword));
+                }
+                var m_restaurants = m_restaurantRepository.Where(a => a.DB_TB_ACCOUNT_RESTAURANT.Any(b => b.AccountId == request.Context.Id)).Select(a => new RestaurantDTO()
                 {
                     Address = a.Address,
                     Name = a.Name,
