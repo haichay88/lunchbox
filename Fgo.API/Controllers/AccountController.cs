@@ -72,5 +72,22 @@ namespace Fgo.API.Controllers
             var result = _Service.GetFriends(request);
             return Ok(result.ToJsonResult(result.Data));
         }
+
+        [Route("AddOrUpdateFriend")]
+        [HttpPost]
+        public IHttpActionResult AddOrUpdateFriend(AccountDTO request)
+        {
+            try
+            {
+                var result = _Service.AddOrUpdateFriend(request);
+                return Ok(result.ToJsonResult(result.Data));
+            }
+            catch (Exception ex)
+            {
+                logger.Error("AddOrUpdateFriend Exception is {0}", ex);
+                return null;
+            }
+
+        }
     }
 }

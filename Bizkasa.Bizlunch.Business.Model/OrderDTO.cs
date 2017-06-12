@@ -79,6 +79,20 @@ namespace Bizkasa.Bizlunch.Business.Model
         public string OwnerName { get; set; }
     }
 
+    public class InviteDTO :BaseRequest
+    {
+        public string Title { get; set; }
+        public int PlaceId { get; set; }
+        public System.DateTime LunchDate { get; set; }
+        public List<FriendInInviteDTO> Friends { get; set; }
+
+    }
+    public class FriendInInviteDTO
+    {
+        public int FriendId { get; set; }
+        public string Email { get; set; }
+        public string FirstName { get; set; }
+    }
 
 
 

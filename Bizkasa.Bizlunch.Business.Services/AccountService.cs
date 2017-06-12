@@ -23,9 +23,22 @@ namespace Bizkasa.Bizlunch.Business.Services
         Response<bool> ConfirmedUser(AccountDTO dto);
         Response<LoginResultDTO> Relogin(AccountDTO dto);
         Response<IList<FriendDTO>> GetFriends(SearchDTO request);
+        Response<IList<AccountDTO>> AddOrUpdateFriend(AccountDTO request);
     }
   public partial  class BizlunchService
     {
+
+        public Response<IList<AccountDTO>> AddOrUpdateFriend(AccountDTO request)
+        {
+
+            IList<AccountDTO> result = null;
+            BusinessProcess.Current.Process(p =>
+            {
+                result = IoC.Get<IAccountBusiness>().AddOrUpdateFriend(request);
+            });
+
+            return BusinessProcess.Current.ToResponse(result);
+        }
         public Response<IList<FriendDTO> >GetFriends(SearchDTO request)
         {
 

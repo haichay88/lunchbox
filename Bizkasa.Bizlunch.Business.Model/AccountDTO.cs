@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Bizkasa.Bizlunch.Business.Model
 {
  
-    public class AccountDTO
+    public class AccountDTO:BaseRequest
     {
         public int Id { get; set; }
 
@@ -26,10 +26,11 @@ namespace Bizkasa.Bizlunch.Business.Model
         public string FirstName { get; set; }
         [DisplayName("Last Name")]
         public string LastName { get; set; }
+        
         public string MiddleName { get; set; }
         [DisplayName("Company Name")]
         public string CompanyName { get; set; }
-        public string Token { get; set; }
+       
         public string SourceId { get; set; }
         public bool IsActived { get; set; }
         public bool IsSelected { get; set; }

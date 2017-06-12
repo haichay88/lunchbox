@@ -82,5 +82,22 @@ namespace Fgo.API.Controllers
             }
 
         }
+
+        [Route("AddInvite")]
+        [HttpPost]
+        public IHttpActionResult AddInvite(InviteDTO request)
+        {
+            try
+            {
+                var result = _Service.AddInvite(request);
+                return Ok(result.ToJsonResult(result.Data));
+            }
+            catch (Exception ex)
+            {
+                logger.Error("AddInvite Exception is {0}", ex);
+                return null;
+            }
+
+        }
     }
 }

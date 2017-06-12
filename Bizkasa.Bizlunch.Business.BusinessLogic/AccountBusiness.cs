@@ -26,6 +26,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
         bool ConfirmedUser(AccountDTO dto);
         ContextDTO CheckAuthenticate(string token);
         IList<FriendDTO> GetFriends(SearchDTO request);
+        List<AccountDTO> AddOrUpdateFriend(AccountDTO dto);
     }
 
     public class AccountBusiness : BusinessBase, IAccountBusiness
@@ -243,7 +244,14 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
             return !this.HasError;
         }
         public List<AccountDTO> AddOrUpdateAccount(AccountDTO dto)
-        {
+        { 
+            // check authenticate
+            if (dto.Context == null)
+            {
+                base.AddError("Authenticate failed !");
+                return null;
+            }
+
             var m_accountRepository = UnitOfWork.Repository<DB_TB_ACCOUNTS>();
            
             if (dto.Id > 0)
@@ -258,7 +266,16 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
             else
             {
                 //add
-                var m_account = SingletonAutoMapper._Instance.MapperConfiguration.CreateMapper().Map<DB_TB_ACCOUNTS>(dto);
+                var m_account = new DB_TB_ACCOUNTS() {
+                    ACC_EMAIL=dto.Email,
+                    ACC_FIRSTNAME=dto.FirstName,
+                    ACC_MIDDLENAME=dto.MiddleName,
+                    ACC_IS_ACTIVED=false,
+                    ACC_LASTNAME=dto.LastName,
+                    ACC_OWNER_ID=dto.Context.Id,
+                    ACC_PASSWORD=dto.Password,
+                   
+                };
                 //m_account.ACC_TOKEN = Guid.NewGuid().ToString();
                 if (IsExistAccount(m_account.ACC_EMAIL))
                 {
@@ -281,12 +298,82 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
             return GetUsers();
 
         }
+
+        public List<AccountDTO> AddOrUpdateFriend(AccountDTO dto)
+        {
+            // check authenticate
+            if (dto.Context == null)
+            {
+                base.AddError("Authenticate failed !");
+                return null;
+            }
+
+            var m_accountRepository = UnitOfWork.Repository<DB_TB_ACCOUNTS>();
+            var m_friendRepository = UnitOfWork.Repository<DB_TB_FRIENDSHIP>();
+            if (dto.Id > 0)
+            {
+                // update 
+                var m_account = m_accountRepository.Get(a => a.ACC_SYS_ID == dto.Id);
+                m_account.ACC_LASTNAME = dto.LastName;
+                m_account.ACC_FIRSTNAME = dto.FirstName;
+
+                m_accountRepository.Update(m_account);
+            }
+            else
+            {
+                //add
+                var m_account = new DB_TB_ACCOUNTS()
+                {
+                    ACC_EMAIL = dto.Email,
+                    ACC_FIRSTNAME = dto.FirstName,
+                    ACC_MIDDLENAME = dto.MiddleName,
+                    ACC_IS_ACTIVED = false,
+                    ACC_LASTNAME = dto.LastName,
+                    ACC_OWNER_ID = dto.Context.Id,                   
+
+                };
+                // check email alright exist?
+                var accountExist = m_accountRepository.GetQueryable().Where(a => a.ACC_EMAIL == m_account.ACC_EMAIL).FirstOrDefault();
+
+                if (accountExist != null)
+                {
+                    // check relationship if account existed
+                    var friendRelation = m_friendRepository.GetQueryable().Where(a => a.AccountId == dto.Context.Id && a.FriendId == accountExist.ACC_SYS_ID).FirstOrDefault();
+                    if (friendRelation == null)
+                    {
+                        m_friendRepository.Add(new DB_TB_FRIENDSHIP()
+                        {
+                            AccountId =dto.Context.Id,
+                            FriendId = accountExist.ACC_SYS_ID,
+                            CreatedDate = DateTime.Now
+                        });
+                    }
+
+                }
+                else
+                {
+                    m_account.ACC_OWNER_ID = dto.Context.Id;
+                    m_accountRepository.Add(m_account);
+                    m_friendRepository.Add(new DB_TB_FRIENDSHIP()
+                    {
+                        AccountId = dto.Context.Id,
+                        FriendId = m_account.ACC_SYS_ID,
+                        CreatedDate = DateTime.Now
+                    });
+                }
+
+            }
+            UnitOfWork.Commit();
+            return GetUsers();
+
+        }
+
         /// <summary>
         /// Get friends of current user
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-      public IList<FriendDTO> GetFriends(SearchDTO request)
+        public IList<FriendDTO> GetFriends(SearchDTO request)
         {
             if (request.Context == null)
             {
@@ -296,7 +383,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
             try
             {
                 var m_friendshipRepository = UnitOfWork.Repository<DB_TB_FRIENDSHIP>();
-                var m_friendshipQueryable = m_friendshipRepository.GetQueryable().Where(a => a.AccountId == request.Context.Id && a.DB_TB_ACCOUNTS1.ACC_IS_ACTIVED);
+                var m_friendshipQueryable = m_friendshipRepository.GetQueryable().Where(a => a.AccountId == request.Context.Id );
                 if (!string.IsNullOrEmpty(request.Keyword))
                 {
                     m_friendshipQueryable = m_friendshipQueryable.Where(a => a.DB_TB_ACCOUNTS1.ACC_EMAIL.Contains(request.Keyword)
@@ -310,7 +397,8 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                     Email = a.DB_TB_ACCOUNTS1.ACC_EMAIL,
                     Id = a.DB_TB_ACCOUNTS1.ACC_SYS_ID,
                     FirstName = a.DB_TB_ACCOUNTS1.ACC_FIRSTNAME,
-                    LastName = a.DB_TB_ACCOUNTS1.ACC_LASTNAME
+                    LastName = a.DB_TB_ACCOUNTS1.ACC_LASTNAME,
+                    IsActived=a.DB_TB_ACCOUNTS1.ACC_IS_ACTIVED
                 }).ToList();
 
                 return m_frship;

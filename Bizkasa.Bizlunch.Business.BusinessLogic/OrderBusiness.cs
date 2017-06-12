@@ -18,6 +18,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
         OrderViewDTO GetOrderBy(int orderid);
         bool AddOrUpdateOrder(OrderDTO dto);
         OrderViewDTO AddOrderDetail(OrderDTO dto);
+        bool AddInvite(InviteDTO request);
     }
     public class OrderBusiness:BusinessBase, IOrderBusiness
     {
@@ -195,6 +196,69 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
             return orders;
         }
 
+        public bool AddInvite(InviteDTO request)
+        {
+            if (request.Context == null)
+            {
+                base.AddError("Authenticate failed !");
+                return false;
+            }
+            if(request.Friends==null)
+            {
+                base.AddError("Data invaild!");
+                return false;
+            }
+            var m_orderRepository = UnitOfWork.Repository<DB_TB_ORDERS>();
+            var m_friendRepository = UnitOfWork.Repository<DB_TB_ACCOUNTS>();
+            var m_orderDetailRepository = UnitOfWork.Repository<DB_TB_ORDER_DETAIL>();
+            var m_invite = new DB_TB_ORDERS()
+            {
+                Title=request.Title,
+                LunchDate=request.LunchDate,
+                OwnerId=request.Context.Id,
+                RestaurantId=request.PlaceId,
+                
+            };
+            foreach (var item in request.Friends)
+            {
+                var m_inviteDetail = new DB_TB_ORDER_DETAIL()
+                {
+                    DB_TB_ORDERS = m_invite,
+                  
+                };
+
+                if (item.FriendId <= 0)
+                {
+                    var m_account = new DB_TB_ACCOUNTS()
+                    {
+                        ACC_EMAIL=item.Email,
+                        ACC_IS_ACTIVED=false,
+                       ACC_FIRSTNAME=item.FirstName
+                    };
+                    // check exist by email
+                    var exist = m_friendRepository.GetQueryable().Where(a => a.ACC_EMAIL == item.Email).FirstOrDefault();
+                    if (exist == null)
+                    {
+                        m_friendRepository.Add(m_account);
+                        m_inviteDetail.DB_TB_ACCOUNTS = m_account;
+                    }
+                    else
+                    {
+                        m_inviteDetail.AccountId = exist.ACC_SYS_ID;
+                    }
+                    
+                }
+                else
+                {
+                    m_inviteDetail.AccountId = item.FriendId;
+                }
+                m_orderDetailRepository.Add(m_inviteDetail);
+            }
+            UnitOfWork.Commit();
+           
+
+            return !this.HasError;
+        }
         /// <summary>
         /// Get order by Id
         /// </summary>
