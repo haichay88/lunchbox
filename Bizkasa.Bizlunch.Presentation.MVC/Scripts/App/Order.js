@@ -130,11 +130,13 @@ app.controller("OrderController", function ($scope, OrderService,CommonService) 
     $scope.EditMode = false;
     $scope.AddOrderDetail = function () {
         var orderDetail = [];
-        orderDetail.push($scope.OrderDetail);
+       
         if ($scope.OrderDetail) {
-            $scope.Order.OrderDetails = orderDetail;
+            $scope.Order.OrderDetailsCanEdit.push({ MenuItem: $scope.OrderDetail.MenuItem, MenuCost: $scope.OrderDetail.MenuCost });            
         }
-        $scope.Order.OrderDetails = $scope.Order.OrderDetailsCanEdit;
+         $scope.Order.OrderDetails = $scope.Order.OrderDetailsCanEdit;
+        $scope.Order.Token = CommonUtils.GetToken();
+
         debugger
         CommonUtils.showWait(true);
         var promisePost = OrderService.AddOrderDetail($scope.Order);
@@ -194,7 +196,6 @@ app.controller("OrderController", function ($scope, OrderService,CommonService) 
         var urlPost = "/Order/GetOrder";
         CommonService.AjaxPost(urlPost, request, function (reponse) {
             var result = reponse.data;
-            debugger
             if (!result.IsError) {
                 $scope.Order = result.Data
             } else {
@@ -205,7 +206,8 @@ app.controller("OrderController", function ($scope, OrderService,CommonService) 
        
     };
     $scope.AddItemDetail = function () {
-        $scope.Order.OrderDetailsCanEdit.push({ MenuItem: undefined, MenuCost: undefined });
+        
+         $scope.Order.OrderDetailsCanEdit.push({ MenuItem: undefined, MenuCost: undefined });
     };
     $scope.RemoveItem = function (val) {
         $scope.Order.OrderDetailsCanEdit = $.grep($scope.Order.OrderDetailsCanEdit, function (i, n) {

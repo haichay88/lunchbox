@@ -117,6 +117,12 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
         /// <returns></returns>
         public OrderViewDTO AddOrderDetail(OrderDTO dto)
         {
+            if (dto.Context == null)
+            {
+                base.AddError("Authenticate failed !");
+                return null;
+            }
+
             if (!dto.OrderDetails.Any())
             {
                 base.AddError("can not insert menu");
@@ -127,7 +133,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
             {
                 //update
                
-                var m_orderDetails = m_orderdetailRepository.GetQueryable().Where(a => a.AccountId == WorkContext.UserContext.UserId && a.OrderId == dto.Id).ToList();
+                var m_orderDetails = m_orderdetailRepository.GetQueryable().Where(a => a.AccountId == dto.Context.Id && a.OrderId == dto.Id).ToList();
                 if (m_orderDetails.Any())
                 {
                     foreach (var item in m_orderDetails)
@@ -141,7 +147,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                     {
                         m_orderdetailRepository.Add(new DB_TB_ORDER_DETAIL()
                         {
-                            AccountId = WorkContext.UserContext.UserId,
+                            AccountId = dto.Context.Id,
                             MenuCost = item.MenuCost,
                             MenuItem = item.MenuItem,
                             OrderId = dto.Id,
@@ -154,7 +160,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                 UnitOfWork.Commit();
                 
             }
-            var result = m_orderdetailRepository.GetQueryable().Where(a => a.AccountId == WorkContext.UserContext.UserId && a.OrderId == dto.Id)
+            var result = m_orderdetailRepository.GetQueryable().Where(a => a.AccountId == dto.Context.Id && a.OrderId == dto.Id)
                     .Select(a => new OrderDetailDTO()
                     {
                         AccountId = a.AccountId,
@@ -341,7 +347,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                     {
                         row.MenuItemSummary = string.IsNullOrEmpty(row.MenuItemSummary) ? m_orderdetail.MenuItem : row.MenuItemSummary + ", " + m_orderdetail.MenuItem;
                         row.MenuCostTotal = m_orderdetail.MenuCost.HasValue ? row.MenuCostTotal + m_orderdetail.MenuCost.Value : row.MenuCostTotal;
-                        row.IsOwner = m_orderdetail.AccountId == WorkContext.UserContext.UserId;
+                        row.IsOwner = m_orderdetail.AccountId == request.Context.Id;
                         row.OwnerName = m_orderdetail.OwnerName;
                     }
                     m_order.OrderDetailsReadOnly.Add(row);
