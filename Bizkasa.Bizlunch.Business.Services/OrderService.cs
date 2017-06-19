@@ -13,7 +13,7 @@ namespace Bizkasa.Bizlunch.Business.Services
 {
     public interface IOrderService
     {
-        Response<OrderViewDTO> GetOrderBy(int orderId);
+        Response<OrderViewDTO> GetOrderBy(SearchDTO request);
         Response<List<OrderDTO>> GetOrders(BaseRequest request);
         Response<bool> AddOrUpdateOrder(OrderDTO dto);
         Response<OrderViewDTO> AddOrderDetail(OrderDTO dto);
@@ -32,12 +32,12 @@ namespace Bizkasa.Bizlunch.Business.Services
 
             return BusinessProcess.Current.ToResponse(result);
         }
-        public Response<OrderViewDTO> GetOrderBy(int orderId)
+        public Response<OrderViewDTO> GetOrderBy(SearchDTO request)
         {
             OrderViewDTO result = null;
             BusinessProcess.Current.Process(p =>
             {
-                result = IoC.Get<IOrderBusiness>().GetOrderBy(orderId);
+                result = IoC.Get<IOrderBusiness>().GetOrderBy(request);
             });
 
             return BusinessProcess.Current.ToResponse(result);

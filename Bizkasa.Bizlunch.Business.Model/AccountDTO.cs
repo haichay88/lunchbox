@@ -39,6 +39,7 @@ namespace Bizkasa.Bizlunch.Business.Model
     public class SearchDTO:BaseRequest
     {
         public string Keyword { get; set; }
+        public int Id { get; set; }
     }
     public class FriendDTO
     {
@@ -61,12 +62,11 @@ namespace Bizkasa.Bizlunch.Business.Model
 
     }
 
-    public class LoginDTO
+    public class LoginDTO:BaseRequest
     {
-        [Required]
-        [EmailAddress(ErrorMessage = "Email not available")]
+       
         public string Email { get; set; }
-        [Required]
+        
         public string Password { get; set; }
         public bool IsReember { get; set; }
 

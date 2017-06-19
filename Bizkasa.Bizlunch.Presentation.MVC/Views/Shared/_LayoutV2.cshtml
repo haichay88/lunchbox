@@ -84,12 +84,19 @@
     
     <script src="~/Scripts/metronic/demo.min.js"></script>*@
     <script src="~/Scripts/metronic/quick-nav.min.js"></script>
+    <script src="~/Scripts/jquery.cookie.js"></script>
     <!-- app script -->
     <script src="~/Scripts/App/global.js"></script>
     <script src="~/Scripts/toastr.js"></script>
     <script src="~/Scripts/angular.js"></script>
     <script src="~/Scripts/App/appModule.js"></script>
+    <script src="~/Scripts/App/CommonService.js"></script>
+ 
     <script>
+        $(document).ready(function () {
+            
+            root = '@Request.Url.Authority'
+        });
         window.fbAsyncInit = function () {
             FB.init({
                 appId: '1073352086130252',

@@ -87,6 +87,7 @@ namespace Fgo.API.Controllers
         [HttpPost]
         public IHttpActionResult AddInvite(InviteDTO request)
         {
+            logger.InfoFormat("data AddInvite controller is {0}", Newtonsoft.Json.JsonConvert.SerializeObject(request, Newtonsoft.Json.Formatting.Indented));
             try
             {
                 var result = _Service.AddInvite(request);

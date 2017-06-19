@@ -29,27 +29,27 @@ namespace Bizkasa.Bizlunch.Presentation.MVC
             log4net.Config.XmlConfigurator.Configure(new FileInfo(Server.MapPath("~/Web.config")));
         }
 
-        protected void Application_PostAuthenticateRequest(Object sender, EventArgs e)
-        {
-            HttpCookie authCookie = Request.Cookies[WorkContext.SessionKey];
-            if (authCookie != null)
-            {
-                FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt(authCookie.Value);
+        //protected void Application_PostAuthenticateRequest(Object sender, EventArgs e)
+        //{
+        //    HttpCookie authCookie = Request.Cookies[WorkContext.SessionKey];
+        //    if (authCookie != null)
+        //    {
+        //        FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt(authCookie.Value);
 
-                LoginResultDTO serializeModel = JsonConvert.DeserializeObject<LoginResultDTO>(authTicket.UserData);
-                RicohPrincipal newUser = new RicohPrincipal(serializeModel.Email);
-                if (serializeModel != null)
-                {
-                    newUser.UserId = serializeModel.Id;
-                    //newUser.FirstName = serializeModel.;
-                    newUser.FirstName = serializeModel.Email;
-                    //newUser.roles = serializeModel.;
+        //        LoginResultDTO serializeModel = JsonConvert.DeserializeObject<LoginResultDTO>(authTicket.UserData);
+        //        RicohPrincipal newUser = new RicohPrincipal(serializeModel.Email);
+        //        if (serializeModel != null)
+        //        {
+        //            newUser.UserId = serializeModel.Id;
+        //            //newUser.FirstName = serializeModel.;
+        //            newUser.FirstName = serializeModel.Email;
+        //            //newUser.roles = serializeModel.;
 
-                    HttpContext.Current.User = newUser;
-                }
+        //            HttpContext.Current.User = newUser;
+        //        }
 
 
-            }
-        }
+        //    }
+        //}
     }
 }

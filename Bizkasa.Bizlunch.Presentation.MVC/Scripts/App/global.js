@@ -1,4 +1,4 @@
-﻿var root = "http://localhost:8111/";
+﻿var root = "";
     var CommonUtils = {
         showWait: function (val) {
             if (val)
@@ -11,10 +11,21 @@
                
         },
         RootUrl: function (url) {
-            return root + url;
+            return  "https://"+root + url;
         },
-        token: function () {
-            var context = localStorage.getItem('context');
-            return context;
+        GetToken: function () {
+            var name = "FGO" + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
         }
     };

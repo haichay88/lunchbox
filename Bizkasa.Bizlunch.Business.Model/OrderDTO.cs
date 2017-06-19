@@ -59,7 +59,7 @@ namespace Bizkasa.Bizlunch.Business.Model
             OrderDetailsReadOnly = new List<OrderDetailViewDTO>();
             OrderDetailsNotYet = new List<OrderDetailViewDTO>();
         }
-        public decimal TotalAmount { get; set; }
+        public decimal? TotalAmount { get; set; }
         public int OwnerId { get; set; }
         public string OwnerName { get; set; }
        
@@ -89,7 +89,7 @@ namespace Bizkasa.Bizlunch.Business.Model
     }
     public class FriendInInviteDTO
     {
-        public int FriendId { get; set; }
+        public int Id { get; set; }
         public string Email { get; set; }
         public string FirstName { get; set; }
     }

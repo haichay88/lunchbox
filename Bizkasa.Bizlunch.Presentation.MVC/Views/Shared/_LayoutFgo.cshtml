@@ -10,38 +10,38 @@
     <link type="text/css" rel="stylesheet" href="~/Content/Fgo/css/style.css" />
 </head>
 <body class="fgo-main-home">
-    <div class="container">
+    <div class="container" ng-app="appModule">
         <header>
-            <div class="head-container col-md-12">
+            <div class="head-container col-md-12" ng-controller="AccountController">
                 <div class="row">
                     <div class="head_logo center-block col-xs-12"><img class="img-responsive" src="~/Content/Fgo/images/logo.png" /></div>
                     <div class="head_login hidden-xs pull-right">
                         <form class="form-inline">
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Username / Email" />
+                                <input type="text" class="form-control" ng-model="User.Email" placeholder="Username / Email" />
                             </div>
                             <div class="form-group">
-                                <input type="password" class="form-control" placeholder="Password" />
+                                <input type="password" class="form-control"   ng-model="User.Password" placeholder="Password" />
                             </div>
-                            <button type="submit" class="btn btn-success">Sign in</button>
+                            <button type="submit" class="btn btn-success" ng-click="Singin()" >Sign in</button>
                         </form>
                     </div>
                     <div class="head_login hidden-lg hidden-sm hidden-md col-xs-12">
                         <form class="form-inline">
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Username / Email" />
+                                <input type="text" class="form-control" n placeholder="Username / Email" />
                             </div>
                             <div class="form-group">
                                 <input type="password" class="form-control" placeholder="Password" />
                             </div>
-                            <button type="submit" class="btn col-xs-12 btn-success">Sign in</button>
+                            <button type="submit" class="btn col-xs-12 btn-success" >Sign in</button>
                         </form>
                     </div>
                 </div>
             </div>
         </header>
       
-        <div class="main-content" ng-app="appModule">
+        <div class="main-content" >
             @RenderBody()
            
         </div>
@@ -54,10 +54,18 @@
         </div>
     </footer>
     <!-- app script -->
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
     <script src="~/Scripts/App/global.js"></script>
     <script src="~/Scripts/toastr.js"></script>
     <script src="~/Scripts/angular.js"></script>
     <script src="~/Scripts/App/appModule.js"></script>
+    <script src="~/Scripts/App/account.js"></script>
+    <script>
+        $(document).ready(function () {
+            debugger
+            root='@Request.Url.Authority'
+        });
+    </script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

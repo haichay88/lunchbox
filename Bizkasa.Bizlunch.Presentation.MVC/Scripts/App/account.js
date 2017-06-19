@@ -54,18 +54,22 @@
         });
         return request;
     }
-    
-
-
-    this.DeleteFloor = function (val) {
-        var request = $http({
-            method: "post",
-            url: "/CPanelAdmin/Floor/DeleteFloor",
+    this.AjaxGet = function (Url, callback) {
+        $http({
+            method: "get",
+            url: Url,
             dataType: 'json',
-            data: JSON.stringify({ Ids: val }),
-            contentType: 'application/json; charset=utf-8'
-        });
-        return request;
+        }).then(callback);
+    };
+
+    this.AjaxPost = function (Url, model, callback) {
+        $http({
+            method: "POST",
+            url: Url,
+            data: model,
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+        }).then(callback);
     };
 });
 
@@ -80,7 +84,24 @@ app.controller("AccountController", function ($scope, AccountService) {
             statusChangeCallback(response);
         });
     };
+    $scope.Singin = function () {
+        debugger
+        if (!$scope.User.Email) {
+            toastr.error("Username invalid!");
+            return;
+        }
+        if (!$scope.User.Password) {
+            toastr.error("Password invalid !");
+            return;
+        }
+       
+        var urlPost = CommonUtils.RootUrl("/Home/Login");
+        AccountService.AjaxPost(urlPost, $scope.User, function (reponse) {
+            var result = reponse.data.Data;
+            
 
+        });
+    };
     $scope.LoginFB = function () {
         debugger
         FB.login(function (response) {

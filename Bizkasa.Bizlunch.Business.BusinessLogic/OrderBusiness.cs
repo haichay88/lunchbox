@@ -15,7 +15,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
     public interface IOrderBusiness
     {
         List<OrderDTO> GetOrders(BaseRequest request);
-        OrderViewDTO GetOrderBy(int orderid);
+        OrderViewDTO GetOrderBy(SearchDTO request);
         bool AddOrUpdateOrder(OrderDTO dto);
         OrderViewDTO AddOrderDetail(OrderDTO dto);
         bool AddInvite(InviteDTO request);
@@ -164,7 +164,12 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                         OrderId = a.OrderId,
                         Id = a.Id
                     }).ToList();
-            return GetOrderBy(dto.Id);
+            SearchDTO search = new SearchDTO()
+            {
+                Id = dto.Id,
+                Token = dto.Token
+            };
+            return GetOrderBy(search);
         }
         public List<OrderDTO> GetOrders(BaseRequest request)
         {
@@ -217,8 +222,20 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                 LunchDate=request.LunchDate,
                 OwnerId=request.Context.Id,
                 RestaurantId=request.PlaceId,
+                CreatedDate=DateTime.Now,
+               
                 
             };
+            // add current account to order detail
+            var m_currentuserDetail = new DB_TB_ORDER_DETAIL()
+            {
+                DB_TB_ORDERS = m_invite,
+                AccountId=request.Context.Id,
+                CreatedDate=DateTime.Now
+            };
+            m_orderDetailRepository.Add(m_currentuserDetail);
+
+            // add friend to order detail
             foreach (var item in request.Friends)
             {
                 var m_inviteDetail = new DB_TB_ORDER_DETAIL()
@@ -227,7 +244,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                   
                 };
 
-                if (item.FriendId <= 0)
+                if (item.Id <= 0)
                 {
                     var m_account = new DB_TB_ACCOUNTS()
                     {
@@ -250,8 +267,9 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                 }
                 else
                 {
-                    m_inviteDetail.AccountId = item.FriendId;
+                    m_inviteDetail.AccountId = item.Id;
                 }
+                m_inviteDetail.CreatedDate = DateTime.Now;
                 m_orderDetailRepository.Add(m_inviteDetail);
             }
             UnitOfWork.Commit();
@@ -264,17 +282,22 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
         /// </summary>
         /// <param name="orderid"></param>
         /// <returns></returns>
-        public OrderViewDTO GetOrderBy(int orderid)
+        public OrderViewDTO GetOrderBy(SearchDTO request)
         {
+            if (request.Context == null)
+            {
+                base.AddError("Authenticate failed !");
+                return null;
+            }
             var m_orderRepository = UnitOfWork.Repository<DB_TB_ORDERS>();
-            var m_order = m_orderRepository.GetQueryable().Where(a => a.Id == orderid).Select(a => new OrderViewDTO()
+            var m_order = m_orderRepository.GetQueryable().Where(a => a.Id == request.Id).Select(a => new OrderViewDTO()
             {
                 Id = a.Id,
                 Title=a.Title,
                 CreatedDate = a.CreatedDate,
                 LunchDate = a.LunchDate.Value,
                 RestaurantId = a.RestaurantId,
-                TotalAmount=a.DB_TB_ORDER_DETAIL.Where(x=>x.MenuCost.HasValue).Sum(b=>b.MenuCost).Value,
+                TotalAmount=a.DB_TB_ORDER_DETAIL.Sum(b=>b.MenuCost),
                 RestaurantName = a.DB_TB_RESTAURANT.Name,
                 OwnerName=a.DB_TB_ACCOUNTS.ACC_FIRSTNAME +" " +a.DB_TB_ACCOUNTS.ACC_LASTNAME,
                 MenuURL = a.DB_TB_RESTAURANT.MenuUrl,
@@ -285,7 +308,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                     AccountId = b.AccountId,
                     CreatedDate = b.CreatedDate,
                     Id = b.Id,
-                    MenuCost = b.MenuCost,
+                    MenuCost = b.MenuCost.HasValue?b.MenuCost:0,
                     MenuItem = b.MenuItem,
                    
                 }).ToList()
@@ -295,7 +318,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
             var accounts = m_order.OrderDetails.Select(a => a.AccountId).Distinct().ToList();
             
             // Lấy danh sách của thành viên đang đăng nhập (để có thể chỉnh sửa)
-            m_order.OrderDetailsCanEdit = m_order.OrderDetails.Where(a => a.AccountId == WorkContext.UserContext.UserId).Select(a => new OrderDetailDTO() {
+            m_order.OrderDetailsCanEdit = m_order.OrderDetails.Where(a => a.AccountId == request.Context.Id && !string.IsNullOrWhiteSpace(a.MenuItem)).Select(a => new OrderDetailDTO() {
                 AccountId=a.AccountId,
                 CreatedDate=a.CreatedDate,
                 Id=a.Id,

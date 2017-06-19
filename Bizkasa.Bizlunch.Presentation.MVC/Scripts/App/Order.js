@@ -81,7 +81,7 @@
 });
 
 
-app.controller("OrderController", function ($scope, OrderService) {
+app.controller("OrderController", function ($scope, OrderService,CommonService) {
     
     $scope.showAddOrder = function () {
         $("#addOrder").modal("show");
@@ -165,33 +165,44 @@ app.controller("OrderController", function ($scope, OrderService) {
     };
 
     $scope.GetOrders = function () {
-        var promisePost = OrderService.GetOrders();
-        promisePost.then(function (pl) {
-            if (!pl.data.IsError) {
-                $scope.Orders = pl.data.Data;
+
+        var token = CommonUtils.GetToken();
+        if (!token)
+        { return; }
+        var request = { Token: token };
+        var urlPost = CommonUtils.RootUrl("~/Order/GetOrders");
+        CommonService.AjaxPost("/Order/GetOrders", request, function (reponse) {
+            var result = reponse.data;
+            if (!result.IsError) {
+                $scope.Orders = result.Data
+            } else {
+                toastr.error(result.Message);
             }
-            else
-                toastr.error(pl.data.Message);
-        }, function (err) {
-            toastr.error(err.statusText);
+
         });
+        
     };
     var OrderDetailsCanEdit = [];
     $scope.GetOrder = function () {
       
-        var orderId= $("#orderId").val();
-        var promisePost = OrderService.GetOrder(orderId);
-        promisePost.then(function (pl) {
-            if (!pl.data.IsError) {
-                debugger
-                $scope.Order = pl.data.Data;
-                OrderDetailsCanEdit = $scope.Order.OrderDetailsCanEdit;
+        var orderId = $("#orderId").val();
+
+        var token = CommonUtils.GetToken();
+        if (!token)
+        { return; }
+        var request = { Token: token, Id: orderId };
+        var urlPost = "/Order/GetOrder";
+        CommonService.AjaxPost(urlPost, request, function (reponse) {
+            var result = reponse.data;
+            debugger
+            if (!result.IsError) {
+                $scope.Order = result.Data
+            } else {
+                toastr.error(result.Message);
             }
-            else
-                toastr.error(pl.data.Message);
-        }, function (err) {
-            toastr.error(err.statusText);
+
         });
+       
     };
     $scope.AddItemDetail = function () {
         $scope.Order.OrderDetailsCanEdit.push({ MenuItem: undefined, MenuCost: undefined });

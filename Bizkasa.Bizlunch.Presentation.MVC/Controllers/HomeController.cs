@@ -64,42 +64,17 @@ namespace Bizkasa.Bizlunch.Presentation.MVC.Controllers
         }
         public ActionResult Index()
         {
-            var principal = HttpContext.User;
-            if (principal.Identity.IsAuthenticated)
+            HttpCookie authCookie = Request.Cookies[WorkContext.SessionKey];
+            if (authCookie != null)
             {
-
-                string email = principal.Identity.Name;
-                var result = _Service.Relogin(email);
-                if (result.Data == null)
-                {
-                    FormsAuthentication.SignOut();
-                }
-                else
-                {
-                    string userData = JsonConvert.SerializeObject(result.Data);
-                    FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(0, result.Data.Email, DateTime.Now, DateTime.Now.AddDays(30), true, userData, FormsAuthentication.FormsCookiePath);
-                    string encTicket = FormsAuthentication.Encrypt(authTicket);
-                    HttpCookie faCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
-                    faCookie.Expires = DateTime.Now.AddDays(30);
-                    faCookie.Path = "/";
-                    Response.Cookies.Add(faCookie);
-
-                    UserContext ctx = new UserContext()
-                    {
-                        UserName = result.Data.Email,
-                        UserId = result.Data.Id,
-                        FullName = result.Data.LastName + result.Data.FirstName,
-                       
-                    };
-                    WorkContext.UserContext = ctx;
-                }
                 return View();
 
             }
             else
             {
-                return View();
+                return RedirectToAction("Login");
             }
+            
         }
         public ActionResult Friends()
         {
@@ -171,41 +146,29 @@ namespace Bizkasa.Bizlunch.Presentation.MVC.Controllers
         [HttpPost]
         public ActionResult Login(LoginDTO dto)
         {
-            if (ModelState.IsValid)
-            {
+
                 dto.Password = CommonUtil.CreateMD5(dto.Password);
                 var result = _Service.Login(dto);
-                if (result.HasError)
+                if (!result.HasError)
                 {
-                    ModelState.AddModelError("error", result.ToErrorMsg());
-                    return View(dto);
-                }
-                if (result.Data == null)
-                {
-                    ModelState.AddModelError("error", result.ToErrorMsg());
-                    return View(dto);
-
-                }
-
-
-                string userData = JsonConvert.SerializeObject(result.Data);
-                FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(0, result.Data.Email, DateTime.Now, DateTime.Now.AddDays(30), true, userData, FormsAuthentication.FormsCookiePath);
-                string encTicket = FormsAuthentication.Encrypt(authTicket);
-                HttpCookie faCookie = new HttpCookie(WorkContext.SessionKey, encTicket);
+                
+                HttpCookie faCookie = new HttpCookie(WorkContext.SessionKey, result.Data.Token);
                 faCookie.Expires = DateTime.Now.AddDays(30);
                 faCookie.Path = "/";
                 Response.Cookies.Add(faCookie);
-
-                UserContext ctx = new UserContext()
-                {
-                    UserName = result.Data.Email,
-                    UserId = result.Data.Id,
-                    FullName = result.Data.FirstName
-
-                };
-                WorkContext.UserContext = ctx;
                 return RedirectToAction("index");
-            }
+               
+                }
+                if (result.Data == null)
+                {
+                   
+                    return View(dto);
+
+                }
+
+
+              
+          
             return View(dto);
         }
         [HttpPost]

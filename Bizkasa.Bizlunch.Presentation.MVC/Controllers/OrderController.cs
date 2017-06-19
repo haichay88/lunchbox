@@ -1,5 +1,6 @@
 ﻿using Bizkasa.Bizlunch.Business.Model;
 using Bizkasa.Bizlunch.Business.Services;
+using Bizkasa.Bizlunch.Business.Utils;
 using Bizkasa.Bizlunch.Presentation.MVC.Infractstructure;
 using System;
 using System.Collections.Generic;
@@ -55,17 +56,16 @@ namespace Bizkasa.Bizlunch.Presentation.MVC.Controllers
             return result.ToJsonResult(result.Data);
         }
 
-        [HttpGet]
-        public JsonResult GetOrders()
+        [HttpPost]
+        public JsonResult GetOrders(BaseRequest request)
         {
-            BaseRequest request = new BaseRequest();
             var result = _Service.GetOrders(request);
             return result.ToJsonResult(result.Data);
         }
         [HttpPost]
-        public JsonResult GetOrder(int orderId)
+        public JsonResult GetOrder(SearchDTO request)
         {
-            var result = _Service.GetOrderBy(orderId);
+            var result = _Service.GetOrderBy(request);
             return result.ToJsonResult(result.Data);
         }
     }
