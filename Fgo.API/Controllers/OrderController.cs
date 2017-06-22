@@ -65,6 +65,22 @@ namespace Fgo.API.Controllers
             }
 
         }
+        [Route("GetOrder")]
+        [HttpPost]
+        public IHttpActionResult GetOrder(SearchDTO request)
+        {
+            try
+            {
+                var result = _Service.GetOrderBy(request);
+                return Ok(result.ToJsonResult(result.Data));
+            }
+            catch (Exception ex)
+            {
+                logger.Error("GetOrder Exception is {0}", ex);
+                return null;
+            }
+
+        }
 
         [Route("AddOrUpdatePlace")]
         [HttpPost]
