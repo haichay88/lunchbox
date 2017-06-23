@@ -116,5 +116,40 @@ namespace Fgo.API.Controllers
             }
 
         }
+
+        [Route("AddMoreFriend")]
+        [HttpPost]
+        public IHttpActionResult AddMoreFriend(InviteMoreFriendDTO request)
+        {
+            logger.InfoFormat("data AddMoreFriend controller is {0}", Newtonsoft.Json.JsonConvert.SerializeObject(request, Newtonsoft.Json.Formatting.Indented));
+            try
+            {
+                var result = _Service.AddMoreFriend(request);
+                return Ok(result.ToJsonResult(result.Data));
+            }
+            catch (Exception ex)
+            {
+                logger.Error("AddMoreFriend Exception is {0}", ex);
+                return null;
+            }
+
+        }
+
+        [Route("AddOrderDetail")]
+        [HttpPost]
+        public IHttpActionResult AddOrderDetail(OrderDTO request)
+        {            
+            try
+            {
+                var result = _Service.AddOrderDetail(request);
+                return Ok(result.ToJsonResult(result.Data));
+            }
+            catch (Exception ex)
+            {
+                logger.Error("AddOrderDetail Exception is {0}", ex);
+                return null;
+            }
+
+        }
     }
 }

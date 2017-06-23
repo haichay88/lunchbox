@@ -87,6 +87,15 @@ namespace Bizkasa.Bizlunch.Business.Model
         public List<FriendInInviteDTO> Friends { get; set; }
 
     }
+    public class InviteMoreFriendDTO : BaseRequest
+    {
+      
+        public int OrderId { get; set; }       
+        public List<FriendInInviteDTO> Friends { get; set; }
+
+    }
+
+
     public class FriendInInviteDTO
     {
         public int Id { get; set; }

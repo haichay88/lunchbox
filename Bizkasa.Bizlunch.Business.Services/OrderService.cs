@@ -18,10 +18,21 @@ namespace Bizkasa.Bizlunch.Business.Services
         Response<bool> AddOrUpdateOrder(OrderDTO dto);
         Response<OrderViewDTO> AddOrderDetail(OrderDTO dto);
         Response<bool> AddInvite(InviteDTO request);
+        Response<bool> AddMoreFriend(InviteMoreFriendDTO request);
 
     }
     public partial class BizlunchService
     {
+        public Response<bool> AddMoreFriend(InviteMoreFriendDTO request)
+        {
+            bool result = false;
+            BusinessProcess.Current.Process(p =>
+            {
+                result = IoC.Get<IOrderBusiness>().AddMoreFriend(request);
+            });
+
+            return BusinessProcess.Current.ToResponse(result);
+        }
         public Response<bool> AddInvite(InviteDTO request)
         {
             bool result = false;

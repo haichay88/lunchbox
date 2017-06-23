@@ -57,7 +57,6 @@ namespace Fgo.API.Controllers
         [HttpPost]
         public IHttpActionResult GetRestaurants(SearchDTO request)
         {
-            logger.InfoFormat("data controller is {0}", Newtonsoft.Json.JsonConvert.SerializeObject(request, Newtonsoft.Json.Formatting.Indented));
           
              var result = _Service.GetRestaurants(request);
             return Ok(result.ToJsonResult(result.Data));
@@ -67,7 +66,6 @@ namespace Fgo.API.Controllers
         [HttpPost]
         public IHttpActionResult GetFriends(SearchDTO request)
         {
-            logger.InfoFormat("data controller is {0}", Newtonsoft.Json.JsonConvert.SerializeObject(request, Newtonsoft.Json.Formatting.Indented));
 
             var result = _Service.GetFriends(request);
             return Ok(result.ToJsonResult(result.Data));

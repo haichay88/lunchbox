@@ -19,6 +19,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
         bool AddOrUpdateOrder(OrderDTO dto);
         OrderViewDTO AddOrderDetail(OrderDTO dto);
         bool AddInvite(InviteDTO request);
+        bool AddMoreFriend(InviteMoreFriendDTO request);
     }
     public class OrderBusiness:BusinessBase, IOrderBusiness
     {
@@ -281,6 +282,53 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
             UnitOfWork.Commit();
            
 
+            return !this.HasError;
+        }
+
+        public bool AddMoreFriend(InviteMoreFriendDTO request)
+        {
+            if (request.Context == null)
+            {
+                base.AddError("Authenticate failed !");
+                return false;
+            }
+            if (request.Friends == null)
+            {
+                base.AddError("Data invaild!");
+                return false;
+            }
+            var m_orderDetailRepository = UnitOfWork.Repository<DB_TB_ORDER_DETAIL>();
+            var m_orderDetails = m_orderDetailRepository.GetQueryable().Where(a => a.OrderId == request.OrderId).ToList();
+            if(!m_orderDetails.Any())
+            {
+                base.AddError("Data invaild!");
+                return false;
+            }
+          
+            foreach (var item in request.Friends)
+            {
+                if (!string.IsNullOrEmpty(item.Email))
+                {
+                    if (item.Id>0)
+                    {
+                        bool checkExist= m_orderDetails.Where(a => a.AccountId == item.Id).FirstOrDefault()!=null;
+
+                        if (!checkExist)
+                        {
+                            var m_friendDetail = new DB_TB_ORDER_DETAIL()
+                            {
+                               OrderId=request.OrderId,
+                                AccountId = item.Id,
+                                CreatedDate = DateTime.Now
+                            };
+                            m_orderDetailRepository.Add(m_friendDetail);
+                        }
+                    }
+                   
+                }
+                
+            }
+            UnitOfWork.Commit();
             return !this.HasError;
         }
         /// <summary>
