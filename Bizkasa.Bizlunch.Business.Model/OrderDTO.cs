@@ -20,11 +20,19 @@ namespace Bizkasa.Bizlunch.Business.Model
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public System.DateTime LunchDate { get; set; }
         public string RestaurantName { get; set; }
+        public string RestaurantAddress { get; set; }
         public string LunchDateText
         {
             get
             {
                 return this.LunchDate.ToStringDateVN();
+            }
+        }
+        public string LunchTimeText
+        {
+            get
+            {
+                return this.LunchDate.ToStringVN();
             }
         }
 

@@ -195,6 +195,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                        LunchDate=a.LunchDate.Value,
                        RestaurantId=a.RestaurantId,
                        RestaurantName = a.DB_TB_RESTAURANT.Name,
+                       RestaurantAddress=a.DB_TB_RESTAURANT.Address
                        //OrderDetails=a.DB_TB_ORDER_DETAIL.Where(e=>e.MenuCost>0).Select(b=>new OrderDetailDTO() {
                        //    AccountId=b.AccountId,
                        //    CreatedDate=b.CreatedDate,
@@ -353,6 +354,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                 RestaurantId = a.RestaurantId,
                 TotalAmount=a.DB_TB_ORDER_DETAIL.Sum(b=>b.MenuCost),
                 RestaurantName = a.DB_TB_RESTAURANT.Name,
+                RestaurantAddress=a.DB_TB_RESTAURANT.Address,
                 OwnerName=a.DB_TB_ACCOUNTS.ACC_FIRSTNAME +" " +a.DB_TB_ACCOUNTS.ACC_LASTNAME,
                 MenuURL = a.DB_TB_RESTAURANT.MenuUrl,
                 RestaurantPhone = a.DB_TB_RESTAURANT.Phone,                
