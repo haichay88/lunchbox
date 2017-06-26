@@ -4,9 +4,12 @@ using Bizkasa.Bizlunch.Business.Model;
 using Bizkasa.Bizlunch.Business.Utils;
 using Bizkasa.Bizlunch.Data.Entities;
 using Bizkasa.Bizlunch.Data.Reponsitory;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,9 +27,10 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
        
         AccountDTO GetUser(string token);
         bool ConfirmedUser(AccountDTO dto);
-        ContextDTO CheckAuthenticate(string token);
+    
         IList<FriendDTO> GetFriends(SearchDTO request);
         List<AccountDTO> AddOrUpdateFriend(AccountDTO dto);
+        LoginResultDTO SignUp(SignUpDTO request);
     }
 
     public class AccountBusiness : BusinessBase, IAccountBusiness
@@ -140,7 +144,10 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                 FirstName = m_account.ACC_FIRSTNAME,
                 LastName = m_account.ACC_LASTNAME
             };
-            m_account.ACC_TOKEN = EncryptDecryptUtility.Encrypt(XmlUtility.Serialize(context), true);
+            m_account.ACC_RESGISTRANTION_ID = dto.DeviceKey;
+            m_account.ACC_LASTLOGIN_DATE = DateTime.Now;
+            if(string.IsNullOrEmpty(m_account.ACC_TOKEN))
+                m_account.ACC_TOKEN = EncryptDecryptUtility.Encrypt(XmlUtility.Serialize(context), true);
 
             m_accountRepository.Update(m_account);
 
@@ -161,16 +168,29 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
         {
             if (string.IsNullOrWhiteSpace(email))
                 return null;
-            return UnitOfWork.Repository<DB_TB_ACCOUNTS>().GetQueryable()
-                .Where(a => a.ACC_EMAIL == email)
-                .Select(a => new LoginResultDTO()
-                {
-                    Email = a.ACC_EMAIL,
-                    FirstName = a.ACC_FIRSTNAME,
-                    LastName = a.ACC_LASTNAME,
-                    Id = a.ACC_SYS_ID,
-                    Token = a.ACC_TOKEN
-                }).FirstOrDefault();
+            var m_accountRepository = UnitOfWork.Repository<DB_TB_ACCOUNTS>();
+            var m_account = m_accountRepository.Get(a => a.ACC_EMAIL == email);
+            ContextDTO context = new ContextDTO()
+            {
+                Id = m_account.ACC_SYS_ID,
+                Email = m_account.ACC_EMAIL,
+                FirstName = m_account.ACC_FIRSTNAME,
+                LastName = m_account.ACC_LASTNAME
+            };
+            m_account.ACC_TOKEN = EncryptDecryptUtility.Encrypt(XmlUtility.Serialize(context), true);
+
+            m_accountRepository.Update(m_account);
+
+            UnitOfWork.Commit();
+            return new LoginResultDTO()
+            {
+                Email = m_account.ACC_EMAIL,
+                Id = m_account.ACC_SYS_ID,
+                Token = m_account.ACC_TOKEN,
+                FirstName = m_account.ACC_FIRSTNAME,
+                LastName = m_account.ACC_LASTNAME
+            };
+            
         }
         public bool IsExistAccount(string email)
         {
@@ -178,24 +198,41 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
             return UnitOfWork.Repository<DB_TB_ACCOUNTS>().Get(a => a.ACC_EMAIL == email) != null;
 
         }
-        public ContextDTO CheckAuthenticate(string token)
+       
+        public LoginResultDTO SignUp(SignUpDTO request)
         {
-            try
+            if(string.IsNullOrEmpty(request.Email))
             {
-                if (string.IsNullOrEmpty(token)) return null;
-                // token= EncryptDecryptUtility.Decrypt(token, true);
-                string encode = EncryptDecryptUtility.Decrypt(token, true);
-                if (string.IsNullOrEmpty(encode)) return null;
-                return XmlUtility.DeSerialize<ContextDTO>(encode);
-            }
-            catch (Exception ex)
-            {
+                base.AddError("Please input Email");
                 return null;
-                
             }
-           
-        }
+            if (string.IsNullOrEmpty(request.Password))
+            {
+                base.AddError("Please input Password");
+                return null;
+            }
+            var m_accountRepository = UnitOfWork.Repository<DB_TB_ACCOUNTS>();
+            var emailExist = m_accountRepository.GetQueryable().Where(a => a.ACC_EMAIL == request.Email).FirstOrDefault();
+            if (emailExist != null)
+            {
+                base.AddError("Email existed !");
+                return null;
+            }
 
+            var newAccount = new DB_TB_ACCOUNTS()
+            {
+                ACC_EMAIL=request.Email,
+                ACC_PASSWORD=request.Password,
+                ACC_IS_ACTIVED=true,
+                ACC_RESGISTRANTION_ID=request.DeviceKey,
+                
+            };
+
+            m_accountRepository.Add(newAccount);
+            UnitOfWork.Commit();
+
+            return Relogin(request.Email);
+        }
         public List<AccountDTO> GetUsers()
         {
             try
@@ -368,6 +405,8 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
 
         }
 
+
+
         /// <summary>
         /// Get friends of current user
         /// </summary>
@@ -409,7 +448,42 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
 
             }
         }
-       
+
+        public void SendMessage(NotificationDTO request)
+        {
+            string serverKey = "AAAAY8UVqoU:APA91bHD9ICFvT1CdO-gcHyo4p69tfQfXNJa_dM0Y5JyXrqzezUZt0cG-ax_DOCg-bvDspgUBOTxpRb2IXvOhyiE6o7RBYFMzkVJct65LniMec0LIo8rQF3pMUDybc4gNc8jlcgeAq1D";
+
+            try
+            {
+                var result = "-1";
+                var webAddr = "https://fcm.googleapis.com/fcm/send";
+
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create(webAddr);
+                httpWebRequest.ContentType = "application/json";
+                httpWebRequest.Headers.Add("Authorization:key=" + serverKey);
+                httpWebRequest.Method = "POST";
+                //string json = "{\"to\": \"c7cOP-6Sn_4:APA91bEaj-PBS5c91p1FiPll08DTzpCZRf3RmOJcqvj4wWQqvB-6OTgrI3n_320lkL-d2rpPkNhtIeSSIX6zS8w287hQabHP8g6Yitv8YhtXAZaQTIz9D3emLyq7MN_GueDyG-qJWZNy\",\"data\": {\"message\": \"This is a Firebase Cloud Messaging Topic Message!\",}}";
+                string json = JsonConvert.SerializeObject(request.data);
+                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                {
+                   
+                    streamWriter.Write(json);
+                    streamWriter.Flush();
+                }
+
+                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    result = streamReader.ReadToEnd();
+                }
+
+                // return result;
+            }
+            catch (Exception ex)
+            {
+                //  Response.Write(ex.Message);
+            }
+        }
         #endregion
     }
 }

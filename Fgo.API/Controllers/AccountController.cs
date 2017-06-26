@@ -87,5 +87,22 @@ namespace Fgo.API.Controllers
             }
 
         }
+
+        [Route("SignUp")]
+        [HttpPost]
+        public IHttpActionResult SignUp(SignUpDTO request)
+        {
+            try
+            {
+                var result = _Service.SignUp(request);
+                return Ok(result.ToJsonResult(result.Data));
+            }
+            catch (Exception ex)
+            {
+                logger.Error("SignUp Exception is {0}", ex);
+                return null;
+            }
+
+        }
     }
 }

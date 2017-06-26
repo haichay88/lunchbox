@@ -72,7 +72,12 @@ namespace Bizkasa.Bizlunch.Business.Model
 
         public int AppCode { get; set; }
     }
-
+    public class SignUpDTO
+    {
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public string DeviceKey { get; set; }
+    }
     public class LoginResultDTO
     {
         public int Id { get; set; }
@@ -95,6 +100,7 @@ namespace Bizkasa.Bizlunch.Business.Model
     public class BaseRequest
     {
         public string Token { get; set; }
+        public string DeviceKey { get; set; }
 
         public ContextDTO Context
         {
@@ -115,5 +121,17 @@ namespace Bizkasa.Bizlunch.Business.Model
                 }
             }
         }
+    }
+
+    public class NotificationDTO
+    {
+        public string To { get; set; }
+        public NotificationItem data { get; set; }
+    }
+    public class NotificationItem
+    {
+        public string Title { get; set; }
+        public string Message{ get; set; }
+        public int Id{ get; set; }
     }
 }
