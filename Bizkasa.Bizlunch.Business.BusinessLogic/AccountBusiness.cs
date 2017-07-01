@@ -120,7 +120,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                 base.AddError("Account is not existed !");
                 return null;
             }
-            var m_account = m_accountRepository.Get(a => a.ACC_EMAIL == dto.Email && a.ACC_PASSWORD == dto.Password);
+            var m_account = m_accountRepository.Get(a => a.ACC_EMAIL == dto.Email && a.ACC_PASSWORD == dto.Password && a.ACC_IS_ACTIVED);
             if (m_account == null)
             {
                 base.AddError("Password incorrect!");
@@ -212,23 +212,38 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                 return null;
             }
             var m_accountRepository = UnitOfWork.Repository<DB_TB_ACCOUNTS>();
-            var emailExist = m_accountRepository.GetQueryable().Where(a => a.ACC_EMAIL == request.Email).FirstOrDefault();
+            var emailExist = m_accountRepository.GetQueryable().Where(a => a.ACC_EMAIL == request.Email ).FirstOrDefault();
             if (emailExist != null)
             {
-                base.AddError("Email existed !");
-                return null;
+                if (emailExist.ACC_IS_ACTIVED)
+                {
+                    base.AddError("Email existed !");
+                    return null;
+                }
+                else
+                {
+                    emailExist.ACC_IS_ACTIVED = true;
+                    emailExist.ACC_PASSWORD = request.Password;
+                    m_accountRepository.Update(emailExist);
+
+                }
+
+            }
+            else
+            {
+                var newAccount = new DB_TB_ACCOUNTS()
+                {
+                    ACC_EMAIL = request.Email,
+                    ACC_PASSWORD = request.Password,
+                    ACC_IS_ACTIVED = true,
+                    ACC_RESGISTRANTION_ID = request.DeviceKey,
+
+                };
+
+                m_accountRepository.Add(newAccount);
             }
 
-            var newAccount = new DB_TB_ACCOUNTS()
-            {
-                ACC_EMAIL=request.Email,
-                ACC_PASSWORD=request.Password,
-                ACC_IS_ACTIVED=true,
-                ACC_RESGISTRANTION_ID=request.DeviceKey,
-                
-            };
-
-            m_accountRepository.Add(newAccount);
+           
             UnitOfWork.Commit();
 
             return Relogin(request.Email);
