@@ -28,12 +28,14 @@ namespace Bizkasa.Bizlunch.Data.Entities
         public string Phone { get; set; }
         public Nullable<bool> IsDelivery { get; set; }
         public string Address { get; set; }
+        public Nullable<double> Longitude { get; set; }
+        public Nullable<double> Latitude { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DB_TB_ACCOUNT_RESTAURANT> DB_TB_ACCOUNT_RESTAURANT { get; set; }
+        public virtual DB_TB_ACCOUNTS DB_TB_ACCOUNTS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DB_TB_ORDERS> DB_TB_ORDERS { get; set; }
-        public virtual DB_TB_ACCOUNTS DB_TB_ACCOUNTS { get; set; }
     }
 }

@@ -29,7 +29,7 @@ namespace Bizkasa.Bizlunch.Data.Entities
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DB_TB_ORDER_DETAIL> DB_TB_ORDER_DETAIL { get; set; }
-        public virtual DB_TB_RESTAURANT DB_TB_RESTAURANT { get; set; }
         public virtual DB_TB_ACCOUNTS DB_TB_ACCOUNTS { get; set; }
+        public virtual DB_TB_RESTAURANT DB_TB_RESTAURANT { get; set; }
     }
 }

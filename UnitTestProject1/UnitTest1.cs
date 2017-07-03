@@ -44,5 +44,13 @@ namespace UnitTestProject1
                 //  Response.Write(ex.Message);
             }
         }
+
+        [TestMethod]
+        public void Cal()
+        {
+            var a = 106.6094098;
+
+
+        }
     }
 }

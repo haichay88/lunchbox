@@ -61,9 +61,18 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                 }
                 else
                 {
-                    var m_restaurant = SingletonAutoMapper._Instance.MapperConfiguration.CreateMapper().Map<DB_TB_RESTAURANT>(dto);
-                    m_restaurant.CreatedDate = DateTime.Now;
-                    m_restaurant.OwnerId = dto.Context.Id;
+                    var m_restaurant = new DB_TB_RESTAURANT()
+                    {
+                        CreatedDate=DateTime.Now,
+                        OwnerId=dto.Context.Id,
+                        Address=dto.Address,
+                        Latitude=(double)dto.Latitude,
+                        Longitude=(double)dto.Longitude,
+                        IsDelivery=dto.IsDelivery,
+                        MenuUrl=dto.MenuUrl,
+                        Name=dto.Name,
+                        Phone=dto.Phone
+                    };
                     m_restaurantRepository.Add(m_restaurant);
                     m_accountRestaurantRepository.Add(new DB_TB_ACCOUNT_RESTAURANT() {
                         AccountId=m_restaurant.OwnerId,

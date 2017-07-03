@@ -73,6 +73,8 @@
           <Property Name="Phone" Type="nvarchar" MaxLength="50" />
           <Property Name="IsDelivery" Type="bit" />
           <Property Name="Address" Type="nvarchar" MaxLength="300" />
+          <Property Name="Longitude" Type="float" />
+          <Property Name="Latitude" Type="float" />
           <Property Name="CreatedDate" Type="datetime2" Precision="7" />
         </EntityType>
         <Association Name="FK_DB_TB_ACCOUNT_RESTAURANT_DB_TB_ACCOUNT_RESTAURANT">
@@ -233,21 +235,12 @@
       <Schema Namespace="BizlunchModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="BizlunchEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="DB_TB_ORDER_DETAIL" EntityType="BizlunchModel.DB_TB_ORDER_DETAIL" />
-          <EntitySet Name="DB_TB_RESTAURANT" EntityType="BizlunchModel.DB_TB_RESTAURANT" />
           <EntitySet Name="DB_TB_ACCOUNT_RESTAURANT" EntityType="BizlunchModel.DB_TB_ACCOUNT_RESTAURANT" />
-          <AssociationSet Name="FK_DB_TB_ACCOUNT_RESTAURANT_DB_TB_RESTAURANT" Association="BizlunchModel.FK_DB_TB_ACCOUNT_RESTAURANT_DB_TB_RESTAURANT">
-            <End Role="DB_TB_RESTAURANT" EntitySet="DB_TB_RESTAURANT" />
-            <End Role="DB_TB_ACCOUNT_RESTAURANT" EntitySet="DB_TB_ACCOUNT_RESTAURANT" />
-          </AssociationSet>
           <EntitySet Name="DB_TB_FRIENDSHIP" EntityType="BizlunchModel.DB_TB_FRIENDSHIP" />
           <EntitySet Name="DB_TB_ORDERS" EntityType="BizlunchModel.DB_TB_ORDERS" />
           <AssociationSet Name="FK_OrderDetail_Order" Association="BizlunchModel.FK_OrderDetail_Order">
             <End Role="DB_TB_ORDERS" EntitySet="DB_TB_ORDERS" />
             <End Role="DB_TB_ORDER_DETAIL" EntitySet="DB_TB_ORDER_DETAIL" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Order_Restaurants" Association="BizlunchModel.FK_Order_Restaurants">
-            <End Role="DB_TB_RESTAURANT" EntitySet="DB_TB_RESTAURANT" />
-            <End Role="DB_TB_ORDERS" EntitySet="DB_TB_ORDERS" />
           </AssociationSet>
           <EntitySet Name="DB_TB_ACCOUNTS" EntityType="BizlunchModel.DB_TB_ACCOUNTS" />
           <AssociationSet Name="FK_DB_TB_ACCOUNT_RESTAURANT_DB_TB_ACCOUNT_RESTAURANT" Association="BizlunchModel.FK_DB_TB_ACCOUNT_RESTAURANT_DB_TB_ACCOUNT_RESTAURANT">
@@ -257,10 +250,6 @@
           <AssociationSet Name="FK_DB_TB_ORDERS_DB_TB_ACCOUNTS" Association="BizlunchModel.FK_DB_TB_ORDERS_DB_TB_ACCOUNTS">
             <End Role="DB_TB_ACCOUNTS" EntitySet="DB_TB_ACCOUNTS" />
             <End Role="DB_TB_ORDERS" EntitySet="DB_TB_ORDERS" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DB_TB_RESTAURANT_DB_TB_ACCOUNTS" Association="BizlunchModel.FK_DB_TB_RESTAURANT_DB_TB_ACCOUNTS">
-            <End Role="DB_TB_ACCOUNTS" EntitySet="DB_TB_ACCOUNTS" />
-            <End Role="DB_TB_RESTAURANT" EntitySet="DB_TB_RESTAURANT" />
           </AssociationSet>
           <AssociationSet Name="FK_MB_TB_FRIENDSHIP_DB_TB_ACCOUNTS" Association="BizlunchModel.FK_MB_TB_FRIENDSHIP_DB_TB_ACCOUNTS">
             <End Role="DB_TB_ACCOUNTS" EntitySet="DB_TB_ACCOUNTS" />
@@ -273,6 +262,19 @@
           <AssociationSet Name="FK_OrderDetail_Accounts" Association="BizlunchModel.FK_OrderDetail_Accounts">
             <End Role="DB_TB_ACCOUNTS" EntitySet="DB_TB_ACCOUNTS" />
             <End Role="DB_TB_ORDER_DETAIL" EntitySet="DB_TB_ORDER_DETAIL" />
+          </AssociationSet>
+          <EntitySet Name="DB_TB_RESTAURANT" EntityType="BizlunchModel.DB_TB_RESTAURANT" />
+          <AssociationSet Name="FK_DB_TB_ACCOUNT_RESTAURANT_DB_TB_RESTAURANT" Association="BizlunchModel.FK_DB_TB_ACCOUNT_RESTAURANT_DB_TB_RESTAURANT">
+            <End Role="DB_TB_RESTAURANT" EntitySet="DB_TB_RESTAURANT" />
+            <End Role="DB_TB_ACCOUNT_RESTAURANT" EntitySet="DB_TB_ACCOUNT_RESTAURANT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DB_TB_RESTAURANT_DB_TB_ACCOUNTS" Association="BizlunchModel.FK_DB_TB_RESTAURANT_DB_TB_ACCOUNTS">
+            <End Role="DB_TB_ACCOUNTS" EntitySet="DB_TB_ACCOUNTS" />
+            <End Role="DB_TB_RESTAURANT" EntitySet="DB_TB_RESTAURANT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Restaurants" Association="BizlunchModel.FK_Order_Restaurants">
+            <End Role="DB_TB_RESTAURANT" EntitySet="DB_TB_RESTAURANT" />
+            <End Role="DB_TB_ORDERS" EntitySet="DB_TB_ORDERS" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="DB_TB_ORDER_DETAIL">
@@ -288,22 +290,6 @@
           <NavigationProperty Name="DB_TB_ORDERS" Relationship="BizlunchModel.FK_OrderDetail_Order" FromRole="DB_TB_ORDER_DETAIL" ToRole="DB_TB_ORDERS" />
           <NavigationProperty Name="DB_TB_ACCOUNTS" Relationship="BizlunchModel.FK_OrderDetail_Accounts" FromRole="DB_TB_ORDER_DETAIL" ToRole="DB_TB_ACCOUNTS" />
         </EntityType>
-        <EntityType Name="DB_TB_RESTAURANT">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="OwnerId" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="MenuUrl" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IsDelivery" Type="Boolean" />
-          <Property Name="Address" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="7" />
-          <NavigationProperty Name="DB_TB_ACCOUNT_RESTAURANT" Relationship="BizlunchModel.FK_DB_TB_ACCOUNT_RESTAURANT_DB_TB_RESTAURANT" FromRole="DB_TB_RESTAURANT" ToRole="DB_TB_ACCOUNT_RESTAURANT" />
-          <NavigationProperty Name="DB_TB_ORDERS" Relationship="BizlunchModel.FK_Order_Restaurants" FromRole="DB_TB_RESTAURANT" ToRole="DB_TB_ORDERS" />
-          <NavigationProperty Name="DB_TB_ACCOUNTS" Relationship="BizlunchModel.FK_DB_TB_RESTAURANT_DB_TB_ACCOUNTS" FromRole="DB_TB_RESTAURANT" ToRole="DB_TB_ACCOUNTS" />
-        </EntityType>
         <EntityType Name="DB_TB_ACCOUNT_RESTAURANT">
           <Key>
             <PropertyRef Name="Id" />
@@ -312,21 +298,9 @@
           <Property Name="AccountId" Type="Int32" Nullable="false" />
           <Property Name="RestaurantId" Type="Int32" Nullable="false" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="DB_TB_RESTAURANT" Relationship="BizlunchModel.FK_DB_TB_ACCOUNT_RESTAURANT_DB_TB_RESTAURANT" FromRole="DB_TB_ACCOUNT_RESTAURANT" ToRole="DB_TB_RESTAURANT" />
           <NavigationProperty Name="DB_TB_ACCOUNTS" Relationship="BizlunchModel.FK_DB_TB_ACCOUNT_RESTAURANT_DB_TB_ACCOUNT_RESTAURANT" FromRole="DB_TB_ACCOUNT_RESTAURANT" ToRole="DB_TB_ACCOUNTS" />
+          <NavigationProperty Name="DB_TB_RESTAURANT" Relationship="BizlunchModel.FK_DB_TB_ACCOUNT_RESTAURANT_DB_TB_RESTAURANT" FromRole="DB_TB_ACCOUNT_RESTAURANT" ToRole="DB_TB_RESTAURANT" />
         </EntityType>
-        <Association Name="FK_DB_TB_ACCOUNT_RESTAURANT_DB_TB_RESTAURANT">
-          <End Type="BizlunchModel.DB_TB_RESTAURANT" Role="DB_TB_RESTAURANT" Multiplicity="1" />
-          <End Type="BizlunchModel.DB_TB_ACCOUNT_RESTAURANT" Role="DB_TB_ACCOUNT_RESTAURANT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DB_TB_RESTAURANT">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="DB_TB_ACCOUNT_RESTAURANT">
-              <PropertyRef Name="RestaurantId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="DB_TB_FRIENDSHIP">
           <Key>
             <PropertyRef Name="Id" />
@@ -349,8 +323,8 @@
           <Property Name="RestaurantId" Type="Int32" Nullable="false" />
           <Property Name="OwnerId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="DB_TB_ORDER_DETAIL" Relationship="BizlunchModel.FK_OrderDetail_Order" FromRole="DB_TB_ORDERS" ToRole="DB_TB_ORDER_DETAIL" />
-          <NavigationProperty Name="DB_TB_RESTAURANT" Relationship="BizlunchModel.FK_Order_Restaurants" FromRole="DB_TB_ORDERS" ToRole="DB_TB_RESTAURANT" />
           <NavigationProperty Name="DB_TB_ACCOUNTS" Relationship="BizlunchModel.FK_DB_TB_ORDERS_DB_TB_ACCOUNTS" FromRole="DB_TB_ORDERS" ToRole="DB_TB_ACCOUNTS" />
+          <NavigationProperty Name="DB_TB_RESTAURANT" Relationship="BizlunchModel.FK_Order_Restaurants" FromRole="DB_TB_ORDERS" ToRole="DB_TB_RESTAURANT" />
         </EntityType>
         <Association Name="FK_OrderDetail_Order">
           <End Type="BizlunchModel.DB_TB_ORDERS" Role="DB_TB_ORDERS" Multiplicity="1" />
@@ -361,18 +335,6 @@
             </Principal>
             <Dependent Role="DB_TB_ORDER_DETAIL">
               <PropertyRef Name="OrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Order_Restaurants">
-          <End Type="BizlunchModel.DB_TB_RESTAURANT" Role="DB_TB_RESTAURANT" Multiplicity="1" />
-          <End Type="BizlunchModel.DB_TB_ORDERS" Role="DB_TB_ORDERS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DB_TB_RESTAURANT">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="DB_TB_ORDERS">
-              <PropertyRef Name="RestaurantId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -394,10 +356,10 @@
           <Property Name="ACC_IS_ACTIVED" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="DB_TB_ACCOUNT_RESTAURANT" Relationship="BizlunchModel.FK_DB_TB_ACCOUNT_RESTAURANT_DB_TB_ACCOUNT_RESTAURANT" FromRole="DB_TB_ACCOUNTS" ToRole="DB_TB_ACCOUNT_RESTAURANT" />
           <NavigationProperty Name="DB_TB_ORDERS" Relationship="BizlunchModel.FK_DB_TB_ORDERS_DB_TB_ACCOUNTS" FromRole="DB_TB_ACCOUNTS" ToRole="DB_TB_ORDERS" />
-          <NavigationProperty Name="DB_TB_RESTAURANT" Relationship="BizlunchModel.FK_DB_TB_RESTAURANT_DB_TB_ACCOUNTS" FromRole="DB_TB_ACCOUNTS" ToRole="DB_TB_RESTAURANT" />
           <NavigationProperty Name="DB_TB_FRIENDSHIP" Relationship="BizlunchModel.FK_MB_TB_FRIENDSHIP_DB_TB_ACCOUNTS" FromRole="DB_TB_ACCOUNTS" ToRole="DB_TB_FRIENDSHIP" />
           <NavigationProperty Name="DB_TB_FRIENDSHIP1" Relationship="BizlunchModel.FK_MB_TB_FRIENDSHIP_DB_TB_ACCOUNTS1" FromRole="DB_TB_ACCOUNTS" ToRole="DB_TB_FRIENDSHIP" />
           <NavigationProperty Name="DB_TB_ORDER_DETAIL" Relationship="BizlunchModel.FK_OrderDetail_Accounts" FromRole="DB_TB_ACCOUNTS" ToRole="DB_TB_ORDER_DETAIL" />
+          <NavigationProperty Name="DB_TB_RESTAURANT" Relationship="BizlunchModel.FK_DB_TB_RESTAURANT_DB_TB_ACCOUNTS" FromRole="DB_TB_ACCOUNTS" ToRole="DB_TB_RESTAURANT" />
         </EntityType>
         <Association Name="FK_DB_TB_ACCOUNT_RESTAURANT_DB_TB_ACCOUNT_RESTAURANT">
           <End Type="BizlunchModel.DB_TB_ACCOUNTS" Role="DB_TB_ACCOUNTS" Multiplicity="1" />
@@ -419,18 +381,6 @@
               <PropertyRef Name="ACC_SYS_ID" />
             </Principal>
             <Dependent Role="DB_TB_ORDERS">
-              <PropertyRef Name="OwnerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DB_TB_RESTAURANT_DB_TB_ACCOUNTS">
-          <End Type="BizlunchModel.DB_TB_ACCOUNTS" Role="DB_TB_ACCOUNTS" Multiplicity="1" />
-          <End Type="BizlunchModel.DB_TB_RESTAURANT" Role="DB_TB_RESTAURANT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DB_TB_ACCOUNTS">
-              <PropertyRef Name="ACC_SYS_ID" />
-            </Principal>
-            <Dependent Role="DB_TB_RESTAURANT">
               <PropertyRef Name="OwnerId" />
             </Dependent>
           </ReferentialConstraint>
@@ -471,6 +421,60 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="DB_TB_RESTAURANT">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OwnerId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="MenuUrl" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsDelivery" Type="Boolean" />
+          <Property Name="Address" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Longitude" Type="Double" />
+          <Property Name="Latitude" Type="Double" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="7" />
+          <NavigationProperty Name="DB_TB_ACCOUNT_RESTAURANT" Relationship="BizlunchModel.FK_DB_TB_ACCOUNT_RESTAURANT_DB_TB_RESTAURANT" FromRole="DB_TB_RESTAURANT" ToRole="DB_TB_ACCOUNT_RESTAURANT" />
+          <NavigationProperty Name="DB_TB_ACCOUNTS" Relationship="BizlunchModel.FK_DB_TB_RESTAURANT_DB_TB_ACCOUNTS" FromRole="DB_TB_RESTAURANT" ToRole="DB_TB_ACCOUNTS" />
+          <NavigationProperty Name="DB_TB_ORDERS" Relationship="BizlunchModel.FK_Order_Restaurants" FromRole="DB_TB_RESTAURANT" ToRole="DB_TB_ORDERS" />
+        </EntityType>
+        <Association Name="FK_DB_TB_ACCOUNT_RESTAURANT_DB_TB_RESTAURANT">
+          <End Type="BizlunchModel.DB_TB_RESTAURANT" Role="DB_TB_RESTAURANT" Multiplicity="1" />
+          <End Type="BizlunchModel.DB_TB_ACCOUNT_RESTAURANT" Role="DB_TB_ACCOUNT_RESTAURANT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DB_TB_RESTAURANT">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DB_TB_ACCOUNT_RESTAURANT">
+              <PropertyRef Name="RestaurantId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DB_TB_RESTAURANT_DB_TB_ACCOUNTS">
+          <End Type="BizlunchModel.DB_TB_ACCOUNTS" Role="DB_TB_ACCOUNTS" Multiplicity="1" />
+          <End Type="BizlunchModel.DB_TB_RESTAURANT" Role="DB_TB_RESTAURANT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DB_TB_ACCOUNTS">
+              <PropertyRef Name="ACC_SYS_ID" />
+            </Principal>
+            <Dependent Role="DB_TB_RESTAURANT">
+              <PropertyRef Name="OwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Restaurants">
+          <End Type="BizlunchModel.DB_TB_RESTAURANT" Role="DB_TB_RESTAURANT" Multiplicity="1" />
+          <End Type="BizlunchModel.DB_TB_ORDERS" Role="DB_TB_ORDERS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DB_TB_RESTAURANT">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DB_TB_ORDERS">
+              <PropertyRef Name="RestaurantId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -485,20 +489,6 @@
                 <ScalarProperty Name="MenuItem" ColumnName="MenuItem" />
                 <ScalarProperty Name="AccountId" ColumnName="AccountId" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DB_TB_RESTAURANT">
-            <EntityTypeMapping TypeName="BizlunchModel.DB_TB_RESTAURANT">
-              <MappingFragment StoreEntitySet="DB_TB_RESTAURANT">
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="IsDelivery" ColumnName="IsDelivery" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="MenuUrl" ColumnName="MenuUrl" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -550,6 +540,22 @@
                 <ScalarProperty Name="ACC_PASSWORD" ColumnName="ACC_PASSWORD" />
                 <ScalarProperty Name="ACC_EMAIL" ColumnName="ACC_EMAIL" />
                 <ScalarProperty Name="ACC_SYS_ID" ColumnName="ACC_SYS_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DB_TB_RESTAURANT">
+            <EntityTypeMapping TypeName="BizlunchModel.DB_TB_RESTAURANT">
+              <MappingFragment StoreEntitySet="DB_TB_RESTAURANT">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="IsDelivery" ColumnName="IsDelivery" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="MenuUrl" ColumnName="MenuUrl" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -35,7 +35,13 @@ namespace Bizkasa.Bizlunch.Business.Model
                 return this.LunchDate.ToStringVN();
             }
         }
-
+        public bool IsExpired
+        {
+            get
+            {
+                return this.LunchDate<DateTime.Now;
+            }
+        }
         public string CreatedTimeText
         {
             get
@@ -71,6 +77,7 @@ namespace Bizkasa.Bizlunch.Business.Model
         public int OwnerId { get; set; }
         public string OwnerName { get; set; }
        
+
         public string MenuURL { get; set; }
         public string RestaurantPhone { get; set; }
         public List<OrderDetailDTO> OrderDetailsCanEdit { get; set; }

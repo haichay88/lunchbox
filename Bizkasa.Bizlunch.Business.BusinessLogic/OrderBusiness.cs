@@ -208,7 +208,70 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
 
             return orders;
         }
+        public void AddFriendShip(int orderid) 
+        {
+          
+         
+            var m_friendshipRepository = UnitOfWork.Repository<DB_TB_FRIENDSHIP>();
+            var m_accountInOrder = UnitOfWork.Repository<DB_TB_ORDER_DETAIL>().GetQueryable().Where(a=>a.OrderId== orderid).Select(a=>a.AccountId.Value).Distinct().ToList();
 
+            foreach (var item in m_accountInOrder)
+            {
+                var friendExcept = m_accountInOrder.Where(a =>a!= item).ToList();
+              
+               
+                // add for other friend
+                foreach (var other in friendExcept)
+                {
+                    if (!CheckExistFriendShip(item, other))
+                    {
+                        m_friendshipRepository.Add(BuildRowFriendShip(item, other));
+                        
+                    }
+                    if (!CheckExistFriendShip(other, item)) { m_friendshipRepository.Add(BuildRowFriendShip(other, item)); }
+                }
+                UnitOfWork.Commit();
+            }
+            
+        }
+        public void addRestaurantAccount(int orderId)
+        {
+            var m_retaurantshipRepository = UnitOfWork.Repository<DB_TB_ACCOUNT_RESTAURANT>();
+            var m_orderdetailRepository = UnitOfWork.Repository<DB_TB_ORDER_DETAIL>().GetQueryable();
+            var m_accountInOrder = m_orderdetailRepository.Where(a => a.OrderId == orderId).Select(a => a.AccountId.Value).Distinct().ToList();
+            var restaurantId = UnitOfWork.Repository<DB_TB_ORDERS>().GetQueryable().Where(a => a.Id == orderId).Select(a => a.RestaurantId).FirstOrDefault();
+
+            foreach (var item in m_accountInOrder)
+            {
+
+                bool existRestaurant = m_retaurantshipRepository.GetQueryable().Where(a => a.RestaurantId == restaurantId && a.AccountId == item).FirstOrDefault() != null;
+                if (!existRestaurant) {
+                    var accountRestaurant = new DB_TB_ACCOUNT_RESTAURANT()
+                    {
+                        AccountId=item,
+                        RestaurantId=restaurantId,
+                        CreatedDate=DateTime.Now
+                    };
+                    m_retaurantshipRepository.Add(accountRestaurant);
+                }
+                // add for other friend
+               
+               
+            }
+            UnitOfWork.Commit();
+        }
+        private bool CheckExistFriendShip(int accountId, int friendId)
+        {
+            return UnitOfWork.Repository<DB_TB_FRIENDSHIP>().GetQueryable().Any(a => a.AccountId == accountId && a.FriendId == friendId);
+        }
+        private DB_TB_FRIENDSHIP BuildRowFriendShip(int accountId, int friendId)
+        {
+            return new DB_TB_FRIENDSHIP() {
+                AccountId = accountId,
+                FriendId = friendId,
+                CreatedDate = DateTime.Now
+            };
+        }
         public bool AddInvite(InviteDTO request)
         {
             if (request.Context == null)
@@ -242,7 +305,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                 CreatedDate=DateTime.Now
             };
             m_orderDetailRepository.Add(m_currentuserDetail);
-
+          
             // add friend to order detail
             foreach (var item in request.Friends)
             {
@@ -251,9 +314,12 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                     DB_TB_ORDERS = m_invite,
                   
                 };
-
+                // FRIEND SHIP
+              
                 if (item.Id <= 0)
                 {
+                    // add friend ship
+
                     var m_account = new DB_TB_ACCOUNTS()
                     {
                         ACC_EMAIL=item.Email,
@@ -281,8 +347,11 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                 m_orderDetailRepository.Add(m_inviteDetail);
             }
             UnitOfWork.Commit();
-           
+            // update friend ship
+            AddFriendShip(m_invite.Id);
 
+            // update restaurant per account
+            addRestaurantAccount(m_invite.Id);
             return !this.HasError;
         }
 
@@ -330,6 +399,11 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                 
             }
             UnitOfWork.Commit();
+            // update  friend ship 
+            AddFriendShip(request.OrderId);
+
+            // update restaurant per account
+            addRestaurantAccount(request.OrderId);
             return !this.HasError;
         }
         /// <summary>
