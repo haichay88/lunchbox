@@ -8,19 +8,19 @@
         <EntityTypeShape EntityType="BizlunchModel.DB_TB_ORDER_DETAIL" Width="1.5" PointX="7.5" PointY="6" />
         <EntityTypeShape EntityType="BizlunchModel.DB_TB_ACCOUNT_RESTAURANT" Width="1.5" PointX="5.25" PointY="5.375" />
         <EntityTypeShape EntityType="BizlunchModel.DB_TB_FRIENDSHIP" Width="2" PointX="3" PointY="4.5" />
-        <EntityTypeShape EntityType="BizlunchModel.DB_TB_ORDERS" Width="1.5" PointX="5.25" PointY="11.125" />
-        <AssociationConnector Association="BizlunchModel.FK_OrderDetail_Order" />
         <EntityTypeShape EntityType="BizlunchModel.DB_TB_ACCOUNTS" Width="1.5" PointX="0.75" PointY="7" />
         <AssociationConnector Association="BizlunchModel.FK_DB_TB_ACCOUNT_RESTAURANT_DB_TB_ACCOUNT_RESTAURANT" />
-        <AssociationConnector Association="BizlunchModel.FK_DB_TB_ORDERS_DB_TB_ACCOUNTS" />
         <AssociationConnector Association="BizlunchModel.FK_MB_TB_FRIENDSHIP_DB_TB_ACCOUNTS" />
         <AssociationConnector Association="BizlunchModel.FK_MB_TB_FRIENDSHIP_DB_TB_ACCOUNTS1" />
         <AssociationConnector Association="BizlunchModel.FK_OrderDetail_Accounts" />
         <EntityTypeShape EntityType="BizlunchModel.DB_TB_RESTAURANT" Width="1.5" PointX="3" PointY="7.5" />
         <AssociationConnector Association="BizlunchModel.FK_DB_TB_ACCOUNT_RESTAURANT_DB_TB_RESTAURANT" />
         <AssociationConnector Association="BizlunchModel.FK_DB_TB_RESTAURANT_DB_TB_ACCOUNTS" />
+        <EntityTypeShape EntityType="BizlunchModel.DB_TB_ORDERS" Width="1.5" PointX="5.25" PointY="8.75" />
+        <AssociationConnector Association="BizlunchModel.FK_DB_TB_ORDERS_DB_TB_ACCOUNTS" />
+        <AssociationConnector Association="BizlunchModel.FK_OrderDetail_Order" />
         <AssociationConnector Association="BizlunchModel.FK_Order_Restaurants" />
-      </Diagram>
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

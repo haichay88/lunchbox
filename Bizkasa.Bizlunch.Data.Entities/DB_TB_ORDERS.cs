@@ -22,14 +22,15 @@ namespace Bizkasa.Bizlunch.Data.Entities
     
         public int Id { get; set; }
         public string Title { get; set; }
+        public string Description { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<System.DateTime> LunchDate { get; set; }
-        public int RestaurantId { get; set; }
+        public Nullable<int> RestaurantId { get; set; }
         public int OwnerId { get; set; }
     
+        public virtual DB_TB_ACCOUNTS DB_TB_ACCOUNTS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DB_TB_ORDER_DETAIL> DB_TB_ORDER_DETAIL { get; set; }
-        public virtual DB_TB_ACCOUNTS DB_TB_ACCOUNTS { get; set; }
         public virtual DB_TB_RESTAURANT DB_TB_RESTAURANT { get; set; }
     }
 }

@@ -15,7 +15,7 @@ namespace Bizkasa.Bizlunch.Business.Services
     {
         Response<OrderViewDTO> GetOrderBy(SearchDTO request);
         Response<List<OrderDTO>> GetOrders(BaseRequest request);
-        Response<bool> AddOrUpdateOrder(OrderDTO dto);
+        
         Response<OrderViewDTO> AddOrderDetail(OrderDTO dto);
         Response<bool> AddInvite(InviteDTO request);
         Response<bool> AddMoreFriend(InviteMoreFriendDTO request);
@@ -75,15 +75,6 @@ namespace Bizkasa.Bizlunch.Business.Services
 
             return BusinessProcess.Current.ToResponse(result);
         }
-        public Response<bool>  AddOrUpdateOrder(OrderDTO dto)
-        {
-            bool result = false;
-            BusinessProcess.Current.Process(p =>
-            {
-                result = IoC.Get<IOrderBusiness>().AddOrUpdateOrder(dto);
-            });
-
-            return BusinessProcess.Current.ToResponse(result);
-        }
+       
     }
 }

@@ -17,6 +17,7 @@ namespace Bizkasa.Bizlunch.Business.Model
         public int Id { get; set; }
         
         public string Title { get; set; }
+        public string Description { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public System.DateTime LunchDate { get; set; }
         public string RestaurantName { get; set; }
@@ -50,7 +51,7 @@ namespace Bizkasa.Bizlunch.Business.Model
             }
         }
        
-        public int RestaurantId { get; set; }
+        public int? RestaurantId { get; set; }
        
         //  public virtual Restaurant Restaurant { get; set; }
         public List<OrderDetailDTO> OrderDetails { get; set; }
@@ -97,7 +98,8 @@ namespace Bizkasa.Bizlunch.Business.Model
     public class InviteDTO :BaseRequest
     {
         public string Title { get; set; }
-        public int PlaceId { get; set; }
+        public string Description { get; set; }
+        public int? PlaceId { get; set; }
         public System.DateTime LunchDate { get; set; }
         public List<FriendInInviteDTO> Friends { get; set; }
 

@@ -31,6 +31,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
         IList<FriendDTO> GetFriends(SearchDTO request);
         List<AccountDTO> AddOrUpdateFriend(AccountDTO dto);
         LoginResultDTO SignUp(SignUpDTO request);
+        IList<FriendDTO> SyncFriends(InviteMoreFriendDTO request);
     }
 
     public class AccountBusiness : BusinessBase, IAccountBusiness
@@ -456,6 +457,60 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                 }).ToList();
 
                 return m_frship;
+            }
+            catch (Exception)
+            {
+                return null;
+
+            }
+        }
+
+        public IList<FriendDTO> SyncFriends(InviteMoreFriendDTO request)
+        {
+            if (request.Context == null)
+            {
+                base.AddError("Authenticate failed !");
+                return null;
+            }
+            if (request.Friends == null)
+            {
+                base.AddError("No contact to sync !");
+                return null;
+            }
+            try
+            {
+                var m_accountRepository = UnitOfWork.Repository<DB_TB_ACCOUNTS>();
+                var m_friendshipRepository = UnitOfWork.Repository<DB_TB_FRIENDSHIP>();
+                var IorderBusiness = IoC.Get<IOrderBusiness>();
+                foreach (var item in request.Friends)
+                {
+                    var checkAccount = m_accountRepository.GetQueryable().Where(a => a.ACC_EMAIL == item.Email).FirstOrDefault();
+                    if (checkAccount != null)
+                    {
+                       if( !IorderBusiness.CheckExistFriendShip(request.Context.Id, checkAccount.ACC_SYS_ID)) {
+                            m_friendshipRepository.Add(IorderBusiness.BuildRowFriendShip(request.Context.Id, checkAccount.ACC_SYS_ID));
+                            m_friendshipRepository.Add(IorderBusiness.BuildRowFriendShip(checkAccount.ACC_SYS_ID, request.Context.Id));
+
+                        }
+                    }
+                    else
+                    {
+                        var rowAccount = new DB_TB_ACCOUNTS()
+                        {
+                            ACC_EMAIL=item.Email,
+                            ACC_FIRSTNAME=item.FirstName,
+                           ACC_IS_ACTIVED=false
+                        };
+                        m_accountRepository.Add(rowAccount);
+                    }
+                    UnitOfWork.Commit();
+                }
+                SearchDTO search = new SearchDTO()
+                {
+                    Token = request.Token
+                };
+                return GetFriends(search);
+
             }
             catch (Exception)
             {

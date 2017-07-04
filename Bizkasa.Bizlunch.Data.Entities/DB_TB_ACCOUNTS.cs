@@ -18,11 +18,11 @@ namespace Bizkasa.Bizlunch.Data.Entities
         public DB_TB_ACCOUNTS()
         {
             this.DB_TB_ACCOUNT_RESTAURANT = new HashSet<DB_TB_ACCOUNT_RESTAURANT>();
-            this.DB_TB_ORDERS = new HashSet<DB_TB_ORDERS>();
             this.DB_TB_FRIENDSHIP = new HashSet<DB_TB_FRIENDSHIP>();
             this.DB_TB_FRIENDSHIP1 = new HashSet<DB_TB_FRIENDSHIP>();
             this.DB_TB_ORDER_DETAIL = new HashSet<DB_TB_ORDER_DETAIL>();
             this.DB_TB_RESTAURANT = new HashSet<DB_TB_RESTAURANT>();
+            this.DB_TB_ORDERS = new HashSet<DB_TB_ORDERS>();
         }
     
         public int ACC_SYS_ID { get; set; }
@@ -41,8 +41,6 @@ namespace Bizkasa.Bizlunch.Data.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DB_TB_ACCOUNT_RESTAURANT> DB_TB_ACCOUNT_RESTAURANT { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DB_TB_ORDERS> DB_TB_ORDERS { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DB_TB_FRIENDSHIP> DB_TB_FRIENDSHIP { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DB_TB_FRIENDSHIP> DB_TB_FRIENDSHIP1 { get; set; }
@@ -50,5 +48,7 @@ namespace Bizkasa.Bizlunch.Data.Entities
         public virtual ICollection<DB_TB_ORDER_DETAIL> DB_TB_ORDER_DETAIL { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DB_TB_RESTAURANT> DB_TB_RESTAURANT { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DB_TB_ORDERS> DB_TB_ORDERS { get; set; }
     }
 }

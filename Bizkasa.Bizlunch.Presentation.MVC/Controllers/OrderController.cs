@@ -41,12 +41,7 @@ namespace Bizkasa.Bizlunch.Presentation.MVC.Controllers
             return View();
         }
 
-        [HttpPost]
-        public JsonResult AddOrUpdateOrder(OrderDTO dto)
-        {
-            var result = _Service.AddOrUpdateOrder(dto);
-            return result.ToJsonResult(result.Data);
-        }
+       
 
 
         [HttpPost]

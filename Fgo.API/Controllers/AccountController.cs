@@ -88,6 +88,23 @@ namespace Fgo.API.Controllers
 
         }
 
+        [Route("SyncFriends")]
+        [HttpPost]
+        public IHttpActionResult SyncFriends(InviteMoreFriendDTO request)
+        {
+            try
+            {
+                var result = _Service.SyncFriends(request);
+                return Ok(result.ToJsonResult(result.Data));
+            }
+            catch (Exception ex)
+            {
+                logger.Error("SyncFriends Exception is {0}", ex);
+                return null;
+            }
+
+        }
+
         [Route("SignUp")]
         [HttpPost]
         public IHttpActionResult SignUp(SignUpDTO request)

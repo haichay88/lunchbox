@@ -86,7 +86,6 @@ namespace Fgo.API.Controllers
         [HttpPost]
         public IHttpActionResult AddOrUpdatePlace(RestaurantDTO request)
         {
-            logger.InfoFormat("data AddOrUpdatePlace controller is {0}", Newtonsoft.Json.JsonConvert.SerializeObject(request, Newtonsoft.Json.Formatting.Indented));
             try
             {
                 var result = _Service.AddOrUpdateRestaurant(request);
