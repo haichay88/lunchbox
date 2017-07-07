@@ -72,6 +72,9 @@
     <Compile Include="DB_TB_ACCOUNT_RESTAURANT.cs">
       <DependentUpon>BizlunchModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DB_TB_EMAIL_TEMPLATE.cs">
+      <DependentUpon>BizlunchModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DB_TB_FRIENDSHIP.cs">
       <DependentUpon>BizlunchModel.tt</DependentUpon>
     </Compile>

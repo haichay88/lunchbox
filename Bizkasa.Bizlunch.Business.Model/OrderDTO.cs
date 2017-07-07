@@ -100,8 +100,38 @@ namespace Bizkasa.Bizlunch.Business.Model
         public string Title { get; set; }
         public string Description { get; set; }
         public int? PlaceId { get; set; }
+        public RestaurantDTO Place { get; set; }
         public System.DateTime LunchDate { get; set; }
         public List<FriendInInviteDTO> Friends { get; set; }
+
+    }
+    public class InviteEmailDTO 
+    {
+        /// <summary>
+        /// người gửi lời mời
+        /// </summary>
+        public string Sender { get; set; }
+        /// <summary>
+        /// người nhận lời mời
+        /// </summary>
+        public string ReceiverName { get; set; }
+        /// <summary>
+        /// email người nhận
+        /// </summary>
+        public string ReceiverEmail { get; set; }
+        /// <summary>
+        /// Địa điểm ( nếu có )
+        /// </summary>
+        public string Place { get; set; }
+        /// <summary>
+        /// tiêu đề lời mời
+        /// </summary>
+        public string Title { get; set; }
+      /// <summary>
+      /// thời gian
+      /// </summary>
+        public string LunchDate { get; set; }
+      
 
     }
     public class InviteMoreFriendDTO : BaseRequest

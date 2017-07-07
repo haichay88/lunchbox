@@ -31,5 +31,6 @@ namespace Bizkasa.Bizlunch.Data.Entities
         public virtual DbSet<DB_TB_ACCOUNTS> DB_TB_ACCOUNTS { get; set; }
         public virtual DbSet<DB_TB_RESTAURANT> DB_TB_RESTAURANT { get; set; }
         public virtual DbSet<DB_TB_ORDERS> DB_TB_ORDERS { get; set; }
+        public virtual DbSet<DB_TB_EMAIL_TEMPLATE> DB_TB_EMAIL_TEMPLATE { get; set; }
     }
 }

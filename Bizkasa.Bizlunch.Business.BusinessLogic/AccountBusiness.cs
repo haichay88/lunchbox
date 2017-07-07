@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -553,6 +554,50 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
             {
                 //  Response.Write(ex.Message);
             }
+        }
+
+        public void BuildEmailInvite(InviteEmailDTO model)
+        {
+            var template = GetTemplateEmail(EmailTemplate.NewInvite);
+            var body = TemplateHelper.Render(template.Body, new Dictionary<string, string>
+            {
+                 {"Sender",string.Format("{0}",model.Sender) },
+                 {"Receiver",string.Format("{0}",model.ReceiverName) },
+                  {"Place",string.Format("{0}",model.Place) },
+                    {"Title",string.Format("{0}",model.Title) },
+                   {"LunchDate",string.Format("{0}",model.LunchDate) }
+            });
+            string subject = string.Format("New invite started by {0}", model.Sender);
+            MailMessage msg = new MailMessage("",model.ReceiverEmail)
+            {
+                Body= body,
+                Subject= subject,
+                
+            };
+            SendEmail(msg);
+        }
+        public void SendEmail(MailMessage msg)
+        {
+            SmtpClient client = new SmtpClient();
+            client.Host = ConfigKey.SMTP;
+            client.Port =int.Parse(ConfigKey.PORT);
+            client.UseDefaultCredentials = false;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.EnableSsl = true;
+            client.Credentials = new NetworkCredential(ConfigKey.EMAIL, ConfigKey.PASSWORD);
+            client.Send(msg);
+        }
+
+        public TemplateEmailDTO GetTemplateEmail(EmailTemplate Emiltemplate)
+        {
+            return UnitOfWork.Repository<DB_TB_EMAIL_TEMPLATE>().GetQueryable()
+                .Where(a => a.TemplateType == (int)Emiltemplate)
+                .Select(a=> new TemplateEmailDTO() {
+                    Body=a.Body
+                })
+                .FirstOrDefault();
+
+           
         }
         #endregion
     }

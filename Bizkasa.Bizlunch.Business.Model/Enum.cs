@@ -18,4 +18,10 @@ namespace Bizkasa.Bizlunch.Business.Model
        [Display(Name = "Web")]
         Web = 2
     }
+    public enum EmailTemplate
+    {
+        [Display(Name = "NewInvite")]
+        NewInvite = 1,
+      
+    }
 }

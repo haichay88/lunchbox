@@ -212,6 +212,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                 base.AddError("Data invaild!");
                 return false;
             }
+           
             var m_orderRepository = UnitOfWork.Repository<DB_TB_ORDERS>();
             var m_friendRepository = UnitOfWork.Repository<DB_TB_ACCOUNTS>();
             var m_orderDetailRepository = UnitOfWork.Repository<DB_TB_ORDER_DETAIL>();
@@ -222,9 +223,25 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                 OwnerId=request.Context.Id,
                 RestaurantId=request.PlaceId,
                 CreatedDate=DateTime.Now,
-               Description=request.Description
+               Description=request.Description,
+               
                 
             };
+            if (request.Place != null)
+            {
+                var row = new DB_TB_RESTAURANT()
+                {
+                    Address = request.Place.Address,
+                    Name = request.Place.Name,
+                    Latitude = request.Place.Latitude,
+                    Longitude = request.Place.Longitude,
+                    MenuUrl = request.Place.MenuUrl,
+                    OwnerId = request.Context.Id,
+                    CreatedDate = DateTime.Now
+                };
+                UnitOfWork.Repository<DB_TB_RESTAURANT>().Add(row);
+                m_invite.DB_TB_RESTAURANT = row;
+            }
             // add current account to order detail
             var m_currentuserDetail = new DB_TB_ORDER_DETAIL()
             {
@@ -275,6 +292,8 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                 m_orderDetailRepository.Add(m_inviteDetail);
             }
             UnitOfWork.Commit();
+
+
             // update friend ship
             AddFriendShip(m_invite.Id);
 

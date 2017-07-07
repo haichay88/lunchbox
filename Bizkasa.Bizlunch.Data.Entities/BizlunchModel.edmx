@@ -31,6 +31,14 @@
           <Property Name="ACC_RESGISTRANTION_ID" Type="nvarchar" MaxLength="500" />
           <Property Name="ACC_IS_ACTIVED" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="DB_TB_EMAIL_TEMPLATE">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Body" Type="text" Nullable="false" />
+          <Property Name="TemplateType" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="DB_TB_FRIENDSHIP">
           <Key>
             <PropertyRef Name="Id" />
@@ -189,6 +197,7 @@
         <EntityContainer Name="BizlunchModelStoreContainer">
           <EntitySet Name="DB_TB_ACCOUNT_RESTAURANT" EntityType="Self.DB_TB_ACCOUNT_RESTAURANT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DB_TB_ACCOUNTS" EntityType="Self.DB_TB_ACCOUNTS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DB_TB_EMAIL_TEMPLATE" EntityType="Self.DB_TB_EMAIL_TEMPLATE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DB_TB_FRIENDSHIP" EntityType="Self.DB_TB_FRIENDSHIP" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DB_TB_ORDER_DETAIL" EntityType="Self.DB_TB_ORDER_DETAIL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DB_TB_ORDERS" EntityType="Self.DB_TB_ORDERS" Schema="dbo" store:Type="Tables" />
@@ -277,6 +286,7 @@
             <End Role="DB_TB_RESTAURANT" EntitySet="DB_TB_RESTAURANT" />
             <End Role="DB_TB_ORDERS" EntitySet="DB_TB_ORDERS" />
           </AssociationSet>
+          <EntitySet Name="DB_TB_EMAIL_TEMPLATE" EntityType="BizlunchModel.DB_TB_EMAIL_TEMPLATE" />
           </EntityContainer>
         <EntityType Name="DB_TB_ORDER_DETAIL">
           <Key>
@@ -477,6 +487,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="DB_TB_EMAIL_TEMPLATE">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Body" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="TemplateType" Type="Int32" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -558,6 +576,15 @@
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DB_TB_EMAIL_TEMPLATE">
+            <EntityTypeMapping TypeName="BizlunchModel.DB_TB_EMAIL_TEMPLATE">
+              <MappingFragment StoreEntitySet="DB_TB_EMAIL_TEMPLATE">
+                <ScalarProperty Name="TemplateType" ColumnName="TemplateType" />
+                <ScalarProperty Name="Body" ColumnName="Body" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

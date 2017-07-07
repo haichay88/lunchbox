@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ZaloPageSDK.com.vng.zalosdk.service;
 using System.Net;
 using System.IO;
+using System.Net.Mail;
 
 namespace UnitTestProject1
 {
@@ -49,6 +50,25 @@ namespace UnitTestProject1
         public void Cal()
         {
             var a = 106.6094098;
+
+
+        }
+
+        [TestMethod]
+        public void SendEmail()
+        {
+            MailMessage Message = new MailMessage() {
+                
+            };
+            
+            SmtpClient client = new SmtpClient();
+            client.Host = "smtp.googlemail.com";
+            client.Port = 587;
+            client.UseDefaultCredentials = false;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.EnableSsl = true;
+            client.Credentials = new NetworkCredential("myemail@gmail.com", "password");
+            client.Send(Message);
 
 
         }

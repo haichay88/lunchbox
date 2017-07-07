@@ -20,6 +20,7 @@
         <AssociationConnector Association="BizlunchModel.FK_DB_TB_ORDERS_DB_TB_ACCOUNTS" />
         <AssociationConnector Association="BizlunchModel.FK_OrderDetail_Order" />
         <AssociationConnector Association="BizlunchModel.FK_Order_Restaurants" />
+        <EntityTypeShape EntityType="BizlunchModel.DB_TB_EMAIL_TEMPLATE" Width="1.5" PointX="0.75" PointY="0.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
