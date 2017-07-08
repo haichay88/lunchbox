@@ -112,6 +112,10 @@ namespace Bizkasa.Bizlunch.Business.Model
         /// </summary>
         public string Sender { get; set; }
         /// <summary>
+        /// email nguoi gui
+        /// </summary>
+        public string SenderEmail { get; set; }
+        /// <summary>
         /// người nhận lời mời
         /// </summary>
         public string ReceiverName { get; set; }

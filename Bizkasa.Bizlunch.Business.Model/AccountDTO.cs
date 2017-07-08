@@ -130,8 +130,25 @@ namespace Bizkasa.Bizlunch.Business.Model
     }
     public class NotificationItem
     {
+        public NotificationItem()
+        {
+            this.actions = new List<ActionNotify>();
+        }
         public string Title { get; set; }
         public string Message{ get; set; }
         public int Id{ get; set; }
+        public List<ActionNotify> actions { get; set; }
+    }
+    public class ActionNotify
+    {
+        public ActionNotify()
+        {
+            this.callback = "MoreDetail";
+            this.icon = "Play";
+            this.title = "More detail";
+        }
+        public string icon { get; set; }
+        public string title { get; set; }
+        public string callback{ get; set; }
     }
 }

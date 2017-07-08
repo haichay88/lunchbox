@@ -13,6 +13,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Bizkasa.Bizlunch.Business.BusinessLogic
 {
@@ -33,6 +34,10 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
         List<AccountDTO> AddOrUpdateFriend(AccountDTO dto);
         LoginResultDTO SignUp(SignUpDTO request);
         IList<FriendDTO> SyncFriends(InviteMoreFriendDTO request);
+        void BuildEmailInvite(List<InviteEmailDTO> emails);
+        void AddTemplateEmail(TemplateEmailDTO model);
+        void SendOneEmailInvite(InviteEmailDTO email);
+        void PushMessage(NotificationDTO request);
     }
 
     public class AccountBusiness : BusinessBase, IAccountBusiness
@@ -520,10 +525,10 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
             }
         }
 
-        public void SendMessage(NotificationDTO request)
+        public void PushMessage(NotificationDTO request)
         {
-            string serverKey = "AAAAY8UVqoU:APA91bHD9ICFvT1CdO-gcHyo4p69tfQfXNJa_dM0Y5JyXrqzezUZt0cG-ax_DOCg-bvDspgUBOTxpRb2IXvOhyiE6o7RBYFMzkVJct65LniMec0LIo8rQF3pMUDybc4gNc8jlcgeAq1D";
-
+            //string serverKey = "AAAAY8UVqoU:APA91bHD9ICFvT1CdO-gcHyo4p69tfQfXNJa_dM0Y5JyXrqzezUZt0cG-ax_DOCg-bvDspgUBOTxpRb2IXvOhyiE6o7RBYFMzkVJct65LniMec0LIo8rQF3pMUDybc4gNc8jlcgeAq1D";
+           
             try
             {
                 var result = "-1";
@@ -531,7 +536,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
 
                 var httpWebRequest = (HttpWebRequest)WebRequest.Create(webAddr);
                 httpWebRequest.ContentType = "application/json";
-                httpWebRequest.Headers.Add("Authorization:key=" + serverKey);
+                httpWebRequest.Headers.Add("Authorization:key=" + ConfigKey.SERVER_KEY);
                 httpWebRequest.Method = "POST";
                 //string json = "{\"to\": \"c7cOP-6Sn_4:APA91bEaj-PBS5c91p1FiPll08DTzpCZRf3RmOJcqvj4wWQqvB-6OTgrI3n_320lkL-d2rpPkNhtIeSSIX6zS8w287hQabHP8g6Yitv8YhtXAZaQTIz9D3emLyq7MN_GueDyG-qJWZNy\",\"data\": {\"message\": \"This is a Firebase Cloud Messaging Topic Message!\",}}";
                 string json = JsonConvert.SerializeObject(request.data);
@@ -556,25 +561,57 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
             }
         }
 
-        public void BuildEmailInvite(InviteEmailDTO model)
+        public void BuildEmailInvite(List<InviteEmailDTO > emails)
         {
-            var template = GetTemplateEmail(EmailTemplate.NewInvite);
-            var body = TemplateHelper.Render(template.Body, new Dictionary<string, string>
+            if (!emails.Any()) return;
+            foreach (var model in emails)
+            {
+                var template = GetTemplateEmail(EmailTemplate.NewInvite);
+                var body = TemplateHelper.Render(template.Body, new Dictionary<string, string>
             {
                  {"Sender",string.Format("{0}",model.Sender) },
-                 {"Receiver",string.Format("{0}",model.ReceiverName) },
+                 {"ReceiverName",string.Format("{0}",model.ReceiverName) },
                   {"Place",string.Format("{0}",model.Place) },
                     {"Title",string.Format("{0}",model.Title) },
                    {"LunchDate",string.Format("{0}",model.LunchDate) }
             });
-            string subject = string.Format("New invite started by {0}", model.Sender);
-            MailMessage msg = new MailMessage("",model.ReceiverEmail)
+                string subject = string.Format("[Friendgonow.com] New invite started by {0}", model.Sender);
+                MailMessage msg = new MailMessage(ConfigKey.EMAIL, model.ReceiverEmail)
+                {
+
+                    Body = body,
+                    Subject = subject,
+                    IsBodyHtml = true
+                };
+
+                SendEmail(msg);
+            }
+           
+        }
+
+        public void SendOneEmailInvite(InviteEmailDTO email)
+        {
+            if (email==null) return;
+            var template = GetTemplateEmail(EmailTemplate.NewInvite);
+            var body = TemplateHelper.Render(template.Body, new Dictionary<string, string>
             {
-                Body= body,
-                Subject= subject,
-                
+                 {"Sender",string.Format("{0}",email.Sender) },
+                 {"ReceiverName",string.Format("{0}",email.ReceiverName) },
+                  {"Place",string.Format("{0}",email.Place) },
+                    {"Title",string.Format("{0}",email.Title) },
+                   {"LunchDate",string.Format("{0}",email.LunchDate) }
+            });
+            string subject = string.Format("[Friendgonow.com] New invite started by {0}", email.Sender);
+            MailMessage msg = new MailMessage(ConfigKey.EMAIL, email.ReceiverEmail)
+            {
+
+                Body = body,
+                Subject = subject,
+                IsBodyHtml = true
             };
+
             SendEmail(msg);
+
         }
         public void SendEmail(MailMessage msg)
         {
@@ -590,7 +627,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
 
         public TemplateEmailDTO GetTemplateEmail(EmailTemplate Emiltemplate)
         {
-            return UnitOfWork.Repository<DB_TB_EMAIL_TEMPLATE>().GetQueryable()
+            return  UnitOfWork.Repository<DB_TB_EMAIL_TEMPLATE>().GetQueryable()
                 .Where(a => a.TemplateType == (int)Emiltemplate)
                 .Select(a=> new TemplateEmailDTO() {
                     Body=a.Body
@@ -598,6 +635,14 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                 .FirstOrDefault();
 
            
+        }
+        public void AddTemplateEmail(TemplateEmailDTO model)
+        {
+            
+            var data = new DB_TB_EMAIL_TEMPLATE() { Body = model.Body,TemplateType=(int) EmailTemplate.NewInvite };
+             UnitOfWork.Repository<DB_TB_EMAIL_TEMPLATE>().Add(data);
+
+            UnitOfWork.Commit();
         }
         #endregion
     }

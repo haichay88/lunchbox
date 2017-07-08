@@ -26,9 +26,33 @@ namespace Bizkasa.Bizlunch.Business.Services
         Response<IList<AccountDTO>> AddOrUpdateFriend(AccountDTO request);
         Response<LoginResultDTO> SignUp(SignUpDTO request);
         Response<IList<FriendDTO>> SyncFriends(InviteMoreFriendDTO request);
+        Response SendOneEmailInvite(InviteEmailDTO email);
+        Response AddTemplateEmail(TemplateEmailDTO request);
     }
   public partial  class BizlunchService
     {
+        public Response AddTemplateEmail(TemplateEmailDTO request)
+        {
+
+
+            BusinessProcess.Current.Process(p =>
+            {
+                IoC.Get<IAccountBusiness>().AddTemplateEmail(request);
+            });
+
+            return BusinessProcess.Current.ToResponse();
+        }
+        public Response SendOneEmailInvite(InviteEmailDTO request)
+        {
+
+           
+            BusinessProcess.Current.Process(p =>
+            {
+                IoC.Get<IAccountBusiness>().SendOneEmailInvite(request);
+            });
+
+            return BusinessProcess.Current.ToResponse();
+        }
         public Response<IList<FriendDTO>> SyncFriends(InviteMoreFriendDTO request)
         {
 

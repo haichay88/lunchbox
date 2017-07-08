@@ -36,7 +36,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Body" Type="text" Nullable="false" />
+          <Property Name="Body" Type="nvarchar(max)" Nullable="false" />
           <Property Name="TemplateType" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="DB_TB_FRIENDSHIP">
@@ -47,6 +47,17 @@
           <Property Name="AccountId" Type="int" Nullable="false" />
           <Property Name="FriendId" Type="int" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DB_TB_INVITE_ACCOUNT">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InviteId" Type="int" Nullable="false" />
+          <Property Name="AccountId" Type="int" Nullable="false" />
+          <Property Name="IsConfirmed" Type="bit" Nullable="false" />
+          <Property Name="IsEmail" Type="bit" Nullable="false" />
+          <Property Name="IsSent" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="DB_TB_ORDER_DETAIL">
           <Key>
@@ -107,6 +118,30 @@
             </Principal>
             <Dependent Role="DB_TB_ACCOUNT_RESTAURANT">
               <PropertyRef Name="RestaurantId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DB_TB_INVITE_ACCOUNT_DB_TB_ACCOUNTS">
+          <End Role="DB_TB_ACCOUNTS" Type="Self.DB_TB_ACCOUNTS" Multiplicity="1" />
+          <End Role="DB_TB_INVITE_ACCOUNT" Type="Self.DB_TB_INVITE_ACCOUNT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DB_TB_ACCOUNTS">
+              <PropertyRef Name="ACC_SYS_ID" />
+            </Principal>
+            <Dependent Role="DB_TB_INVITE_ACCOUNT">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DB_TB_INVITE_ACCOUNT_DB_TB_ORDERS">
+          <End Role="DB_TB_ORDERS" Type="Self.DB_TB_ORDERS" Multiplicity="1" />
+          <End Role="DB_TB_INVITE_ACCOUNT" Type="Self.DB_TB_INVITE_ACCOUNT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DB_TB_ORDERS">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DB_TB_INVITE_ACCOUNT">
+              <PropertyRef Name="InviteId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -199,6 +234,7 @@
           <EntitySet Name="DB_TB_ACCOUNTS" EntityType="Self.DB_TB_ACCOUNTS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DB_TB_EMAIL_TEMPLATE" EntityType="Self.DB_TB_EMAIL_TEMPLATE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DB_TB_FRIENDSHIP" EntityType="Self.DB_TB_FRIENDSHIP" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DB_TB_INVITE_ACCOUNT" EntityType="Self.DB_TB_INVITE_ACCOUNT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DB_TB_ORDER_DETAIL" EntityType="Self.DB_TB_ORDER_DETAIL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DB_TB_ORDERS" EntityType="Self.DB_TB_ORDERS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DB_TB_RESTAURANT" EntityType="Self.DB_TB_RESTAURANT" Schema="dbo" store:Type="Tables" />
@@ -209,6 +245,14 @@
           <AssociationSet Name="FK_DB_TB_ACCOUNT_RESTAURANT_DB_TB_RESTAURANT" Association="Self.FK_DB_TB_ACCOUNT_RESTAURANT_DB_TB_RESTAURANT">
             <End Role="DB_TB_RESTAURANT" EntitySet="DB_TB_RESTAURANT" />
             <End Role="DB_TB_ACCOUNT_RESTAURANT" EntitySet="DB_TB_ACCOUNT_RESTAURANT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DB_TB_INVITE_ACCOUNT_DB_TB_ACCOUNTS" Association="Self.FK_DB_TB_INVITE_ACCOUNT_DB_TB_ACCOUNTS">
+            <End Role="DB_TB_ACCOUNTS" EntitySet="DB_TB_ACCOUNTS" />
+            <End Role="DB_TB_INVITE_ACCOUNT" EntitySet="DB_TB_INVITE_ACCOUNT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DB_TB_INVITE_ACCOUNT_DB_TB_ORDERS" Association="Self.FK_DB_TB_INVITE_ACCOUNT_DB_TB_ORDERS">
+            <End Role="DB_TB_ORDERS" EntitySet="DB_TB_ORDERS" />
+            <End Role="DB_TB_INVITE_ACCOUNT" EntitySet="DB_TB_INVITE_ACCOUNT" />
           </AssociationSet>
           <AssociationSet Name="FK_DB_TB_ORDERS_DB_TB_ACCOUNTS" Association="Self.FK_DB_TB_ORDERS_DB_TB_ACCOUNTS">
             <End Role="DB_TB_ACCOUNTS" EntitySet="DB_TB_ACCOUNTS" />
@@ -287,6 +331,15 @@
             <End Role="DB_TB_ORDERS" EntitySet="DB_TB_ORDERS" />
           </AssociationSet>
           <EntitySet Name="DB_TB_EMAIL_TEMPLATE" EntityType="BizlunchModel.DB_TB_EMAIL_TEMPLATE" />
+          <EntitySet Name="DB_TB_INVITE_ACCOUNT" EntityType="BizlunchModel.DB_TB_INVITE_ACCOUNT" />
+          <AssociationSet Name="FK_DB_TB_INVITE_ACCOUNT_DB_TB_ACCOUNTS" Association="BizlunchModel.FK_DB_TB_INVITE_ACCOUNT_DB_TB_ACCOUNTS">
+            <End Role="DB_TB_ACCOUNTS" EntitySet="DB_TB_ACCOUNTS" />
+            <End Role="DB_TB_INVITE_ACCOUNT" EntitySet="DB_TB_INVITE_ACCOUNT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DB_TB_INVITE_ACCOUNT_DB_TB_ORDERS" Association="BizlunchModel.FK_DB_TB_INVITE_ACCOUNT_DB_TB_ORDERS">
+            <End Role="DB_TB_ORDERS" EntitySet="DB_TB_ORDERS" />
+            <End Role="DB_TB_INVITE_ACCOUNT" EntitySet="DB_TB_INVITE_ACCOUNT" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="DB_TB_ORDER_DETAIL">
           <Key>
@@ -345,6 +398,7 @@
           <NavigationProperty Name="DB_TB_ORDER_DETAIL" Relationship="BizlunchModel.FK_OrderDetail_Accounts" FromRole="DB_TB_ACCOUNTS" ToRole="DB_TB_ORDER_DETAIL" />
           <NavigationProperty Name="DB_TB_RESTAURANT" Relationship="BizlunchModel.FK_DB_TB_RESTAURANT_DB_TB_ACCOUNTS" FromRole="DB_TB_ACCOUNTS" ToRole="DB_TB_RESTAURANT" />
           <NavigationProperty Name="DB_TB_ORDERS" Relationship="BizlunchModel.FK_DB_TB_ORDERS_DB_TB_ACCOUNTS" FromRole="DB_TB_ACCOUNTS" ToRole="DB_TB_ORDERS" />
+          <NavigationProperty Name="DB_TB_INVITE_ACCOUNT" Relationship="BizlunchModel.FK_DB_TB_INVITE_ACCOUNT_DB_TB_ACCOUNTS" FromRole="DB_TB_ACCOUNTS" ToRole="DB_TB_INVITE_ACCOUNT" />
         </EntityType>
         <Association Name="FK_DB_TB_ACCOUNT_RESTAURANT_DB_TB_ACCOUNT_RESTAURANT">
           <End Type="BizlunchModel.DB_TB_ACCOUNTS" Role="DB_TB_ACCOUNTS" Multiplicity="1" />
@@ -450,6 +504,7 @@
           <NavigationProperty Name="DB_TB_ACCOUNTS" Relationship="BizlunchModel.FK_DB_TB_ORDERS_DB_TB_ACCOUNTS" FromRole="DB_TB_ORDERS" ToRole="DB_TB_ACCOUNTS" />
           <NavigationProperty Name="DB_TB_ORDER_DETAIL" Relationship="BizlunchModel.FK_OrderDetail_Order" FromRole="DB_TB_ORDERS" ToRole="DB_TB_ORDER_DETAIL" />
           <NavigationProperty Name="DB_TB_RESTAURANT" Relationship="BizlunchModel.FK_Order_Restaurants" FromRole="DB_TB_ORDERS" ToRole="DB_TB_RESTAURANT" />
+          <NavigationProperty Name="DB_TB_INVITE_ACCOUNT" Relationship="BizlunchModel.FK_DB_TB_INVITE_ACCOUNT_DB_TB_ORDERS" FromRole="DB_TB_ORDERS" ToRole="DB_TB_INVITE_ACCOUNT" />
         </EntityType>
         <Association Name="FK_DB_TB_ORDERS_DB_TB_ACCOUNTS">
           <End Type="BizlunchModel.DB_TB_ACCOUNTS" Role="DB_TB_ACCOUNTS" Multiplicity="1" />
@@ -492,9 +547,46 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Body" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Body" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="TemplateType" Type="Int32" Nullable="false" />
         </EntityType>
+        <EntityType Name="DB_TB_INVITE_ACCOUNT">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InviteId" Type="Int32" Nullable="false" />
+          <Property Name="AccountId" Type="Int32" Nullable="false" />
+          <Property Name="IsConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="IsEmail" Type="Boolean" Nullable="false" />
+          <Property Name="IsSent" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="DB_TB_ACCOUNTS" Relationship="BizlunchModel.FK_DB_TB_INVITE_ACCOUNT_DB_TB_ACCOUNTS" FromRole="DB_TB_INVITE_ACCOUNT" ToRole="DB_TB_ACCOUNTS" />
+          <NavigationProperty Name="DB_TB_ORDERS" Relationship="BizlunchModel.FK_DB_TB_INVITE_ACCOUNT_DB_TB_ORDERS" FromRole="DB_TB_INVITE_ACCOUNT" ToRole="DB_TB_ORDERS" />
+        </EntityType>
+        <Association Name="FK_DB_TB_INVITE_ACCOUNT_DB_TB_ACCOUNTS">
+          <End Type="BizlunchModel.DB_TB_ACCOUNTS" Role="DB_TB_ACCOUNTS" Multiplicity="1" />
+          <End Type="BizlunchModel.DB_TB_INVITE_ACCOUNT" Role="DB_TB_INVITE_ACCOUNT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DB_TB_ACCOUNTS">
+              <PropertyRef Name="ACC_SYS_ID" />
+            </Principal>
+            <Dependent Role="DB_TB_INVITE_ACCOUNT">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DB_TB_INVITE_ACCOUNT_DB_TB_ORDERS">
+          <End Type="BizlunchModel.DB_TB_ORDERS" Role="DB_TB_ORDERS" Multiplicity="1" />
+          <End Type="BizlunchModel.DB_TB_INVITE_ACCOUNT" Role="DB_TB_INVITE_ACCOUNT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DB_TB_ORDERS">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DB_TB_INVITE_ACCOUNT">
+              <PropertyRef Name="InviteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -585,6 +677,18 @@
               <MappingFragment StoreEntitySet="DB_TB_EMAIL_TEMPLATE">
                 <ScalarProperty Name="TemplateType" ColumnName="TemplateType" />
                 <ScalarProperty Name="Body" ColumnName="Body" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DB_TB_INVITE_ACCOUNT">
+            <EntityTypeMapping TypeName="BizlunchModel.DB_TB_INVITE_ACCOUNT">
+              <MappingFragment StoreEntitySet="DB_TB_INVITE_ACCOUNT">
+                <ScalarProperty Name="IsSent" ColumnName="IsSent" />
+                <ScalarProperty Name="IsEmail" ColumnName="IsEmail" />
+                <ScalarProperty Name="IsConfirmed" ColumnName="IsConfirmed" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="InviteId" ColumnName="InviteId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

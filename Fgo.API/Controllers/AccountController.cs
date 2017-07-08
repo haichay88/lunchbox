@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 
 
@@ -79,6 +80,41 @@ namespace Fgo.API.Controllers
             {
                 var result = _Service.AddOrUpdateFriend(request);
                 return Ok(result.ToJsonResult(result.Data));
+            }
+            catch (Exception ex)
+            {
+                logger.Error("AddOrUpdateFriend Exception is {0}", ex);
+                return null;
+            }
+
+        }
+
+        [Route("SendOneEmailInvite")]
+        [HttpPost]
+        public IHttpActionResult SendOneEmailInvite(InviteEmailDTO request)
+        {
+            try
+            {
+                var result = _Service.SendOneEmailInvite(request);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                logger.Error("AddOrUpdateFriend Exception is {0}", ex);
+                return null;
+            }
+
+        }
+
+        [Route("AddTemplateEmail")]
+        [HttpPost]
+        public IHttpActionResult AddTemplateEmail(TemplateEmailDTO request)
+        {
+            try
+            {
+               
+                var result = _Service.AddTemplateEmail(request);
+                return Ok(result);
             }
             catch (Exception ex)
             {

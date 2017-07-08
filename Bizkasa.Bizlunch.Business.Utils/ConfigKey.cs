@@ -17,5 +17,7 @@ namespace Bizkasa.Bizlunch.Business.Utils
         public static readonly string PASSWORD = ConfigurationManager.AppSettings["PASSWORD"];
         public static readonly string SMTP = ConfigurationManager.AppSettings["SMTP"];
         public static readonly string PORT = ConfigurationManager.AppSettings["PORT"];
+        public static readonly string IS_DEBUG = ConfigurationManager.AppSettings["IS_DEBUG"];
+        public static readonly string SERVER_KEY = ConfigurationManager.AppSettings["SERVER_KEY"];
     }
 }

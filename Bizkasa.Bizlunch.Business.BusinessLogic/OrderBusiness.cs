@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Bizkasa.Bizlunch.Business.BusinessLogic
 {
     public interface IOrderBusiness
@@ -216,6 +217,8 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
             var m_orderRepository = UnitOfWork.Repository<DB_TB_ORDERS>();
             var m_friendRepository = UnitOfWork.Repository<DB_TB_ACCOUNTS>();
             var m_orderDetailRepository = UnitOfWork.Repository<DB_TB_ORDER_DETAIL>();
+            var m_orderAccountRepository = UnitOfWork.Repository<DB_TB_INVITE_ACCOUNT>();
+
             var m_invite = new DB_TB_ORDERS()
             {
                 Title=request.Title,
@@ -223,11 +226,9 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                 OwnerId=request.Context.Id,
                 RestaurantId=request.PlaceId,
                 CreatedDate=DateTime.Now,
-               Description=request.Description,
-               
-                
+               Description=request.Description
             };
-            if (request.Place != null)
+            if (!string.IsNullOrEmpty( request.Place.Name ) && string.IsNullOrEmpty(request.Place.Address))
             {
                 var row = new DB_TB_RESTAURANT()
                 {
@@ -250,10 +251,26 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                 CreatedDate=DateTime.Now
             };
             m_orderDetailRepository.Add(m_currentuserDetail);
-          
+            m_orderAccountRepository.Add(new DB_TB_INVITE_ACCOUNT()
+            {
+                AccountId= request.Context.Id,
+                IsConfirmed=true,
+                IsSent=false,
+                DB_TB_ORDERS= m_invite
+            });
+
             // add friend to order detail
             foreach (var item in request.Friends)
             {
+
+                var rowAccountInvite = new DB_TB_INVITE_ACCOUNT()
+                {
+                    
+                    IsConfirmed = false,
+                    IsSent = false,
+                    DB_TB_ORDERS = m_invite
+                };
+
                 var m_inviteDetail = new DB_TB_ORDER_DETAIL()
                 {
                     DB_TB_ORDERS = m_invite,
@@ -277,19 +294,23 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                     {
                         m_friendRepository.Add(m_account);
                         m_inviteDetail.DB_TB_ACCOUNTS = m_account;
+                        rowAccountInvite.DB_TB_ACCOUNTS = m_account;
                     }
                     else
                     {
                         m_inviteDetail.AccountId = exist.ACC_SYS_ID;
+                        rowAccountInvite.AccountId = exist.ACC_SYS_ID;
                     }
                     
                 }
                 else
                 {
                     m_inviteDetail.AccountId = item.Id;
+                    rowAccountInvite.AccountId = item.Id;
                 }
                 m_inviteDetail.CreatedDate = DateTime.Now;
                 m_orderDetailRepository.Add(m_inviteDetail);
+                m_orderAccountRepository.Add(rowAccountInvite);
             }
             UnitOfWork.Commit();
 
@@ -299,7 +320,112 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
 
             // update restaurant per account
             addRestaurantAccount(m_invite.Id);
+
+            // send email 
+            SendMessageInvite(m_invite.Id);
+
+
             return !this.HasError;
+        }
+        /// <summary>
+        /// gui notify hoac email moi tham gia 
+        /// </summary>
+        /// <param name="inviteId"></param>
+        public void SendMessageInvite(int inviteId)
+        {
+
+            var invite = UnitOfWork.Repository<DB_TB_ORDERS>().GetQueryable()
+                .Where(a => a.Id == inviteId && a.DB_TB_INVITE_ACCOUNT.Any(c=>!c.IsSent))
+                .Select(a => new {
+                    Friends=a.DB_TB_INVITE_ACCOUNT.Select(b=> new {
+                        InviteAccountId=b.Id,
+                        Name=b.DB_TB_ACCOUNTS.ACC_FIRSTNAME,
+                        Email = b.DB_TB_ACCOUNTS.ACC_EMAIL,
+                        DeviceKey = b.DB_TB_ACCOUNTS.ACC_RESGISTRANTION_ID,
+                        IsEmail = b.DB_TB_ACCOUNTS.ACC_RESGISTRANTION_ID==null,
+                        IsSent = b.IsSent,
+                        IsConfirm = b.IsConfirmed,
+                    }).ToList(),                   
+                    Name=a.DB_TB_ACCOUNTS.ACC_FIRSTNAME,
+                    Title=a.Title,
+                    Place=a.DB_TB_RESTAURANT!=null? a.DB_TB_RESTAURANT.Name:string.Empty,
+                    Time=a.LunchDate.Value,
+                    Owner=new
+                    {
+                        Name=a.DB_TB_ACCOUNTS.ACC_FIRSTNAME
+                    }
+                })
+                .FirstOrDefault();
+
+            if (invite == null) return;
+            if (!invite.Friends.Any()) return;
+            // send email or notify foreach friend 
+            var m_accountInviteRepository = UnitOfWork.Repository<DB_TB_INVITE_ACCOUNT>();
+            foreach (var item in invite.Friends)
+            {
+                if(!item.IsSent)
+                {
+                    if (item.IsEmail)
+                    {
+                        // send email
+                        try
+                        {
+                            if (ConfigKey.IS_DEBUG != "DEBUG")
+                                IoC.Get<IAccountBusiness>().SendOneEmailInvite(new InviteEmailDTO()
+                                {
+                                    LunchDate = invite.Time.ToStringVN(),
+                                    Place = invite.Place,
+                                    ReceiverEmail = item.Email,
+                                    ReceiverName = item.Name,
+                                    Sender = invite.Owner.Name,
+                                    Title = invite.Title
+                                });
+                        }
+                        catch (Exception)
+                        {
+
+                            continue;
+                        }
+                        
+                       
+                    }
+                    else
+                    {
+                        // push notify
+                        if (ConfigKey.IS_DEBUG != "DEBUG")
+                            try
+                            {
+                                var ac = new List<ActionNotify>();
+                                ac.Add(new ActionNotify());
+
+                                IoC.Get<IAccountBusiness>().PushMessage(new NotificationDTO()
+                                {
+                                    data = new NotificationItem()
+                                    {
+                                        Id = inviteId,
+                                        Message = invite.Title,
+                                        Title = string.Format(" New invite started by {0}", invite.Owner.Name),
+                                        actions =ac
+
+                                    },
+                                    To = item.DeviceKey
+                                });
+                            }
+                            catch (Exception)
+                            {
+
+                                continue;
+                            }
+                           
+                    }
+
+                    // update sent when send email success
+                    var row = m_accountInviteRepository.Get(a => a.Id == item.InviteAccountId);
+                    row.IsSent = true;
+                    m_accountInviteRepository.Update(row);
+                    UnitOfWork.Commit();
+                }
+            }
         }
 
         public bool AddMoreFriend(InviteMoreFriendDTO request)
@@ -316,7 +442,8 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
             }
             var m_orderDetailRepository = UnitOfWork.Repository<DB_TB_ORDER_DETAIL>();
             var m_orderDetails = m_orderDetailRepository.GetQueryable().Where(a => a.OrderId == request.OrderId).ToList();
-            if(!m_orderDetails.Any())
+            var m_orderAccountRepository = UnitOfWork.Repository<DB_TB_INVITE_ACCOUNT>();
+            if (!m_orderDetails.Any())
             {
                 base.AddError("Data invaild!");
                 return false;
@@ -339,6 +466,16 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                                 CreatedDate = DateTime.Now
                             };
                             m_orderDetailRepository.Add(m_friendDetail);
+
+                            // add account in invite
+                            m_orderAccountRepository.Add(new DB_TB_INVITE_ACCOUNT()
+                            {
+                                AccountId = item.Id,
+                                IsConfirmed = false,
+                                IsSent = false,
+                                InviteId = request.OrderId
+                            });
+
                         }
                     }
                    
@@ -351,6 +488,8 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
 
             // update restaurant per account
             addRestaurantAccount(request.OrderId);
+            // send email 
+            SendMessageInvite(request.OrderId);
             return !this.HasError;
         }
         /// <summary>

@@ -35,7 +35,45 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration">
+      <HintPath>..\Lib\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Mvc, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Microsoft.Practices.Unity.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.WebApi, Version=5.1.0.0, Culture=neutral, PublicKeyToken=43da31bc42a85347, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Unity.WebApi.dll</HintPath>
+    </Reference>
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\WebActivatorEx.dll</HintPath>
+    </Reference>
     <Reference Include="ZaloPageSDK">
       <HintPath>..\Lib\ZaloPageSDK.dll</HintPath>
     </Reference>
@@ -55,6 +93,46 @@
   <ItemGroup>
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnityConfig.cs" />
+    <Compile Include="UnityMvcActivator.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Bizkasa.Bizlunch.Business.Base\Bizkasa.Bizlunch.Business.Base.csproj">
+      <Project>{d85c5368-99a9-4f05-966c-66a6bba9bfc4}</Project>
+      <Name>Bizkasa.Bizlunch.Business.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bizkasa.Bizlunch.Business.BusinessLogic\Bizkasa.Bizlunch.Business.BusinessLogic.csproj">
+      <Project>{5f8be7aa-794b-43df-9e86-b2e54ccdd2eb}</Project>
+      <Name>Bizkasa.Bizlunch.Business.BusinessLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bizkasa.Bizlunch.Business.Extension\Bizkasa.Bizlunch.Business.Extention.csproj">
+      <Project>{552400d7-e562-464f-99a8-024f38e6636e}</Project>
+      <Name>Bizkasa.Bizlunch.Business.Extention</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bizkasa.Bizlunch.Business.Model\Bizkasa.Bizlunch.Business.Model.csproj">
+      <Project>{9bbf35f9-c242-4394-93f1-bb77ac9f38e8}</Project>
+      <Name>Bizkasa.Bizlunch.Business.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bizkasa.Bizlunch.Business.Services\Bizkasa.Bizlunch.Business.Services.csproj">
+      <Project>{9369d6c3-e12a-4b5f-a7e1-52205b82875d}</Project>
+      <Name>Bizkasa.Bizlunch.Business.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bizkasa.Bizlunch.Business.Utils\Bizkasa.Bizlunch.Business.Utils.csproj">
+      <Project>{7fdd6c2a-1f07-4fe7-aee1-55d7bfb377cc}</Project>
+      <Name>Bizkasa.Bizlunch.Business.Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bizkasa.Bizlunch.Data.Core\Bizkasa.Bizlunch.Data.Core.csproj">
+      <Project>{833afd20-bed4-4d1b-a12f-998890461d85}</Project>
+      <Name>Bizkasa.Bizlunch.Data.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bizkasa.Bizlunch.Data.Entities\Bizkasa.Bizlunch.Data.Entities.csproj">
+      <Project>{887fc978-cbef-4a29-a16a-38ee1d5dfe53}</Project>
+      <Name>Bizkasa.Bizlunch.Data.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bizkasa.Bizlunch.Data.Reponsitory\Bizkasa.Bizlunch.Data.Reponsitory.csproj">
+      <Project>{a71aebbc-80aa-4ad0-a5ed-5bf2f3932cc9}</Project>
+      <Name>Bizkasa.Bizlunch.Data.Reponsitory</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
