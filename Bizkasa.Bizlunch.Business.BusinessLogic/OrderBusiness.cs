@@ -15,7 +15,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
 {
     public interface IOrderBusiness
     {
-        List<OrderDTO> GetOrders(BaseRequest request);
+        List<OrderDTO> GetOrders(SearchDTO request);
         OrderViewDTO GetOrderBy(SearchDTO request);
       
         OrderViewDTO AddOrderDetail(OrderDTO dto);
@@ -112,7 +112,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
             };
             return GetOrderBy(search);
         }
-        public List<OrderDTO> GetOrders(BaseRequest request)
+        public List<OrderDTO> GetOrders(SearchDTO request)
         {
             if (request.Context == null)
             {
@@ -132,7 +132,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                        RestaurantName = a.RestaurantId.HasValue? a.DB_TB_RESTAURANT.Name:string.Empty,
                        RestaurantAddress= a.RestaurantId.HasValue ? a.DB_TB_RESTAURANT.Address:string.Empty
                       
-                   }).OrderByDescending(a=>a.LunchDate).ToList();
+                   }).OrderByDescending(a=>a.LunchDate).Skip(request.Skip).Take(request.Take).ToList();
           
 
             return orders;
@@ -251,13 +251,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                 CreatedDate=DateTime.Now
             };
             m_orderDetailRepository.Add(m_currentuserDetail);
-            m_orderAccountRepository.Add(new DB_TB_INVITE_ACCOUNT()
-            {
-                AccountId= request.Context.Id,
-                IsConfirmed=true,
-                IsSent=false,
-                DB_TB_ORDERS= m_invite
-            });
+           
 
             // add friend to order detail
             foreach (var item in request.Friends)
@@ -402,13 +396,13 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                                 {
                                     data = new NotificationItem()
                                     {
-                                        Id = inviteId,
-                                        Message = invite.Title,
-                                        Title = string.Format(" New invite started by {0}", invite.Owner.Name),
+                                        id = inviteId,
+                                        message = invite.Title,
+                                        title = string.Format(" New invite started by {0}", invite.Owner.Name),
                                         actions =ac
 
                                     },
-                                    To = item.DeviceKey
+                                    to = item.DeviceKey
                                 });
                             }
                             catch (Exception)

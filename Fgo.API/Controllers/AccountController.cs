@@ -147,6 +147,7 @@ namespace Fgo.API.Controllers
         {
             try
             {
+                logger.InfoFormat("data SignUp controller is {0}", Newtonsoft.Json.JsonConvert.SerializeObject(request, Newtonsoft.Json.Formatting.Indented));
                 var result = _Service.SignUp(request);
                 return Ok(result.ToJsonResult(result.Data));
             }

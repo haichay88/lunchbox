@@ -14,7 +14,7 @@ namespace Bizkasa.Bizlunch.Business.Services
     public interface IOrderService
     {
         Response<OrderViewDTO> GetOrderBy(SearchDTO request);
-        Response<List<OrderDTO>> GetOrders(BaseRequest request);
+        Response<List<OrderDTO>> GetOrders(SearchDTO request);
         
         Response<OrderViewDTO> AddOrderDetail(OrderDTO dto);
         Response<bool> AddInvite(InviteDTO request);
@@ -54,7 +54,7 @@ namespace Bizkasa.Bizlunch.Business.Services
             return BusinessProcess.Current.ToResponse(result);
         }
 
-        public Response<List<OrderDTO>> GetOrders(BaseRequest request)
+        public Response<List<OrderDTO>> GetOrders(SearchDTO request)
         {
             List<OrderDTO> result = null;
             BusinessProcess.Current.Process(p =>

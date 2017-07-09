@@ -40,6 +40,8 @@ namespace Bizkasa.Bizlunch.Business.Model
     {
         public string Keyword { get; set; }
         public int Id { get; set; }
+        public int Take { get; set; }
+        public int Skip { get; set; }
     }
     public class FriendDTO
     {
@@ -125,7 +127,7 @@ namespace Bizkasa.Bizlunch.Business.Model
 
     public class NotificationDTO
     {
-        public string To { get; set; }
+        public string to { get; set; }
         public NotificationItem data { get; set; }
     }
     public class NotificationItem
@@ -134,9 +136,9 @@ namespace Bizkasa.Bizlunch.Business.Model
         {
             this.actions = new List<ActionNotify>();
         }
-        public string Title { get; set; }
-        public string Message{ get; set; }
-        public int Id{ get; set; }
+        public string title { get; set; }
+        public string message{ get; set; }
+        public int id{ get; set; }
         public List<ActionNotify> actions { get; set; }
     }
     public class ActionNotify

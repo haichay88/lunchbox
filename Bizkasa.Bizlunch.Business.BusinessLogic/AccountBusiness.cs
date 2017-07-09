@@ -539,7 +539,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                 httpWebRequest.Headers.Add("Authorization:key=" + ConfigKey.SERVER_KEY);
                 httpWebRequest.Method = "POST";
                 //string json = "{\"to\": \"c7cOP-6Sn_4:APA91bEaj-PBS5c91p1FiPll08DTzpCZRf3RmOJcqvj4wWQqvB-6OTgrI3n_320lkL-d2rpPkNhtIeSSIX6zS8w287hQabHP8g6Yitv8YhtXAZaQTIz9D3emLyq7MN_GueDyG-qJWZNy\",\"data\": {\"message\": \"This is a Firebase Cloud Messaging Topic Message!\",}}";
-                string json = JsonConvert.SerializeObject(request.data);
+                string json = JsonConvert.SerializeObject(request);
                 using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
                 {
                    

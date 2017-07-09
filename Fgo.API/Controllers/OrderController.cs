@@ -34,7 +34,7 @@ namespace Fgo.API.Controllers
 
         [Route("GetOrders")]
         [HttpPost]
-        public IHttpActionResult GetOrders(BaseRequest request)
+        public IHttpActionResult GetOrders(SearchDTO request)
         {
             try
             {
