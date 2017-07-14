@@ -23,6 +23,8 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
         bool AddMoreFriend(InviteMoreFriendDTO request);
         bool CheckExistFriendShip(int accountId, int friendId);
         DB_TB_FRIENDSHIP BuildRowFriendShip(int accountId, int friendId);
+        MessageReceiveRow AddMessageChat(MessageRow request);
+        List<MessageReceiveRow> GetMessageChat(MessageRow request);
     }
     public class OrderBusiness:BusinessBase, IOrderBusiness
     {
@@ -566,6 +568,58 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
             }
             return m_order;
         }
+
+        public MessageReceiveRow AddMessageChat(MessageRow request)
+        {
+            if (request.Context == null)
+            {
+                base.AddError("Authenticate failed !");
+                return null;
+            }
+            var m_msgRepository = UnitOfWork.Repository<DB_TB_INVITE_MESSAGE>();
+            var row = new DB_TB_INVITE_MESSAGE()
+            {
+                AccountId=request.Context.Id,
+                CreatedDate=DateTime.Now,
+                InviteId=request.InviteId,
+                Message=request.Message
+            };
+            m_msgRepository.Add(row);
+
+            UnitOfWork.Commit();
+
+            return m_msgRepository.GetQueryable().Where(a => a.Id == row.Id).Select(a => new MessageReceiveRow()
+            {
+                AccountId = a.AccountId,
+                AccountName = a.DB_TB_ACCOUNTS.ACC_FIRSTNAME,
+                Id = a.Id,
+                InviteId = a.InviteId,
+                Message = a.Message
+            }).FirstOrDefault();
+          
+        }
+        public List<MessageReceiveRow> GetMessageChat(MessageRow request)
+        {
+            if (request.Context == null)
+            {
+                base.AddError("Authenticate failed !");
+                return null;
+            }
+            var m_msgRepository = UnitOfWork.Repository<DB_TB_INVITE_MESSAGE>();
+            
+            return m_msgRepository.GetQueryable().Where(a => a.InviteId == request.InviteId)
+                .Select(a => new MessageReceiveRow()
+            {
+                AccountId = a.AccountId,
+                AccountName = a.DB_TB_ACCOUNTS.ACC_FIRSTNAME,
+                Id = a.Id,
+                InviteId = a.InviteId,
+                Message = a.Message,
+                CreatedDate=a.CreatedDate
+            }).OrderBy(a=>a.CreatedDate).ToList();
+
+        }
+
         #endregion
     }
 }

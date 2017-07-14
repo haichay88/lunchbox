@@ -105,6 +105,24 @@ namespace Bizkasa.Bizlunch.Business.Model
         public List<FriendInInviteDTO> Friends { get; set; }
 
     }
+
+    public class MessageRow:BaseRequest
+    {
+        public int Id { get; set; }
+        public string Message { get; set; }     
+        public int InviteId { get; set; }
+        
+    }
+    public class MessageReceiveRow 
+    {
+        public int Id { get; set; }
+        public int AccountId { get; set; }
+        public string AccountName { get; set; }
+        public string Message { get; set; }
+        public int InviteId { get; set; }
+        public DateTime CreatedDate { get; set; }
+
+    }
     public class InviteEmailDTO 
     {
         /// <summary>

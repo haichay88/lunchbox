@@ -81,6 +81,9 @@
     <Compile Include="DB_TB_INVITE_ACCOUNT.cs">
       <DependentUpon>BizlunchModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DB_TB_INVITE_MESSAGE.cs">
+      <DependentUpon>BizlunchModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DB_TB_ORDERS.cs">
       <DependentUpon>BizlunchModel.tt</DependentUpon>
     </Compile>

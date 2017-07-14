@@ -59,6 +59,16 @@
           <Property Name="IsEmail" Type="bit" Nullable="false" />
           <Property Name="IsSent" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="DB_TB_INVITE_MESSAGE">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InviteId" Type="int" Nullable="false" />
+          <Property Name="AccountId" Type="int" Nullable="false" />
+          <Property Name="Message" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="DB_TB_ORDER_DETAIL">
           <Key>
             <PropertyRef Name="Id" />
@@ -141,6 +151,30 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="DB_TB_INVITE_ACCOUNT">
+              <PropertyRef Name="InviteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DB_TB_INVITE_MESSAGE_DB_TB_ACCOUNTS">
+          <End Role="DB_TB_ACCOUNTS" Type="Self.DB_TB_ACCOUNTS" Multiplicity="1" />
+          <End Role="DB_TB_INVITE_MESSAGE" Type="Self.DB_TB_INVITE_MESSAGE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DB_TB_ACCOUNTS">
+              <PropertyRef Name="ACC_SYS_ID" />
+            </Principal>
+            <Dependent Role="DB_TB_INVITE_MESSAGE">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DB_TB_INVITE_MESSAGE_DB_TB_ORDERS">
+          <End Role="DB_TB_ORDERS" Type="Self.DB_TB_ORDERS" Multiplicity="1" />
+          <End Role="DB_TB_INVITE_MESSAGE" Type="Self.DB_TB_INVITE_MESSAGE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DB_TB_ORDERS">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DB_TB_INVITE_MESSAGE">
               <PropertyRef Name="InviteId" />
             </Dependent>
           </ReferentialConstraint>
@@ -235,6 +269,7 @@
           <EntitySet Name="DB_TB_EMAIL_TEMPLATE" EntityType="Self.DB_TB_EMAIL_TEMPLATE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DB_TB_FRIENDSHIP" EntityType="Self.DB_TB_FRIENDSHIP" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DB_TB_INVITE_ACCOUNT" EntityType="Self.DB_TB_INVITE_ACCOUNT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DB_TB_INVITE_MESSAGE" EntityType="Self.DB_TB_INVITE_MESSAGE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DB_TB_ORDER_DETAIL" EntityType="Self.DB_TB_ORDER_DETAIL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DB_TB_ORDERS" EntityType="Self.DB_TB_ORDERS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DB_TB_RESTAURANT" EntityType="Self.DB_TB_RESTAURANT" Schema="dbo" store:Type="Tables" />
@@ -253,6 +288,14 @@
           <AssociationSet Name="FK_DB_TB_INVITE_ACCOUNT_DB_TB_ORDERS" Association="Self.FK_DB_TB_INVITE_ACCOUNT_DB_TB_ORDERS">
             <End Role="DB_TB_ORDERS" EntitySet="DB_TB_ORDERS" />
             <End Role="DB_TB_INVITE_ACCOUNT" EntitySet="DB_TB_INVITE_ACCOUNT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DB_TB_INVITE_MESSAGE_DB_TB_ACCOUNTS" Association="Self.FK_DB_TB_INVITE_MESSAGE_DB_TB_ACCOUNTS">
+            <End Role="DB_TB_ACCOUNTS" EntitySet="DB_TB_ACCOUNTS" />
+            <End Role="DB_TB_INVITE_MESSAGE" EntitySet="DB_TB_INVITE_MESSAGE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DB_TB_INVITE_MESSAGE_DB_TB_ORDERS" Association="Self.FK_DB_TB_INVITE_MESSAGE_DB_TB_ORDERS">
+            <End Role="DB_TB_ORDERS" EntitySet="DB_TB_ORDERS" />
+            <End Role="DB_TB_INVITE_MESSAGE" EntitySet="DB_TB_INVITE_MESSAGE" />
           </AssociationSet>
           <AssociationSet Name="FK_DB_TB_ORDERS_DB_TB_ACCOUNTS" Association="Self.FK_DB_TB_ORDERS_DB_TB_ACCOUNTS">
             <End Role="DB_TB_ACCOUNTS" EntitySet="DB_TB_ACCOUNTS" />
@@ -340,6 +383,15 @@
             <End Role="DB_TB_ORDERS" EntitySet="DB_TB_ORDERS" />
             <End Role="DB_TB_INVITE_ACCOUNT" EntitySet="DB_TB_INVITE_ACCOUNT" />
           </AssociationSet>
+          <EntitySet Name="DB_TB_INVITE_MESSAGE" EntityType="BizlunchModel.DB_TB_INVITE_MESSAGE" />
+          <AssociationSet Name="FK_DB_TB_INVITE_MESSAGE_DB_TB_ACCOUNTS" Association="BizlunchModel.FK_DB_TB_INVITE_MESSAGE_DB_TB_ACCOUNTS">
+            <End Role="DB_TB_ACCOUNTS" EntitySet="DB_TB_ACCOUNTS" />
+            <End Role="DB_TB_INVITE_MESSAGE" EntitySet="DB_TB_INVITE_MESSAGE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DB_TB_INVITE_MESSAGE_DB_TB_ORDERS" Association="BizlunchModel.FK_DB_TB_INVITE_MESSAGE_DB_TB_ORDERS">
+            <End Role="DB_TB_ORDERS" EntitySet="DB_TB_ORDERS" />
+            <End Role="DB_TB_INVITE_MESSAGE" EntitySet="DB_TB_INVITE_MESSAGE" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="DB_TB_ORDER_DETAIL">
           <Key>
@@ -399,6 +451,7 @@
           <NavigationProperty Name="DB_TB_RESTAURANT" Relationship="BizlunchModel.FK_DB_TB_RESTAURANT_DB_TB_ACCOUNTS" FromRole="DB_TB_ACCOUNTS" ToRole="DB_TB_RESTAURANT" />
           <NavigationProperty Name="DB_TB_ORDERS" Relationship="BizlunchModel.FK_DB_TB_ORDERS_DB_TB_ACCOUNTS" FromRole="DB_TB_ACCOUNTS" ToRole="DB_TB_ORDERS" />
           <NavigationProperty Name="DB_TB_INVITE_ACCOUNT" Relationship="BizlunchModel.FK_DB_TB_INVITE_ACCOUNT_DB_TB_ACCOUNTS" FromRole="DB_TB_ACCOUNTS" ToRole="DB_TB_INVITE_ACCOUNT" />
+          <NavigationProperty Name="DB_TB_INVITE_MESSAGE" Relationship="BizlunchModel.FK_DB_TB_INVITE_MESSAGE_DB_TB_ACCOUNTS" FromRole="DB_TB_ACCOUNTS" ToRole="DB_TB_INVITE_MESSAGE" />
         </EntityType>
         <Association Name="FK_DB_TB_ACCOUNT_RESTAURANT_DB_TB_ACCOUNT_RESTAURANT">
           <End Type="BizlunchModel.DB_TB_ACCOUNTS" Role="DB_TB_ACCOUNTS" Multiplicity="1" />
@@ -505,6 +558,7 @@
           <NavigationProperty Name="DB_TB_ORDER_DETAIL" Relationship="BizlunchModel.FK_OrderDetail_Order" FromRole="DB_TB_ORDERS" ToRole="DB_TB_ORDER_DETAIL" />
           <NavigationProperty Name="DB_TB_RESTAURANT" Relationship="BizlunchModel.FK_Order_Restaurants" FromRole="DB_TB_ORDERS" ToRole="DB_TB_RESTAURANT" />
           <NavigationProperty Name="DB_TB_INVITE_ACCOUNT" Relationship="BizlunchModel.FK_DB_TB_INVITE_ACCOUNT_DB_TB_ORDERS" FromRole="DB_TB_ORDERS" ToRole="DB_TB_INVITE_ACCOUNT" />
+          <NavigationProperty Name="DB_TB_INVITE_MESSAGE" Relationship="BizlunchModel.FK_DB_TB_INVITE_MESSAGE_DB_TB_ORDERS" FromRole="DB_TB_ORDERS" ToRole="DB_TB_INVITE_MESSAGE" />
         </EntityType>
         <Association Name="FK_DB_TB_ORDERS_DB_TB_ACCOUNTS">
           <End Type="BizlunchModel.DB_TB_ACCOUNTS" Role="DB_TB_ACCOUNTS" Multiplicity="1" />
@@ -583,6 +637,42 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="DB_TB_INVITE_ACCOUNT">
+              <PropertyRef Name="InviteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DB_TB_INVITE_MESSAGE">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InviteId" Type="Int32" Nullable="false" />
+          <Property Name="AccountId" Type="Int32" Nullable="false" />
+          <Property Name="Message" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="DB_TB_ACCOUNTS" Relationship="BizlunchModel.FK_DB_TB_INVITE_MESSAGE_DB_TB_ACCOUNTS" FromRole="DB_TB_INVITE_MESSAGE" ToRole="DB_TB_ACCOUNTS" />
+          <NavigationProperty Name="DB_TB_ORDERS" Relationship="BizlunchModel.FK_DB_TB_INVITE_MESSAGE_DB_TB_ORDERS" FromRole="DB_TB_INVITE_MESSAGE" ToRole="DB_TB_ORDERS" />
+        </EntityType>
+        <Association Name="FK_DB_TB_INVITE_MESSAGE_DB_TB_ACCOUNTS">
+          <End Type="BizlunchModel.DB_TB_ACCOUNTS" Role="DB_TB_ACCOUNTS" Multiplicity="1" />
+          <End Type="BizlunchModel.DB_TB_INVITE_MESSAGE" Role="DB_TB_INVITE_MESSAGE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DB_TB_ACCOUNTS">
+              <PropertyRef Name="ACC_SYS_ID" />
+            </Principal>
+            <Dependent Role="DB_TB_INVITE_MESSAGE">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DB_TB_INVITE_MESSAGE_DB_TB_ORDERS">
+          <End Type="BizlunchModel.DB_TB_ORDERS" Role="DB_TB_ORDERS" Multiplicity="1" />
+          <End Type="BizlunchModel.DB_TB_INVITE_MESSAGE" Role="DB_TB_INVITE_MESSAGE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DB_TB_ORDERS">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DB_TB_INVITE_MESSAGE">
               <PropertyRef Name="InviteId" />
             </Dependent>
           </ReferentialConstraint>
@@ -687,6 +777,17 @@
                 <ScalarProperty Name="IsSent" ColumnName="IsSent" />
                 <ScalarProperty Name="IsEmail" ColumnName="IsEmail" />
                 <ScalarProperty Name="IsConfirmed" ColumnName="IsConfirmed" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="InviteId" ColumnName="InviteId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DB_TB_INVITE_MESSAGE">
+            <EntityTypeMapping TypeName="BizlunchModel.DB_TB_INVITE_MESSAGE">
+              <MappingFragment StoreEntitySet="DB_TB_INVITE_MESSAGE">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
                 <ScalarProperty Name="AccountId" ColumnName="AccountId" />
                 <ScalarProperty Name="InviteId" ColumnName="InviteId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />

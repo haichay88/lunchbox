@@ -19,10 +19,31 @@ namespace Bizkasa.Bizlunch.Business.Services
         Response<OrderViewDTO> AddOrderDetail(OrderDTO dto);
         Response<bool> AddInvite(InviteDTO request);
         Response<bool> AddMoreFriend(InviteMoreFriendDTO request);
-
+        Response<MessageReceiveRow> AddMessageChat(MessageRow request);
+        Response<List<MessageReceiveRow>> GetMessageChat(MessageRow request);
     }
     public partial class BizlunchService
     {
+        public Response<List<MessageReceiveRow>> GetMessageChat(MessageRow request)
+        {
+            List < MessageReceiveRow > result = null;
+            BusinessProcess.Current.Process(p =>
+            {
+                result = IoC.Get<IOrderBusiness>().GetMessageChat(request);
+            });
+
+            return BusinessProcess.Current.ToResponse(result);
+        }
+        public Response<MessageReceiveRow> AddMessageChat(MessageRow request)
+        {
+            MessageReceiveRow result = null;
+            BusinessProcess.Current.Process(p =>
+            {
+                result = IoC.Get<IOrderBusiness>().AddMessageChat(request);
+            });
+
+            return BusinessProcess.Current.ToResponse(result);
+        }
         public Response<bool> AddMoreFriend(InviteMoreFriendDTO request)
         {
             bool result = false;

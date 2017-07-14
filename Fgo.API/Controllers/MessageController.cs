@@ -13,13 +13,13 @@ using System.Web.Http;
 namespace Fgo.API.Controllers
 {
     [RoutePrefix("api/Message")]
-    public class MessageController : ApiControllerWithHub<FgoHub>//ApiController
+    public class MessageController : ApiController
     {
 
         #region Properties
         private readonly IBizlunchService _Service;
         private static readonly log4net.ILog logger =
-     LogManager.GetLogger(typeof(AccountController));
+     LogManager.GetLogger(typeof(MessageController));
 
         #endregion
         #region Constructors
@@ -33,15 +33,14 @@ namespace Fgo.API.Controllers
         #endregion
         #region methods
 
-        [Route("send")]
+        [Route("GetMessageChat")]
         [HttpPost]
-        public IHttpActionResult send(LoginDTO request)
+        public IHttpActionResult  GetMessageChat(MessageRow request)
         {
             try
             {
-                var item= Hub.Clients.Group(request.Email);
-                item.sayhello(request.Email);
-                return Ok();
+            
+                return Ok(_Service.GetMessageChat(request));
             }
             catch (Exception ex)
             {

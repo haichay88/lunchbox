@@ -24,6 +24,9 @@
         <EntityTypeShape EntityType="BizlunchModel.DB_TB_INVITE_ACCOUNT" Width="1.5" PointX="7.5" PointY="10.125" />
         <AssociationConnector Association="BizlunchModel.FK_DB_TB_INVITE_ACCOUNT_DB_TB_ACCOUNTS" />
         <AssociationConnector Association="BizlunchModel.FK_DB_TB_INVITE_ACCOUNT_DB_TB_ORDERS" />
+        <EntityTypeShape EntityType="BizlunchModel.DB_TB_INVITE_MESSAGE" Width="1.5" PointX="10.5" PointY="8.375" />
+        <AssociationConnector Association="BizlunchModel.FK_DB_TB_INVITE_MESSAGE_DB_TB_ACCOUNTS" />
+        <AssociationConnector Association="BizlunchModel.FK_DB_TB_INVITE_MESSAGE_DB_TB_ORDERS" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

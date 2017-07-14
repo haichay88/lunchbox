@@ -24,6 +24,7 @@ namespace Bizkasa.Bizlunch.Data.Entities
             this.DB_TB_RESTAURANT = new HashSet<DB_TB_RESTAURANT>();
             this.DB_TB_ORDERS = new HashSet<DB_TB_ORDERS>();
             this.DB_TB_INVITE_ACCOUNT = new HashSet<DB_TB_INVITE_ACCOUNT>();
+            this.DB_TB_INVITE_MESSAGE = new HashSet<DB_TB_INVITE_MESSAGE>();
         }
     
         public int ACC_SYS_ID { get; set; }
@@ -53,5 +54,7 @@ namespace Bizkasa.Bizlunch.Data.Entities
         public virtual ICollection<DB_TB_ORDERS> DB_TB_ORDERS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DB_TB_INVITE_ACCOUNT> DB_TB_INVITE_ACCOUNT { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DB_TB_INVITE_MESSAGE> DB_TB_INVITE_MESSAGE { get; set; }
     }
 }
