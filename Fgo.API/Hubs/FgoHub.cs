@@ -32,9 +32,16 @@ namespace Fgo.API.Hubs
 
 
         }
-        public void Login()
+        public void Login(SearchDTO request)
         {
-            
+            var result = _sevice.GetGroupChatBy(request);
+            if (result.Data.Any())
+            {
+                foreach (var item in result.Data)
+                {
+                    Groups.Add(Context.ConnectionId, item);
+                }
+            }
         }
        
 

@@ -25,6 +25,7 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
         DB_TB_FRIENDSHIP BuildRowFriendShip(int accountId, int friendId);
         MessageReceiveRow AddMessageChat(MessageRow request);
         List<MessageReceiveRow> GetMessageChat(MessageRow request);
+        List<string> GetGroupChatBy(SearchDTO request);
     }
     public class OrderBusiness:BusinessBase, IOrderBusiness
     {
@@ -623,6 +624,19 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
 
         }
 
+        public List<string> GetGroupChatBy(SearchDTO request)
+        {
+            if (request.Context == null)
+            {
+                base.AddError("Authenticate failed !");
+                return null;
+            }
+            var m_msgRepository = UnitOfWork.Repository<DB_TB_INVITE_MESSAGE>();
+            var m_groups = m_msgRepository.GetQueryable().Where(a => a.AccountId == request.Context.Id)
+                .Select(a => a.InviteId.ToString()).Distinct().ToList();
+            return m_groups;
+
+        }
         #endregion
     }
 }

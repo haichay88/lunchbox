@@ -21,9 +21,20 @@ namespace Bizkasa.Bizlunch.Business.Services
         Response<bool> AddMoreFriend(InviteMoreFriendDTO request);
         Response<MessageReceiveRow> AddMessageChat(MessageRow request);
         Response<List<MessageReceiveRow>> GetMessageChat(MessageRow request);
+        Response<List<string>> GetGroupChatBy(SearchDTO request);
     }
     public partial class BizlunchService
     {
+        public Response<List<string>> GetGroupChatBy(SearchDTO request)
+        {
+            List<string> result = null;
+            BusinessProcess.Current.Process(p =>
+            {
+                result = IoC.Get<IOrderBusiness>().GetGroupChatBy(request);
+            });
+
+            return BusinessProcess.Current.ToResponse(result);
+        }
         public Response<List<MessageReceiveRow>> GetMessageChat(MessageRow request)
         {
             List < MessageReceiveRow > result = null;
