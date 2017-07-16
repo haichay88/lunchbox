@@ -15,7 +15,7 @@ namespace Bizkasa.Bizlunch.Business.Model
         }
 
         public int Id { get; set; }
-        
+        public int UnReadMessage { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
@@ -113,12 +113,35 @@ namespace Bizkasa.Bizlunch.Business.Model
         public int InviteId { get; set; }
         
     }
-    public class MessageReceiveRow 
+    public class MessageReceiveRow
     {
         public int Id { get; set; }
         public int AccountId { get; set; }
-        public string AccountName { get; set; }
-        public string Message { get; set; }
+        public string name { get; set; }
+        public string text { get; set; }
+        public string avarar { get; set; }
+        public string type { get; set; }
+        public string date {
+            get 
+            {
+                return string.Empty;
+            }
+        }
+        public string day
+        {
+            get
+            {
+                return string.Empty;
+            }
+        } 
+        public string time
+        {
+            get
+            {
+                return string.Empty;
+            }
+        }
+        public string label { get; set; }
         public int InviteId { get; set; }
         public DateTime CreatedDate { get; set; }
 

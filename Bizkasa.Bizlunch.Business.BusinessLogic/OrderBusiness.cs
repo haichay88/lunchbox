@@ -591,10 +591,12 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
             return m_msgRepository.GetQueryable().Where(a => a.Id == row.Id).Select(a => new MessageReceiveRow()
             {
                 AccountId = a.AccountId,
-                AccountName = a.DB_TB_ACCOUNTS.ACC_FIRSTNAME,
+                name = a.DB_TB_ACCOUNTS.ACC_FIRSTNAME,
                 Id = a.Id,
                 InviteId = a.InviteId,
-                Message = a.Message
+                text = a.Message,
+                CreatedDate=a.CreatedDate
+                
             }).FirstOrDefault();
           
         }
@@ -606,16 +608,17 @@ namespace Bizkasa.Bizlunch.Business.BusinessLogic
                 return null;
             }
             var m_msgRepository = UnitOfWork.Repository<DB_TB_INVITE_MESSAGE>();
-            
-            return m_msgRepository.GetQueryable().Where(a => a.InviteId == request.InviteId)
+            var fromDate = DateTime.Now.AddDays(-7);
+            return m_msgRepository.GetQueryable().Where(a => a.InviteId == request.InviteId && a.CreatedDate>= fromDate)
                 .Select(a => new MessageReceiveRow()
             {
                 AccountId = a.AccountId,
-                AccountName = a.DB_TB_ACCOUNTS.ACC_FIRSTNAME,
+                name = a.DB_TB_ACCOUNTS.ACC_FIRSTNAME,
                 Id = a.Id,
                 InviteId = a.InviteId,
-                Message = a.Message,
-                CreatedDate=a.CreatedDate
+                text = a.Message,
+                type= a.AccountId==request.Context.Id?"sent": "received",
+                CreatedDate =a.CreatedDate
             }).OrderBy(a=>a.CreatedDate).ToList();
 
         }
